@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/loginMainFragment">
+    <fragment
+        android:id="@+id/loginMainFragment"
+        android:name="com.example.app01.LoginMainFragment"
+        android:label="activity_main"
+        tools:layout="@layout/fragment_login_main">
+        <action
+            android:id="@+id/action_loginMainFragment_to_workerScheduleFragment"
+            app:destination="@id/workerScheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/workerScheduleFragment"
+        android:name="com.example.app01.workerScheduleFragment"
+        android:label="fragment_worker_schedule"
+        tools:layout="@layout/fragment_worker_schedule">
+        <action
+            android:id="@+id/action_workerScheduleFragment_to_workerCalculationFragment"
+            app:destination="@id/workerCalculationFragment"
+            app:popUpTo="@id/workerCalculationFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_workerScheduleFragment_to_workerJobhuntingFragment"
+            app:destination="@id/workerJobhuntingFragment"
+            app:popUpTo="@id/workerScheduleFragment" />
+        <action
+            android:id="@+id/action_workerScheduleFragment_to_workerMypageFragment"
+            app:destination="@id/workerMypageFragment"
+            app:popUpTo="@id/workerScheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/workerCalculationFragment"
+        android:name="com.example.app01.workerCalculationFragment"
+        android:label="fragment_worker_calculation"
+        tools:layout="@layout/fragment_worker_calculation" >
+        <action
+            android:id="@+id/action_workerCalculationFragment_to_workerScheduleFragment"
+            app:destination="@id/workerScheduleFragment"
+            app:popUpTo="@id/workerScheduleFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_workerCalculationFragment_to_workerJobhuntingFragment"
+            app:destination="@id/workerJobhuntingFragment"
+            app:popUpTo="@id/workerScheduleFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_workerCalculationFragment_to_workerMypageFragment"
+            app:destination="@id/workerMypageFragment"
+            app:popUpTo="@id/workerScheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/workerJobhuntingFragment"
+        android:name="com.example.app01.workerJobhuntingFragment"
+        android:label="fragment_worker_jobhunting"
+        tools:layout="@layout/fragment_worker_jobhunting" >
+        <action
+            android:id="@+id/action_workerJobhuntingFragment_to_workerCalculationFragment"
+            app:destination="@id/workerCalculationFragment"
+            app:popUpTo="@id/workerScheduleFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_workerJobhuntingFragment_to_workerScheduleFragment"
+            app:destination="@id/workerScheduleFragment"
+            app:popUpTo="@id/workerScheduleFragment" />
+        <action
+            android:id="@+id/action_workerJobhuntingFragment_to_workerMypageFragment"
+            app:destination="@id/workerMypageFragment"
+            app:popUpTo="@id/workerScheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/workerMypageFragment"
+        android:name="com.example.app01.workerMypageFragment"
+        android:label="fragment_worker_mypage"
+        tools:layout="@layout/fragment_worker_mypage" >
+        <action
+            android:id="@+id/action_workerMypageFragment_to_workerJobhuntingFragment"
+            app:destination="@id/workerJobhuntingFragment"
+            app:popUpTo="@id/workerScheduleFragment" />
+        <action
+            android:id="@+id/action_workerMypageFragment_to_workerCalculationFragment"
+            app:destination="@id/workerCalculationFragment"
+            app:popUpTo="@id/workerScheduleFragment" />
+        <action
+            android:id="@+id/action_workerMypageFragment_to_workerScheduleFragment"
+            app:destination="@id/workerScheduleFragment"
+            app:popUpTo="@id/workerScheduleFragment" />
+    </fragment>
+</navigation>
