@@ -14,6 +14,11 @@ class MainActivity : AppCompatActivity() {
             var newOne : itemAnnouncement = itemAnnouncement(i,i,"Announcement Test " + i,"Description Test " + i,false)
             dataObject.listAnnouncement.add(newOne)
         }
+        for (i in 1..5) {
+            var newOne : itemJob = itemJob("Job test " + i)
+            newOne.pay = i * 1000
+            dataObject.listJob.add(newOne)
+        }
         val binding  = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val navController = this.findNavController(R.id.myNavHostFragment)
     }

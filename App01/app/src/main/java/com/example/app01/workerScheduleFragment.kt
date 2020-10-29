@@ -13,6 +13,7 @@ import com.example.app01.databinding.FragmentWorkerScheduleBinding
 
 class workerScheduleFragment : Fragment() {
     private lateinit var adapter : itemAnnouncementAdapter
+    private lateinit var adapterJob : itemJobAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,9 +36,12 @@ class workerScheduleFragment : Fragment() {
         adapter = itemAnnouncementAdapter(dataObject.listAnnouncement, requireContext())
         binding.listAnnouncement.layoutManager = LinearLayoutManager(context).also { it.orientation = LinearLayoutManager.HORIZONTAL }
         binding.listAnnouncement.adapter = adapter
-
         var snapHelper : PagerSnapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.listAnnouncement)
+
+        adapterJob = itemJobAdapter(dataObject.listJob, requireContext())
+        binding.listJobs.layoutManager = LinearLayoutManager(context)
+        binding.listJobs.adapter = adapterJob
         return binding.root
     }
 }
