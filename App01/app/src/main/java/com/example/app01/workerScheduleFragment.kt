@@ -18,10 +18,6 @@ class workerScheduleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        for (i in 0..5) {
-            var newOne : itemAnnouncement = itemAnnouncement(i,i,"Announcement Test " + i,"Description Test " + i,false)
-            dataObject.listAnnouncement.add(newOne)
-        }
         val binding : FragmentWorkerScheduleBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_worker_schedule, container, false)
         binding.layoutCalculation.setOnClickListener {
             it.findNavController().navigate(R.id.action_workerScheduleFragment_to_workerCalculationFragment)

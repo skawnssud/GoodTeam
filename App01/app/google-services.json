@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "619570263029",
+    "firebase_url": "https://mobiletp-bece2.firebaseio.com",
+    "project_id": "mobiletp-bece2",
+    "storage_bucket": "mobiletp-bece2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619570263029:android:0fe34dbf8d0445c9fee6bc",
+        "android_client_info": {
+          "package_name": "com.example.app01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619570263029-kv8sduas1s1p16n0ql5d2879uu14ri4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmeM8M4DtA3s_hJFdAES1DYeShIQiPBgU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619570263029-kv8sduas1s1p16n0ql5d2879uu14ri4o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
