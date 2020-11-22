@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_loginMainFragment_to_workerScheduleFragment"
             app:destination="@id/workerScheduleFragment" />
+        <action
+            android:id="@+id/action_loginMainFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
     <fragment
         android:id="@+id/workerScheduleFragment"
@@ -21,7 +24,7 @@
         <action
             android:id="@+id/action_workerScheduleFragment_to_workerCalculationFragment"
             app:destination="@id/workerCalculationFragment"
-            app:popUpTo="@id/workerCalculationFragment"
+            app:popUpTo="@id/workerScheduleFragment"
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_workerScheduleFragment_to_workerJobhuntingFragment"
@@ -88,5 +91,78 @@
             android:id="@+id/action_workerMypageFragment_to_workerScheduleFragment"
             app:destination="@id/workerScheduleFragment"
             app:popUpTo="@id/workerScheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/managementFragment"
+        android:name="com.example.app01.managementFragment"
+        android:label="fragment_management"
+        tools:layout="@layout/fragment_management" >
+        <action
+            android:id="@+id/action_managementFragment_to_historyFragment"
+            app:destination="@id/historyFragment"
+            app:popUpTo="@id/historyFragment" />
+        <action
+            android:id="@+id/action_managementFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment"
+            app:popUpTo="@id/historyFragment" />
+        <action
+            android:id="@+id/action_managementFragment_to_infoFragment"
+            app:destination="@id/infoFragment"
+            app:popUpTo="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="com.example.app01.scheduleFragment"
+        android:label="fragment_schedule"
+        tools:layout="@layout/fragment_schedule" >
+        <action
+            android:id="@+id/action_scheduleFragment_to_historyFragment"
+            app:destination="@id/historyFragment"
+            app:popUpTo="@id/historyFragment" />
+        <action
+            android:id="@+id/action_scheduleFragment_to_managementFragment"
+            app:destination="@id/managementFragment"
+            app:popUpTo="@id/historyFragment" />
+        <action
+            android:id="@+id/action_scheduleFragment_to_infoFragment"
+            app:destination="@id/infoFragment"
+            app:popUpTo="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.app01.historyFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment"
+            app:popUpTo="@id/historyFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_historyFragment_to_managementFragment"
+            app:destination="@id/managementFragment"
+            app:popUpTo="@id/historyFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_infoFragment"
+            app:destination="@id/infoFragment"
+            app:popUpTo="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.example.app01.infoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" >
+        <action
+            android:id="@+id/action_infoFragment_to_managementFragment"
+            app:destination="@id/managementFragment"
+            app:popUpTo="@id/historyFragment" />
+        <action
+            android:id="@+id/action_infoFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment"
+            app:popUpTo="@id/historyFragment" />
+        <action
+            android:id="@+id/action_infoFragment_to_historyFragment"
+            app:destination="@id/historyFragment"
+            app:popUpTo="@id/historyFragment" />
     </fragment>
 </navigation>
