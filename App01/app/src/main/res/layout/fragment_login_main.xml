@@ -3,6 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="id"
+            type="String" />
+        <variable
+            name="pw"
+            type="String" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,10 +33,11 @@
         <EditText
             android:id="@+id/editId"
             style="@style/buttonLogin"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             android:layout_marginBottom="25dp"
             android:textSize="15dp"
             android:hint="아이디"
+            android:text="@={id}"
             android:textColorHint="#7DC0FF"
             app:layout_constraintBottom_toTopOf="@id/editPw"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -38,10 +50,13 @@
             android:layout_marginBottom="25dp"
             android:textSize="15dp"
             android:hint="비밀번호"
+            android:text="@={pw}"
             android:textColorHint="#7DC0FF"
             app:layout_constraintBottom_toTopOf="@id/buttonLogin"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
 
         <Button
             android:id="@+id/buttonSignup"

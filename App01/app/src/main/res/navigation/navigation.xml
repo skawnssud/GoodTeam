@@ -6,7 +6,7 @@
     app:startDestination="@id/loginMainFragment">
     <fragment
         android:id="@+id/loginMainFragment"
-        android:name="com.example.app01.LoginMainFragment"
+        android:name="com.example.app01.login.LoginMainFragment"
         android:label="activity_main"
         tools:layout="@layout/fragment_login_main">
         <action
@@ -94,7 +94,7 @@
     </fragment>
     <fragment
         android:id="@+id/managementFragment"
-        android:name="com.example.app01.managementFragment"
+        android:name="com.example.app01.boss.management.managementFragment"
         android:label="fragment_management"
         tools:layout="@layout/fragment_management" >
         <action
@@ -112,7 +112,7 @@
     </fragment>
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="com.example.app01.scheduleFragment"
+        android:name="com.example.app01.boss.schedule.scheduleFragment"
         android:label="fragment_schedule"
         tools:layout="@layout/fragment_schedule" >
         <action
@@ -130,7 +130,7 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.app01.historyFragment"
+        android:name="com.example.app01.boss.history.historyFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" >
         <action
@@ -149,7 +149,7 @@
     </fragment>
     <fragment
         android:id="@+id/infoFragment"
-        android:name="com.example.app01.infoFragment"
+        android:name="com.example.app01.boss.infoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" >
         <action

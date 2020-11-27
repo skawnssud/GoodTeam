@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="inputName"
+            type="String" />
+        <variable
+            name="name"
+            type="String" />
+        <variable
+            name="age"
+            type="String" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_02"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/staticName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{inputName}"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            style="@style/textWhite18"/>
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="textPersonName"
+            android:text="@={name}"
+            android:layout_margin="20dp"
+            style="@style/buttonLogin"/>
+
+        <TextView
+            android:id="@+id/staticNumberOfWorker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="나이"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            style="@style/textWhite18" />
+
+        <EditText
+            android:id="@+id/editAge"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            style="@style/buttonLogin"
+            android:inputType="number"
+            android:text="@={age}"
+            android:layout_margin="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="20dp"
+                android:text="Cancel"
+                style="@style/buttonLogin"/>
+
+            <Button
+                android:id="@+id/buttonConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Confirm"
+                android:layout_margin="20dp"
+                style="@style/buttonLogin" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
