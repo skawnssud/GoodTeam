@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{value.name}"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Age"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="@{Integer.toString(value.age)}"
             android:textColor="@color/colorPrimaryDark"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             app:layout_constraintLeft_toRightOf="@id/staticAge"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -50,7 +50,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             app:srcCompat="@drawable/dot_red"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

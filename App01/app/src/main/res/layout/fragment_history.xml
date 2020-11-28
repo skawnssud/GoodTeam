@@ -16,81 +16,92 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/bannerTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/bannerTop">
+
+            <ImageView
+                android:id="@+id/imageLogo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="left"
+                android:src="@drawable/logo" />
+
+            <LinearLayout
+                android:id="@+id/selectionBranch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/staticBanner"
+                    style="@style/textWhite18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="30dp"
+                    android:text="HISTORY"
+                    />
+
+                <TextView
+                    android:id="@+id/textBranch"
+                    style="@style/textWhite18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@{currentBranch}" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageAlarm"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="right"
+                android:src="@drawable/icon_alarm" />
+        </LinearLayout>
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
             android:background="@drawable/back_01">
 
             <LinearLayout
-                android:id="@+id/bannerTop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/imageLogo"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="left"
-                    android:src="@drawable/logo" />
-
-                <LinearLayout
-                    android:id="@+id/selectionBranch"
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/Cv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_weight="1">
+                    app:mcv_selectionMode="none"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    app:mcv_tileHeight="40dp"/>
 
-                    <TextView
-                        android:id="@+id/staticBanner"
-                        style="@style/textWhite18"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="30dp"
-                        android:text="HISTORY"
-                        />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RvWorkers"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
-                    <TextView
-                        android:id="@+id/textBranch"
-                        style="@style/textWhite18"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@{currentBranch}" />
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/imageAlarm"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="right"
-                    android:src="@drawable/icon_alarm" />
+                </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
+        </ScrollView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RvWorkers"
-                android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:layout_margin="20dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="20dp"/>
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
