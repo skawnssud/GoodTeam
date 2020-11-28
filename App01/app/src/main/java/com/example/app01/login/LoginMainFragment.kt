@@ -22,12 +22,15 @@ class LoginMainFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_login_main, container, false)
         binding.buttonLogin.setOnClickListener {
-            if (binding.id.equals("1") && binding.pw.equals("1")) {
+            loginSuccess()
+            /**
+            if (binding.id.equals("") && binding.pw.equals("")) {
                 loginSuccess()
             }
             else {
                 Toast.makeText(context, "Invalid login. Try again.", Toast.LENGTH_SHORT).show()
             }
+            */
         }
 
         return binding.root

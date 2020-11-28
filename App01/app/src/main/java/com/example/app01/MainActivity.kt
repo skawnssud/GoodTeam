@@ -43,4 +43,6 @@ class MainActivity : AppCompatActivity() {
     fun getCurrentYear(): Int = Calendar.getInstance().get(Calendar.YEAR)
     fun getCurrentMonth(): Int = Calendar.getInstance().get(Calendar.MONTH) + 1
     fun getCurrentDay(): Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+    fun getCurrentHour(): Int = Calendar.getInstance().get(Calendar.HOUR)
+    fun getCurrentMinute(): Int = Calendar.getInstance().get(Calendar.MINUTE)
 }
