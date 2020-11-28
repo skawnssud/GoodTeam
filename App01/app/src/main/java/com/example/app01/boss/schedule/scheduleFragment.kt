@@ -112,6 +112,10 @@ class scheduleFragment : Fragment() {
                     ).show()
                 }
             }
+
+            override fun onLongClick(view: View, position: Int) : Boolean {
+                return true
+            }
         })
 
         // Time picker

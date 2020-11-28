@@ -71,6 +71,10 @@ class managementFragment : Fragment() {
                 }
             }
 
+            override fun onLongClick(view: View, position: Int): Boolean {
+                TODO("Not yet implemented")
+            }
+
         })
 
         // RecyclerView for Branches
@@ -121,7 +125,8 @@ class managementFragment : Fragment() {
                 dialog.dismiss()
             }
         }
-        // Add new Worker
+
+        // Add new Worker to timetable
         binding.addWorker.setOnClickListener {
             val dialog = AlertDialog.Builder(requireContext()).create()
             bindingDialogWorker = DataBindingUtil.inflate(inflater,
