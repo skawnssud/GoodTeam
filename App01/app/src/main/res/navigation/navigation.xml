@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_loginMainFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_loginMainFragment_to_loginSignupFragment"
+            app:destination="@id/loginSignupFragment" />
     </fragment>
     <fragment
         android:id="@+id/workerScheduleFragment"
@@ -165,4 +168,9 @@
             app:destination="@id/historyFragment"
             app:popUpTo="@id/historyFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loginSignupFragment"
+        android:name="com.example.app01.loginSignupFragment"
+        android:label="fragment_login_signup"
+        tools:layout="@layout/fragment_login_signup" />
 </navigation>

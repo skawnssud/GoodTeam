@@ -190,7 +190,7 @@ class scheduleFragment : Fragment() {
                 CalendarDay.from(
                     (activity as MainActivity).getCurrentYear(),
                     (activity as MainActivity).getCurrentMonth(),
-                    (activity as MainActivity).getCurrentDay() + 1
+                    (activity as MainActivity).getCurrentDay()
                 )
             )
             .commit()

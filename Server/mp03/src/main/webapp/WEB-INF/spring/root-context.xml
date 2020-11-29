@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="dataSource">
+		<property value="oracle.jdbc.driver.OracleDriver"
+			name="driverClassName" />
+		<property value="jdbc:oracle:thin:222.106.121.250/:1521:orcl"
+			name="url" />
+		<!-- 오라클 사용자 이름 -->
+		<property value="ROOTMP" name="username" />
+		<!-- 오라클 사용자 비밀번호 -->
+		<property value="123456" name="password" />
+	</bean>
+
+	<!-- This section might cause Error-404 if there's no Mapper -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		id="SqlSessionFactory">
+		<property name="dataSource" ref="dataSource" />
+		<property value="classpath:mybatis-config.xml"
+			name="configLocation" />
+		<property value="classpath:/mapper/*Mapper.xml"
+			name="mapperLocations" />
+	</bean>
+
+	<mybatis-spring:scan
+		base-package="com.my.spring.mapper" />
+</beans>
