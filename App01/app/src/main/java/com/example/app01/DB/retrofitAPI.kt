@@ -15,4 +15,7 @@ interface retrofitAPI {
     @POST("/spring/user")
     fun createAccount(@Body newUser : User) : Call<Boolean>
 
+    @GET("/spring/user/account/{account}")
+    fun getUserInfo(@Path("account") account: String) : Call<User>
+
 }

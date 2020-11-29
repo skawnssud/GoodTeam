@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.app01.DB.retrofitAPI
 import com.example.app01.MainActivity
 import com.example.app01.R
+import com.example.app01.dataObject
 import com.example.app01.databinding.FragmentLoginMainBinding
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -44,6 +45,11 @@ class LoginMainFragment : Fragment() {
                 thread.start()
                 thread.join()
                 if (check) {
+                    var thread2 = Thread(Runnable {
+                        dataObject.selectUser = mRetrofitAPI.getUserInfo(binding.id.toString()).execute().body()!!
+                    })
+                    thread2.start()
+                    thread2.join()
                     loginSuccess()
                 } else {
                     Toast.makeText(
@@ -65,8 +71,14 @@ class LoginMainFragment : Fragment() {
     }
 
     fun loginSuccess() {
-        NavHostFragment.findNavController(this)
-            .navigate(R.id.action_loginMainFragment_to_historyFragment)
+        // Send user to appropriate fragment: 0 -> Boss | 1 -> Worker
+        if (dataObject.selectUser.role == 0) {
+            NavHostFragment.findNavController(this)
+                .navigate(R.id.action_loginMainFragment_to_historyFragment)
+        } else {
+            NavHostFragment.findNavController(this)
+                .navigate(R.id.action_loginMainFragment_to_workerScheduleFragment)
+        }
     }
 
     // Server Default Setting

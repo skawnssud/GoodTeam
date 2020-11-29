@@ -138,7 +138,8 @@ class managementFragment : Fragment() {
                 dialog.cancel()
             }
             bindingDialogWorker.buttonConfirm.setOnClickListener {
-                val newWorker = Worker(bindingDialogWorker.name.toString())
+                val newWorker = Worker()
+                newWorker.name = bindingDialogWorker.name.toString()
                 newWorker.age = bindingDialogWorker.age!!.toInt()
                 dataObject.listWorker.add(newWorker)
                 dialog.dismiss()

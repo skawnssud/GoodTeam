@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             dataObject.listJob.add(newOne)
         }
         for (i in 1..5) {
-            var newOne : Worker = Worker("worker " + i)
+            var newOne : Worker = Worker()
             newOne.age = 30 + i
             newOne.id = i + 1
             dataObject.listWorker.add(newOne)
