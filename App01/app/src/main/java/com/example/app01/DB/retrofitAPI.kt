@@ -32,16 +32,4 @@ interface retrofitAPI {
 
     @PUT("/spring/branch")
     fun modifyBranch(@Body newBranch : Branch) : Call<Boolean>
-
-    @GET("/spring/worker/id_branch/{id_branch}")
-    fun searchRelationByIdBranch(@Path("id_branch") id_branch : Int) : Call<List<Relation>>
-
-    @POST("/spring/worker")
-    fun createRelation(@Body newWorker : Relation) : Call<Boolean>
-
-    @DELETE("/spring/worker")
-    fun deleteRelation(@Body target : Relation) : Call<Boolean>
-
-    @PUT("/spring/worker")
-    fun modifyRelation(@Body newWorker : Relation) : Call<Boolean>
 }

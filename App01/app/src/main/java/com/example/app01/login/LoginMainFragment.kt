@@ -79,7 +79,6 @@ class LoginMainFragment : Fragment() {
         // Send user to appropriate fragment: 0 -> Boss | 1 -> Worker
         if (dataObject.selectUser.role == 0) {
             (activity as MainActivity).getBranchesByIdBoss(dataObject.selectUser.id)
-            (activity as MainActivity).getRelationByIdBranch(dataObject.selectBranch.id)
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_loginMainFragment_to_historyFragment)
         } else {

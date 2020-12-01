@@ -124,48 +124,4 @@ class MainActivity : AppCompatActivity() {
         deleteBranch.join()
         return success
     }
-
-    fun getRelationByIdBranch(id_branch : Int) {
-        var getRelations = Thread(Runnable {
-            dataObject.listRelation = (mRetrofitAPI.searchRelationByIdBranch(id_branch).execute().body() as ArrayList<Relation>?)!!
-        })
-        getRelations.start()
-        getRelations.join()
-        if (dataObject.listRelation.size == 0) {
-            // First worker = himself
-            var newRelation : Relation = Relation()
-            newRelation.id_branch = dataObject.selectBranch.id
-            newRelation.id_worker = dataObject.selectUser.id
-            createRelation(newRelation)
-        }
-        dataObject.selectRelation = dataObject.listRelation[0]
-
-    }
-    fun createRelation(newRelation: Relation) : Boolean {
-        var success = false
-        var duplication = false
-        var createRelation = Thread(Runnable {
-            success = mRetrofitAPI.createRelation(newRelation).execute().body()!!
-        })
-        if (dataObject.listRelation.size != 0) {
-            dataObject.listRelation.forEach {
-                if (it.id_worker == newRelation.id_worker) duplication = true
-            }
-            if (duplication) {
-                alertToast("Relation is already existed. Please check again.")
-                return false
-            } else {
-                dataObject.listRelation.add(newRelation)
-                createRelation.start()
-                createRelation.join()
-                return true
-            }
-        } else {
-            dataObject.listRelation.add(newRelation)
-            createRelation.start()
-            createRelation.join()
-        }
-        return success
-
-    }
 }
