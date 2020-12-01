@@ -172,5 +172,9 @@
         android:id="@+id/loginSignupFragment"
         android:name="com.example.app01.login.loginSignupFragment"
         android:label="fragment_login_signup"
-        tools:layout="@layout/fragment_login_signup" />
+        tools:layout="@layout/fragment_login_signup" >
+        <action
+            android:id="@+id/action_loginSignupFragment_to_loginMainFragment"
+            app:destination="@id/loginMainFragment" />
+    </fragment>
 </navigation>

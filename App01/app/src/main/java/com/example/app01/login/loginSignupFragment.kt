@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.NavHostFragment
 import com.example.app01.DB.retrofitAPI
 import com.example.app01.MainActivity
 import com.example.app01.R
+import com.example.app01.dataObject
 import com.example.app01.databinding.FragmentLoginSignupBinding
 import com.example.app01.dto.User
 import retrofit2.Retrofit
@@ -17,6 +19,7 @@ class loginSignupFragment : Fragment() {
 
     private lateinit var binding : FragmentLoginSignupBinding
     private var roleChecked : Boolean = false
+    private lateinit var newUser: User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +39,9 @@ class loginSignupFragment : Fragment() {
         }
         binding.buttonSignup.setOnClickListener {
             if (binding.newUser!!.account != "null" && binding.newUser!!.nick != null && binding.newUser!!.pw != "null" && roleChecked) {
-                createNewUser()
+                createNewUser(binding.newUser!!)
+                (activity as MainActivity).alertToast("Successfully signed up! Please log in.")
+                signupSuccess()
             } else {
                 (activity as MainActivity).alertToast("Please check again if you fill every condition.")
             }
@@ -45,14 +50,19 @@ class loginSignupFragment : Fragment() {
         return binding.root
     }
 
-    fun createNewUser() : Boolean {
+    fun createNewUser(newUser : User) : Boolean {
         var result = false
         var thread = Thread(Runnable {
-            result = (activity as MainActivity).getRetrofitAPI().createAccount(binding.newUser!!).execute().body()!!
+            result = (activity as MainActivity).getRetrofitAPI().createAccount(newUser).execute().body()!!
         })
         thread.start()
         thread.join()
         return result
+    }
+
+    fun signupSuccess() {
+        NavHostFragment.findNavController(this)
+            .navigate(R.id.action_loginSignupFragment_to_loginMainFragment)
     }
 
 }

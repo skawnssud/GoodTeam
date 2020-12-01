@@ -3,8 +3,8 @@ package com.my.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +36,13 @@ public class MainController {
 	
 	// 계정 생성
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Boolean createAccount(@ModelAttribute UserVO newUser) {
+	public Boolean createAccount(@RequestBody UserVO newUser) {
+
+		System.out.println(newUser.getId());
+		System.out.println(newUser.getRole());
+		System.out.println(newUser.getAccount());
+		System.out.println(newUser.getNick());
+		System.out.println(newUser.getPw());
 		return userService.createAccount(newUser);
 	}
 	
