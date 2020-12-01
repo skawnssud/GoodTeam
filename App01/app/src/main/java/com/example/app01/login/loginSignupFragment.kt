@@ -39,9 +39,12 @@ class loginSignupFragment : Fragment() {
         }
         binding.buttonSignup.setOnClickListener {
             if (binding.newUser!!.account != "null" && binding.newUser!!.nick != null && binding.newUser!!.pw != "null" && roleChecked) {
-                createNewUser(binding.newUser!!)
-                (activity as MainActivity).alertToast("Successfully signed up! Please log in.")
-                signupSuccess()
+                if (createNewUser(binding.newUser!!)) {
+                    (activity as MainActivity).alertToast("Successfully signed up! Please log in.")
+                    signupSuccess()
+                } else {
+                    (activity as MainActivity).alertToast("Existed account name. Please change account name.")
+                }
             } else {
                 (activity as MainActivity).alertToast("Please check again if you fill every condition.")
             }
@@ -50,13 +53,27 @@ class loginSignupFragment : Fragment() {
         return binding.root
     }
 
+    // Return true if success, false if fail
     fun createNewUser(newUser : User) : Boolean {
         var result = false
-        var thread = Thread(Runnable {
-            result = (activity as MainActivity).getRetrofitAPI().createAccount(newUser).execute().body()!!
+        var checkVar = User()
+
+        // Check duplication
+        var searchUserByAccount = Thread(Runnable {
+            checkVar = (activity as MainActivity).getRetrofitAPI().searchUserByAccount(newUser.account).execute().body()!!
         })
-        thread.start()
-        thread.join()
+        searchUserByAccount.start()
+        searchUserByAccount.join()
+
+        if (checkVar.account == "allowed") {
+            var thread = Thread(Runnable {
+                result = (activity as MainActivity).getRetrofitAPI().createAccount(newUser).execute().body()!!
+            })
+            thread.start()
+            thread.join()
+        } else {
+            result = false
+        }
         return result
     }
 

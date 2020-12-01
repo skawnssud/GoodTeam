@@ -31,7 +31,13 @@ public class MainController {
 	// 계정 조회
 	@RequestMapping(value = "/account/{account}", method = RequestMethod.GET)
 	public UserVO searchByAccount(@PathVariable String account) {
-		return userService.searchByAccount(account);
+		if (userService.searchByAccount(account) != null) {
+			return userService.searchByAccount(account);
+		} else {
+			UserVO allowed = new UserVO();
+			allowed.setAccount("allowed");
+			return allowed;
+		}
 	}
 	
 	// 계정 생성
