@@ -33,7 +33,7 @@ class LoginMainFragment : Fragment() {
         binding.buttonLogin.setOnClickListener {
             // Check id~pw validation
             var check: Boolean = false
-            if (binding.id != null && binding.pw != null) {
+            if (binding.id != null || binding.pw != null || binding.id == "" || binding.pw == "") {
                 var thread = Thread(Runnable {
                     check =
                         (activity as MainActivity).getRetrofitAPI().checkValidation(binding.id.toString(), binding.pw.toString())
@@ -78,6 +78,8 @@ class LoginMainFragment : Fragment() {
     fun loginSuccess() {
         // Send user to appropriate fragment: 0 -> Boss | 1 -> Worker
         if (dataObject.selectUser.role == 0) {
+            (activity as MainActivity).getBranchesByIdBoss(dataObject.selectUser.id)
+            (activity as MainActivity).getRelationByIdBranch(dataObject.selectBranch.id)
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_loginMainFragment_to_historyFragment)
         } else {

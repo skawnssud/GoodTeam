@@ -39,7 +39,10 @@ class loginSignupFragment : Fragment() {
         }
         binding.buttonSignup.setOnClickListener {
             if (binding.newUser!!.account != "null" && binding.newUser!!.nick != null && binding.newUser!!.pw != "null" && roleChecked) {
-                if (createNewUser(binding.newUser!!)) {
+                var newUser = User()
+                newUser = binding.newUser!!
+                newUser.age = binding.age!!.toInt()
+                if (createNewUser(newUser)) {
                     (activity as MainActivity).alertToast("Successfully signed up! Please log in.")
                     signupSuccess()
                 } else {

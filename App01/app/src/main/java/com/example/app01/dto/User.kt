@@ -7,4 +7,6 @@ class User {
     var nick : String = ""
     var account : String = ""
     var pw : String = ""
+    var name : String = ""
+    var age : Int = 0
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.my.spring.mapper.BranchMapper">
+
+	<select id="viewAll" resultType="com.my.spring.domain.BranchVO">
+	  SELECT * FROM BRANCH ORDER BY ID DESC
+	</select>
+	
+	<select id="searchByTitle" resultType="com.my.spring.domain.BranchVO" parameterType="String">
+	  SELECT * FROM BRANCH WHERE ACCOUNT = #{title}
+	</select>
+	
+	<select id="searchByIdBoss" resultType="com.my.spring.domain.BranchVO" parameterType="int">
+		SELECT * FROM BRANCH WHERE ID_BOSS = #{id_boss} ORDER BY ID DESC
+	</select>
+	
+	<insert id="createBranch" parameterType="com.my.spring.domain.BranchVO">
+		INSERT INTO BRANCH (ID, TITLE, ID_BOSS) VALUES (
+		branch_seq.nextval, #{newBranch.title}, #{newBranch.id_boss})
+	</insert>
+	
+	<delete id="deleteBranch" parameterType="com.my.spring.domain.BranchVO">
+		DELETE FROM BRANCH WHERE ID_BOSS = #{target.id_boss} and TITLE = #{target.title}
+	</delete>
+	
+	<update id="modifyBranch" parameterType="com.my.spring.domain.BranchVO">
+		UPDATE BRANCH
+		SET
+		TITLE = #{newBranch.title}
+		WHERE
+		ID = #{newBranch.id}
+	</update>
+	
+</mapper>

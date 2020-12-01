@@ -11,9 +11,9 @@
 	</select>
 	
 	<insert id="createAccount" parameterType="com.my.spring.domain.UserVO">
-		INSERT INTO USERINFO (ID, ROLE, NICK, ACCOUNT, PW) VALUES (
+		INSERT INTO USERINFO (ID, ROLE, NICK, ACCOUNT, PW, NAME, AGE) VALUES (
 		userinfo_seq.nextval, #{newUser.role}, #{newUser.nick}, 
-		#{newUser.account}, #{newUser.pw})
+		#{newUser.account}, #{newUser.pw}, #{newUser.name}, #{newUser.age})
 	</insert>
 	
 </mapper>

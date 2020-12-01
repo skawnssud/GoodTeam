@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.app01.MainActivity
 import com.example.app01.R
 import com.example.app01.dataObject
 import com.example.app01.databinding.DialogBranchCreationBinding
@@ -94,13 +95,12 @@ class managementFragment : Fragment() {
                 dialog.show()
                 bindingDialogBranch.inputTitle = "Title of Branch"
                 bindingDialogBranch.title = target.title
-                bindingDialogBranch.numberOfWorkers = target.numberOfWorker.toString()
                 bindingDialogBranch.buttonCancel.setOnClickListener {
                     dialog.cancel()
                 }
                 bindingDialogBranch.buttonConfirm.setOnClickListener {
                     dataObject.listBranch[position].title = bindingDialogBranch.title.toString()
-                    dataObject.listBranch[position].numberOfWorker = bindingDialogBranch.numberOfWorkers!!.toInt()
+                    (activity as MainActivity).modifyBranch(target)
                     mBranchAdapter.notifyItemChanged(position)
                     dialog.dismiss()
                 }
@@ -119,9 +119,10 @@ class managementFragment : Fragment() {
                 dialog.cancel()
             }
             bindingDialogBranch.buttonConfirm.setOnClickListener {
-                val newBranch = Branch(bindingDialogBranch.title.toString())
-                newBranch.numberOfWorker = bindingDialogBranch.numberOfWorkers!!.toInt()
-                dataObject.listBranch.add(newBranch)
+                val newBranch = Branch()
+                newBranch.title = bindingDialogBranch.title.toString()
+                newBranch.id_boss = dataObject.selectUser.id
+                (activity as MainActivity).createBranch(newBranch)
                 dialog.dismiss()
             }
         }

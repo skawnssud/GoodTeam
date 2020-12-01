@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.my.spring.mapper.WorkerMapper">
+
+	<select id="viewAll" resultType="com.my.spring.domain.WorkerVO">
+	  SELECT * FROM WORKERS ORDER BY ID DESC
+	</select>
+	
+	<select id="searchByIdWorker" resultType="com.my.spring.domain.WorkerVO" parameterType="int">
+	  SELECT * FROM WORKERS WHERE ACCOUNT = #{id_worker} ORDER BY ID DESC
+	</select>
+	
+	<select id="searchByIdBranch" resultType="com.my.spring.domain.WorkerVO" parameterType="int">
+		SELECT * FROM WORKERS WHERE ID_BRANCH = #{id_branch} ORDER BY ID DESC
+	</select>
+	
+	<insert id="createWorker" parameterType="com.my.spring.domain.WorkerVO">
+		INSERT INTO WORKERS (ID, ID_BRANCH, ID_WORKER) VALUES (
+		workers_seq.nextval, #{newWorker.id_branch}, #{newWorker.id_worker})
+	</insert>
+	
+	<delete id="deleteWorker" parameterType="com.my.spring.domain.WorkerVO">
+		DELETE FROM WORKERS WHERE ID = #{target.id}
+	</delete>
+	
+	<update id="modifyWorker" parameterType="com.my.spring.domain.WorkerVO">
+		UPDATE WORKERS
+		SET
+		ID_BRANCH = #{newWorker.id_branch}
+		WHERE
+		ID = #{newWorker.id}
+	</update>
+	
+</mapper>

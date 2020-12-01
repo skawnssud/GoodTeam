@@ -49,6 +49,8 @@ public class MainController {
 		System.out.println(newUser.getAccount());
 		System.out.println(newUser.getNick());
 		System.out.println(newUser.getPw());
+		System.out.println(newUser.getName());
+		System.out.println(newUser.getAge());
 		return userService.createAccount(newUser);
 	}
 	

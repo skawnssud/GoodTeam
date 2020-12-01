@@ -1,8 +1,8 @@
 package com.my.spring.domain;
 
 public class UserVO {
-	int id, role;
-	String nick, account, pw;
+	int id, role, age;
+	String nick, account, pw, name;
 	public String getPw() {
 		return pw;
 	}
@@ -32,6 +32,18 @@ public class UserVO {
 	}
 	public void setAccount(String account) {
 		this.account = account;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
