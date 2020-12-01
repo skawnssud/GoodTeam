@@ -7,9 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.app01.DB.retrofitAPI
 import com.example.app01.databinding.ActivityMainBinding
-import com.example.app01.dto.Relation
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.worker.Worker
+import com.example.app01.dto.worker.WorkerView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -123,5 +123,14 @@ class MainActivity : AppCompatActivity() {
         deleteBranch.start()
         deleteBranch.join()
         return success
+    }
+
+    fun getWorkerViewByIdBranch(id_branch : Int) {
+        var getViews = Thread{ Runnable {
+            dataObject.listWorkerView = (mRetrofitAPI.getWorkerViewByIdBranch(id_branch).execute().body() as ArrayList<WorkerView>?)!!
+        }}
+        getViews.start()
+        getViews.join()
+        
     }
 }

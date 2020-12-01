@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.my.spring.domain.UserVO;
+import com.my.spring.domain.WorkerViewVO;
 import com.my.spring.mapper.UserMapper;
 import com.my.spring.service.UserService;
 
@@ -28,6 +29,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Boolean createAccount(UserVO newUser) {
 		return mapper.createAccount(newUser);
+	}
+
+	@Override
+	public List<WorkerViewVO> getWorkerViewByIdBranch(int id_worker) {
+		return mapper.getWorkerViewByIdBranch(id_worker);
 	}
 
 }

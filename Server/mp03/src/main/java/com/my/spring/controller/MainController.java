@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.my.spring.domain.UserVO;
+import com.my.spring.domain.WorkerViewVO;
 import com.my.spring.service.UserService;
 
 /**
@@ -62,5 +63,11 @@ public class MainController {
 		} else {
 			return false;
 		}
+	}
+	
+	// WorkerView 오브젝트 반환
+	@RequestMapping(value="/workerView/{id_branch}", method = RequestMethod.GET)
+	public List<WorkerViewVO> getWorkerViewByIdBranch(@PathVariable int id_branch) {
+		return userService.getWorkerViewByIdBranch(id_branch);
 	}
 }

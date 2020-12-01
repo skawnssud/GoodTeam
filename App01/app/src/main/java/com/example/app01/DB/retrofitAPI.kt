@@ -1,9 +1,8 @@
 package com.example.app01.DB
 
-import com.example.app01.dto.Relation
 import com.example.app01.dto.User
 import com.example.app01.dto.branch.Branch
-import com.example.app01.dto.worker.Worker
+import com.example.app01.dto.worker.WorkerView
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -32,4 +31,7 @@ interface retrofitAPI {
 
     @PUT("/spring/branch")
     fun modifyBranch(@Body newBranch : Branch) : Call<Boolean>
+
+    @GET("/spring/user/workView/{id_branch}")
+    fun getWorkerViewByIdBranch(@Path("id_branch") id_branch : Int) : Call<List<WorkerView>>
 }

@@ -10,6 +10,21 @@
 	  SELECT * FROM USERINFO WHERE ACCOUNT = #{account}
 	</select>
 	
+	<select id="getWorkerViewByIdBranch" resultType="com.my.spring.domain.WorkerViewVO" parameterType="int">
+		SELECT A.ID, A.NAME, A.AGE 
+		FROM USERINFO A, RELATION S
+		WHERE S.ID_BRANCH = #{id_branch}
+		AND A.ID = S.ID_WORKER
+		ORDER BY ID DESC
+	</select>
+	
+	
+	<!-- Relation 생성  -->
+	<insert id="">
+	
+	</insert>
+	
+	
 	<insert id="createAccount" parameterType="com.my.spring.domain.UserVO">
 		INSERT INTO USERINFO (ID, ROLE, NICK, ACCOUNT, PW, NAME, AGE) VALUES (
 		userinfo_seq.nextval, #{newUser.role}, #{newUser.nick}, 
