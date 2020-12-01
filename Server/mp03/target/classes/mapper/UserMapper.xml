@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="com.my.spring.mapper.UserMapper">
-	<!-- 전체 내용 조회 -->
+
 	<select id="viewAll" resultType="com.my.spring.domain.UserVO">
 	  SELECT * FROM USERINFO ORDER BY ID DESC
 	</select>
 	
-	<!-- account로 조회 -->
 	<select id="searchByAccount" resultType="com.my.spring.domain.UserVO" parameterType="String">
 	  SELECT * FROM USERINFO WHERE ACCOUNT = #{account}
 	</select>
 	
 	<insert id="createAccount" parameterType="com.my.spring.domain.UserVO">
-		INSERT INTO USERINFO (ID, ROLE, NICK, ACCOUNT, PW) VALUES (#{item.id}, #{item.role}, '#{item.nick}', '#{item.account}', '#{item.pw}')
+		INSERT INTO USERINFO (ID, ROLE, NICK, ACCOUNT, PW) VALUES (#{id}, #{role}, '#{nick}', '#{account}', '#{pw}')
 	</insert>
 	
 </mapper>

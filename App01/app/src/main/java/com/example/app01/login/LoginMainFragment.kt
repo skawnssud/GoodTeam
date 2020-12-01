@@ -21,14 +21,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 class LoginMainFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginMainBinding
-    private lateinit var mRetrofit: Retrofit
-    private lateinit var mRetrofitAPI: retrofitAPI
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        initServer()
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_login_main, container, false
@@ -39,14 +36,14 @@ class LoginMainFragment : Fragment() {
             if (binding.id != null && binding.pw != null) {
                 var thread = Thread(Runnable {
                     check =
-                        mRetrofitAPI.checkValidation(binding.id.toString(), binding.pw.toString())
+                        (activity as MainActivity).getRetrofitAPI().checkValidation(binding.id.toString(), binding.pw.toString())
                             .execute().body()!!
                 })
                 thread.start()
                 thread.join()
                 if (check) {
                     var thread2 = Thread(Runnable {
-                        dataObject.selectUser = mRetrofitAPI.getUserInfo(binding.id.toString()).execute().body()!!
+                        dataObject.selectUser = (activity as MainActivity).getRetrofitAPI().getUserInfo(binding.id.toString()).execute().body()!!
                     })
                     thread2.start()
                     thread2.join()
@@ -66,8 +63,16 @@ class LoginMainFragment : Fragment() {
                 ).show()
             }
         }
+        binding.buttonSignup.setOnClickListener {
+            moveToSignup()
+        }
 
         return binding.root
+    }
+
+    fun moveToSignup() {
+        NavHostFragment.findNavController(this)
+            .navigate(R.id.action_loginMainFragment_to_loginSignupFragment)
     }
 
     fun loginSuccess() {
@@ -79,12 +84,5 @@ class LoginMainFragment : Fragment() {
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_loginMainFragment_to_workerScheduleFragment)
         }
-    }
-
-    // Server Default Setting
-    fun initServer() {
-        mRetrofit = Retrofit.Builder().baseUrl("http://222.106.121.250:8080")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        mRetrofitAPI = mRetrofit.create(retrofitAPI::class.java)
     }
 }
