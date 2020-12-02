@@ -90,7 +90,17 @@ class managementFragment : Fragment() {
         snapHelper2.attachToRecyclerView(binding.RvBranches)
         // Click event
         mBranchAdapter.setItemClickListener( object : branchRAdapter.ItemClickListener {
+            // Click
             override fun onClick(view: View, position: Int) {
+                var select = dataObject.listBranch[position]
+                dataObject.selectBranch = select
+                (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
+                mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
+                binding.RvWorkers.adapter = mWorkerAdapter
+            }
+
+            // Long Click
+            override fun onLongClick(view: View, position: Int): Boolean {
                 var target = dataObject.listBranch[position]
                 // Modifying selected Branch
                 val dialog = AlertDialog.Builder(requireContext()).create()
@@ -109,10 +119,7 @@ class managementFragment : Fragment() {
                     mBranchAdapter.notifyItemChanged(position)
                     dialog.dismiss()
                 }
-            }
-
-            override fun onLongClick(view: View, position: Int) {
-                (activity as MainActivity).alertToast("실ㅇ험")
+                return true
             }
         })
 

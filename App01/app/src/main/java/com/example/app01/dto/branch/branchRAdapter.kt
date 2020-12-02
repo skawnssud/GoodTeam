@@ -15,7 +15,7 @@ class branchRAdapter(
 
     interface ItemClickListener {
         fun onClick(view : View, position : Int)
-        fun onLongClick(view : View, position : Int)
+        fun onLongClick(view : View, position : Int) : Boolean
     }
     private lateinit var itemClickListener: ItemClickListener
 
@@ -36,6 +36,8 @@ class branchRAdapter(
     override fun onBindViewHolder(holder: branchViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
+        }
+        holder.itemView.setOnLongClickListener {
             itemClickListener.onLongClick(it, position)
         }
         holder.bind(listBranch[position], context)

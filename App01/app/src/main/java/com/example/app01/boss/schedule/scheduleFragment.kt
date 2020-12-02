@@ -117,6 +117,7 @@ class scheduleFragment : Fragment() {
             }
 
             override fun onLongClick(view: View, position: Int) : Boolean {
+                (activity as MainActivity).alertToast("싫ㅎㅇ너ㅗ")
                 return true
             }
         })
