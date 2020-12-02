@@ -8,15 +8,17 @@ import androidx.navigation.findNavController
 import com.example.app01.DB.retrofitAPI
 import com.example.app01.databinding.ActivityMainBinding
 import com.example.app01.dto.branch.Branch
-import com.example.app01.dto.worker.Worker
-import com.example.app01.dto.Relation
 import com.example.app01.dto.User
+import com.example.app01.dto.worker.Work
+import com.example.app01.dto.worker.Worker
 import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.worker.WorkerView
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class MainActivity : AppCompatActivity() {
@@ -184,6 +186,24 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
+    fun getWorkerInfo(id_worker: Int, id_branch: Int) : WorkerInfo {
+        var result = WorkerInfo()
+        var thread = Thread(Runnable {
+            result = mRetrofitAPI.searchWorkerInfoByIdWorker(id_worker, id_branch).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+        return result
+    }
+
+    fun modifyWorkerInfo(workerInfo: WorkerInfo) : Boolean {
+        var result = false
+        var thread = Thread(Runnable {
+            result = mRetrofitAPI.modifyWorkerInfo(workerInfo).execute().body()!!
+        })
+        return result
+    }
+
     fun deleteWorkerInfo(id_worker: Int, id_branch: Int) : Boolean {
         var result = false
         var thread = Thread(Runnable {
@@ -191,4 +211,80 @@ class MainActivity : AppCompatActivity() {
         })
         return result
     }
+
+    fun createWork(workerInfo : WorkerInfo, dates : List<CalendarDay>) : Boolean {
+        var result = false
+        for (date in dates) {
+            var work = Work()
+            work.setFromWorkerInfo(workerInfo)
+            work.dateWork = date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString()
+            work.calculate()
+            var thread = Thread(Runnable {
+                result = mRetrofitAPI.createWorkByIdWorkerInfo(work).execute().body()!!
+            })
+            thread.start()
+            thread.join()
+        }
+        return result
+    }
+
+    fun deleteWorkByIdWorkInfo(id_workerInfo : Int) : Boolean {
+        var result = false
+        var thread = Thread (Runnable {
+            result = mRetrofitAPI.deleteWorkByIdWorkerInfo(id_workerInfo).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+        return result
+    }
+
+    fun getWorksByIdWorkerInfo(id_workerInfo: Int) : HashMap<CalendarDay, Work> {
+        var result = HashMap<CalendarDay, Work>()
+        var temp = listOf<Work>()
+        var thread = Thread (Runnable {
+            temp = mRetrofitAPI.getWorkByIdWorkerInfo(id_workerInfo).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+        temp.forEach {
+            print(it.dateWork)
+        }
+        return result
+    }
+
+    fun modifyWork(work : Work) : Boolean {
+        var result = false
+        var thread = Thread(Runnable {
+            result = mRetrofitAPI.modifyWork(work).execute().body()!!
+        })
+        return result
+    }
+
+    // Have to be used when listWorkerview is existed
+    fun getWorkersByIdBranch(id_branch: Int) : ArrayList<Worker> {
+        var list = listOf<WorkerInfo>()
+        var list2 = ArrayList<Worker>()
+        var thread = Thread(Runnable {
+            list = mRetrofitAPI.getWorkersByIdBranch(id_branch).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+        for (workerInfo in list) {
+            for (it in dataObject.listWorkerView) {
+                if (it.id == workerInfo.id_worker) {
+                    var newWorker = Worker()
+                    newWorker.setWorker(workerInfo, it)
+                    list2.add(newWorker)
+                    break
+                }
+            }
+        }
+        for (worker in list2) {
+            worker.infowork = getWorksByIdWorkerInfo(worker.id_workerinfo)
+            worker.datesWork = worker.infowork.keys.toMutableList()
+        }
+        return list2
+    }
+
+
 }

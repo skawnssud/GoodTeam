@@ -6,8 +6,15 @@
 	  SELECT A.ID, A.ID_WORKER, A.TIMESTART, A.TIMEEND, A.PAYMENT 
 	  FROM WORKERINFO A
 	  WHERE A.id_worker = #{id_worker}
-	  AND A.ID_RELATION = #{id_relation} 
+	  AND A.ID_BRANCH = #{id_branch} 
 	  ORDER BY ID DESC
+	</select>
+	
+	<select id="getWorkersByIdBranch" resultType="com.my.spring.domain.WorkerInfoVO" parameterType="int">
+		SELECT A.ID, A.ID_WORKER, A.TIMESTART, A.TIMEEND, A.PAYMENT 
+	  	FROM WORKERINFO A
+	  	WHERE A.ID_BRANCH = #{id_branch} 
+	  	ORDER BY ID DESC
 	</select>
 	
 	<insert id="createWorkerInfo" parameterType="com.my.spring.domain.WorkerInfoVO">
@@ -31,5 +38,34 @@
 		WHERE
 		ID = #{newWorkerInfo.id}
 	</update>
+	
+	<select id="getWorkByIdWorkerInfo" resultType="com.my.spring.domain.WorkVO" parameterType="int">
+		SELECT * 
+		FROM WORKERINFO
+		WHERE ID = #{id_workerinfo}
+	</select>
+	
+	<insert id="createWorkByIdWorkerInfo" parameterType="com.my.spring.domain.WorkVO">
+		INSERT INTO WORK (ID, ID_WORKERINFO, PAYMENT, TIMESTART, TIMEEND, HOURSOFWORK, DATEWORK) VALUES (
+		WORK_SEQ.NEXTVAL, #{work.id_workerInfo}, #{work.payment}, #{work.timeStart},
+		#{work.timeEnd}, #{work.hoursOfWork}, #{work.dateWork})
+	</insert>
+	
+	<update id="modifyWork" parameterType="com.my.spring.domain.WorkVO">
+		UNDATE WORK
+		SET
+		PAYMENT = #{work.payment},
+		TIMESTART = #{work.timeStart},
+		TIMEEND = #{work.timeEnd},
+		HOURSOFWEEK = #{work.hoursOfWork},
+		DATEWORK = #{work.dateWork}
+		WHERE
+		ID = #{work.id}
+	</update>
+	
+	<delete id="deleteWorksByIdWorkerInfo" parameterType = "Int">
+		DELETE FROM WORK
+		WHERE ID_WORKERINFO = #{id_workerinfo}
+	</delete>
 	
 </mapper>

@@ -22,6 +22,8 @@ import com.example.app01.databinding.FragmentScheduleBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchAdapter
 import com.example.app01.dto.worker.Work
+import com.example.app01.dto.worker.Worker
+import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.worker.workerAdapter
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
@@ -44,12 +46,7 @@ class scheduleFragment : Fragment() {
             inflater,
             R.layout.fragment_schedule, container, false
         )
-        // Default Setting
-        binding.currentBranch = dataObject.selectBranch.title
-        binding.currentWorker = dataObject.selectWorker.name
-        binding.timeStart = dataObject.selectWorker.timeStart
-        binding.timeEnd = dataObject.selectWorker.timeEnd
-        paintCalander(dataObject.selectWorker.datesWork)
+        defaultSetting(0)
 
         // Dialog for Branch Selection
         binding.selectionBranch.setOnClickListener {
@@ -76,6 +73,7 @@ class scheduleFragment : Fragment() {
                     (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
                     mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
                     binding.RvWorkers.adapter = mWorkerAdapter
+                    defaultSetting(0)
                     dialog.dismiss()
                 }
             }
@@ -102,11 +100,7 @@ class scheduleFragment : Fragment() {
         mWorkerAdapter.setItemClickListener(object : workerAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
                 if (modifyOn == false) {
-                    dataObject.selectWorker = dataObject.listWorker[position]
-                    binding.currentWorker = dataObject.selectWorker.name
-                    binding.timeStart = dataObject.selectWorker.timeStart
-                    binding.timeEnd = dataObject.selectWorker.timeEnd
-                    paintCalander(dataObject.selectWorker.datesWork)
+                    defaultSetting(position)
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -117,7 +111,6 @@ class scheduleFragment : Fragment() {
             }
 
             override fun onLongClick(view: View, position: Int) : Boolean {
-                (activity as MainActivity).alertToast("싫ㅎㅇ너ㅗ")
                 return true
             }
         })
@@ -129,6 +122,14 @@ class scheduleFragment : Fragment() {
                     if (compareTime(binding.timeEnd.toString(), p1.toString() + ":" + p2.toString())) {
                         binding.timeStart = p1.toString() + ":" + p2.toString()
                         dataObject.selectWorker.timeStart = binding.timeStart.toString()
+                        // Update WorkerInfo
+                        var workerInfo : WorkerInfo = WorkerInfo()
+                        workerInfo.setWorkerInfo(dataObject.selectWorker)
+                        (activity as MainActivity).modifyWorkerInfo(workerInfo)
+                        // Work 하나하나 날짜 다 바꿔주기
+                        /// 1. 서버에 업데이트
+                        /// 2. 서버에서 다시 내려받기
+                        /**
                         for (date in dataObject.selectWorker.infowork.keys) {
                             dataObject.selectWorker.infowork[date]!!.timeStart = dataObject.selectWorker.timeStart
                         }
@@ -140,6 +141,7 @@ class scheduleFragment : Fragment() {
                                 }
                             }
                         }
+                        */
                     } else {
                         Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
                     }
@@ -162,6 +164,14 @@ class scheduleFragment : Fragment() {
                     if (compareTime(p1.toString() + ":" + p2.toString(), binding.timeStart.toString())) {
                         binding.timeEnd = p1.toString() + ":" + p2.toString()
                         dataObject.selectWorker.timeEnd = binding.timeEnd.toString()
+                        // Update WorkerInfo
+                        var workerInfo : WorkerInfo = WorkerInfo()
+                        workerInfo.setWorkerInfo(dataObject.selectWorker)
+                        (activity as MainActivity).modifyWorkerInfo(workerInfo)
+                        // Server setting required
+                        /// 1. 서버에 업데이트
+                        /// 2. 서버에서 다시 내려받기
+                        /**
                         for (date in dataObject.selectWorker.infowork.keys) {
                             dataObject.selectWorker.infowork[date]!!.timeEnd = dataObject.selectWorker.timeEnd
                         }
@@ -173,6 +183,7 @@ class scheduleFragment : Fragment() {
                                 }
                             }
                         }
+                        */
                     } else {
                         Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
                     }
@@ -201,7 +212,7 @@ class scheduleFragment : Fragment() {
 
         // Permit user select dates for each workers or not
         binding.buttonModify.setOnClickListener {
-            if (!dataObject.selectWorker.name.equals("A")) {
+            if (!dataObject.selectWorker.name.equals("name")) {
                 if (modifyOn == false) {
                     modifyOn = true
                     binding.Cv.selectionMode = MaterialCalendarView.SELECTION_MODE_RANGE
@@ -220,7 +231,12 @@ class scheduleFragment : Fragment() {
         binding.Cv.setOnRangeSelectedListener { widget, dates ->
             dataObject.selectWorker.datesWork.clear()
             dataObject.selectWorker.datesWork.addAll(dates)
+            // Delete all works -> Create works
+            (activity as MainActivity).deleteWorkByIdWorkInfo(dataObject.selectWorkerInfo.id)
+            (activity as MainActivity).createWork(dataObject.selectWorkerInfo, dates)
             dataObject.selectWorker.infowork.clear()
+            // 선택 날짜들 한땀한땀 집어넣기
+            /**
             for (date in dates) {
                 var newWork : Work = Work()
                 newWork.id_worker = dataObject.selectWorker.id
@@ -242,6 +258,7 @@ class scheduleFragment : Fragment() {
                     }
                 }
             }
+            */
         }
 
         // Dialog for each date available
@@ -256,8 +273,7 @@ class scheduleFragment : Fragment() {
                 bindingDialog.date = date.month.toString() + "월 " + date.day.toString() + "일 " + date.year.toString()
                 bindingDialog.timeStart = dataObject.selectWorker.infowork[date]!!.timeStart
                 bindingDialog.timeEnd = dataObject.selectWorker.infowork[date]!!.timeEnd
-                dataObject.selectWorker.infowork[date]!!.calculate(dataObject.selectWorker.payment)
-                bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.payment.toString() + "원"
+                bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
                 bindingDialog.workhour = dataObject.selectWorker.infowork[date]!!.hoursOfWork
 
                 // Time picker
@@ -268,13 +284,8 @@ class scheduleFragment : Fragment() {
                             if (compareTime(dataObject.selectWorker.infowork[date]!!.timeEnd, p1.toString() + ":" + p2.toString())) {
                                 bindingDialog.timeStart = p1.toString() + ":" + p2.toString()
                                 dataObject.selectWorker.infowork[date]!!.timeStart = bindingDialog.timeStart.toString()
-                                for (ind in 0..dataObject.listWorker.size - 1) {
-                                    if (dataObject.listWorker[ind].id.equals(dataObject.selectWorker.id)) {
-                                        dataObject.listWorker[ind].infowork[date]!!.timeStart = bindingDialog.timeStart.toString()
-                                    }
-                                }
-                                dataObject.selectWorker.infowork[date]!!.calculate(dataObject.selectWorker.payment)
-                                bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.payment.toString() + "원"
+                                (activity as MainActivity).modifyWork(dataObject.selectWorker.infowork[date]!!)
+                                bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
                                 bindingDialog.workhour = dataObject.selectWorker.infowork[date]!!.hoursOfWork
                             } else {
                                 Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
@@ -298,13 +309,8 @@ class scheduleFragment : Fragment() {
                             if (compareTime(p1.toString() + ":" + p2.toString(), dataObject.selectWorker.infowork[date]!!.timeStart)) {
                                 bindingDialog.timeEnd = p1.toString() + ":" + p2.toString()
                                 dataObject.selectWorker.infowork[date]!!.timeEnd = bindingDialog.timeEnd.toString()
-                                for (ind in 0..dataObject.listWorker.size - 1) {
-                                    if (dataObject.listWorker[ind].id.equals(dataObject.selectWorker.id)) {
-                                        dataObject.listWorker[ind].infowork[date]!!.timeEnd = bindingDialog.timeEnd.toString()
-                                    }
-                                }
-                                dataObject.selectWorker.infowork[date]!!.calculate(dataObject.selectWorker.payment)
-                                bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.payment.toString() + "원"
+                                (activity as MainActivity).modifyWork(dataObject.selectWorker.infowork[date]!!)
+                                bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
                                 bindingDialog.workhour = dataObject.selectWorker.infowork[date]!!.hoursOfWork
                             } else {
                                 Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
@@ -324,6 +330,20 @@ class scheduleFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun defaultSetting(position : Int) {
+        // Default Setting
+        dataObject.selectWorker.setWorker(
+            (activity as MainActivity)
+                .getWorkerInfo(dataObject.listWorkerView[position].id, dataObject.selectBranch.id), dataObject.listWorkerView[position]
+        )
+        dataObject.selectWorkerInfo.setWorkerInfo(dataObject.selectWorker)
+        binding.currentBranch = dataObject.selectBranch.title
+        binding.currentWorker = dataObject.selectWorker.name
+        binding.timeStart = dataObject.selectWorker.timeStart
+        binding.timeEnd = dataObject.selectWorker.timeEnd
+        paintCalander(dataObject.selectWorker.datesWork)
     }
 
     // Marking current selection dates on Calender

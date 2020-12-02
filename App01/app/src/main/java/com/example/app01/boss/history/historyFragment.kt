@@ -53,6 +53,7 @@ class historyFragment : Fragment() {
                     binding.currentBranch = select.title
                     dataObject.selectBranch = select
                     (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
+                    dataObject.listWorker = (activity as MainActivity).getWorkersByIdBranch(select.id)
                     dialog.cancel()
                 }
             }
@@ -71,6 +72,7 @@ class historyFragment : Fragment() {
 
         // When Select Calender
         binding.Cv.setOnDateChangedListener { widget, date, selected ->
+            // Create frame for time table
             binding.table0to11.removeAllViewsInLayout()
             var tableRow : TableRow = TableRow(requireContext())
             tableRow.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -87,7 +89,6 @@ class historyFragment : Fragment() {
                 newText.setText(count.toString())
                 tableRow.addView(newText)
             }
-
             binding.table12to23.removeAllViewsInLayout()
             var tableRow2 : TableRow = TableRow(requireContext())
             tableRow2.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -105,6 +106,8 @@ class historyFragment : Fragment() {
             }
             binding.table12to23.addView(tableRow2)
             binding.table0to11.addView(tableRow)
+
+
             dataObject.listWorker.forEach {
                 // Calculating blanks we have to paint
                 var hourStart : Int = 0

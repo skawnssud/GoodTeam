@@ -7,4 +7,11 @@ class WorkerInfo {
     var timeStart : String = "09:00"
     var timeEnd : String = "18:00"
 
+    fun setWorkerInfo(worker : Worker) {
+        id = worker.id_workerinfo
+        timeStart = worker.timeStart
+        timeEnd = worker.timeEnd
+        payment = worker.payment
+    }
+
 }

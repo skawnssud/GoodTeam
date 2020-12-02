@@ -6,11 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.example.app01.MainActivity
 import com.example.app01.R
 import com.example.app01.dataObject
@@ -18,10 +16,8 @@ import com.example.app01.databinding.DialogBranchCreationBinding
 import com.example.app01.databinding.DialogDeleteConfirmBinding
 import com.example.app01.databinding.DialogWorkerCreationBinding
 import com.example.app01.databinding.FragmentManagementBinding
-import com.example.app01.dto.Relation
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchRAdapter
-import com.example.app01.dto.worker.Worker
 import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.worker.workerAdapter
 

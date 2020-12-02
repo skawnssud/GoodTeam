@@ -3,7 +3,7 @@ package com.example.app01.dto.worker
 import com.prolificinteractive.materialcalendarview.CalendarDay
 
 class Worker {
-    var id : Int = 0
+    var id_workerinfo : Int = 0
     var name : String = "name"
     var age : Int = 30
     var live : Boolean = false
@@ -16,6 +16,7 @@ class Worker {
     fun setWorker(info : WorkerInfo, view : WorkerView) {
         name = view.name
         age = view.age
+        id_workerinfo = info.id
         timeStart = info.timeStart
         timeEnd = info.timeEnd
         payment = info.payment
