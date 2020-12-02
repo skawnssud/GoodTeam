@@ -15,6 +15,7 @@ import com.example.app01.MainActivity
 import com.example.app01.R
 import com.example.app01.dataObject
 import com.example.app01.databinding.DialogBranchCreationBinding
+import com.example.app01.databinding.DialogDeleteConfirmBinding
 import com.example.app01.databinding.DialogWorkerCreationBinding
 import com.example.app01.databinding.FragmentManagementBinding
 import com.example.app01.dto.Relation
@@ -28,6 +29,7 @@ class managementFragment : Fragment() {
     private lateinit var binding : FragmentManagementBinding
     private lateinit var bindingDialogBranch : DialogBranchCreationBinding
     private lateinit var bindingDialogWorker : DialogWorkerCreationBinding
+    private lateinit var bindingDialogDelete : DialogDeleteConfirmBinding
     private lateinit var mWorkerAdapter: workerAdapter
     private lateinit var mBranchAdapter : branchRAdapter
     override fun onCreateView(
@@ -52,9 +54,9 @@ class managementFragment : Fragment() {
         binding.RvWorkers.adapter = mWorkerAdapter
         var snapHelper1 : PagerSnapHelper = PagerSnapHelper()
         snapHelper1.attachToRecyclerView(binding.RvWorkers)
-        /**
         mWorkerAdapter.setItemClickListener(object : workerAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
+                /**
                 var target = dataObject.listWorkerView[position]
                 val dialog = AlertDialog.Builder(requireContext()).create()
                 bindingDialogWorker = DataBindingUtil.inflate(inflater,
@@ -74,14 +76,36 @@ class managementFragment : Fragment() {
                     mWorkerAdapter.notifyItemChanged(position)
                     dialog.dismiss()
                 }
+                */
             }
 
             override fun onLongClick(view: View, position: Int): Boolean {
-                TODO("Not yet implemented")
+                if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
+                    val dialog = AlertDialog.Builder(requireContext()).create()
+                    bindingDialogDelete = DataBindingUtil.inflate(inflater,
+                        R.layout.dialog_delete_confirm, container, false)
+                    dialog.setView(bindingDialogDelete.root)
+                    dialog.show()
+                    bindingDialogDelete.title = "Are you sure to delete this worker?"
+                    bindingDialogDelete.textWarn = "It can't be recovered once you delete."
+                    bindingDialogDelete.buttonCancel.setOnClickListener {
+                        dialog.cancel()
+                    }
+                    bindingDialogDelete.buttonConfirm.setOnClickListener {
+                        (activity as MainActivity).deleteWorkerInfo(dataObject.listWorkerView[position].id, dataObject.selectBranch.id)
+                        dataObject.listWorkerView.remove(dataObject.listWorkerView[position])
+                        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
+                        binding.RvWorkers.adapter = mWorkerAdapter
+                        dialog.dismiss()
+                    }
+                } else {
+                    (activity as MainActivity).alertToast("It is yourself.")
+                }
+
+                return true
             }
 
         })
-        */
 
         // RecyclerView for Branches
         mBranchAdapter = branchRAdapter(dataObject.listBranch, requireContext())
@@ -157,15 +181,18 @@ class managementFragment : Fragment() {
             bindingDialogWorker.buttonConfirm.setOnClickListener {
                 val newWorker =
                     (activity as MainActivity).searchUserByAccount(bindingDialogWorker.account.toString())
-                //
-                if (newWorker.name != "init") {
+                // If account correct
+                if (newWorker.account != "allowed") {
                     var newWorkerInfo = WorkerInfo()
                     newWorkerInfo.id_worker = newWorker.id
                     (activity as MainActivity).createWorker(newWorkerInfo, dataObject.selectBranch.id)
+                    (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
+                    mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
+                    binding.RvWorkers.adapter = mWorkerAdapter
+                    dialog.dismiss()
+                } else {
+                    (activity as MainActivity).alertToast("Invalid account. Please check again.")
                 }
-                (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
-                (binding.RvWorkers.adapter as workerAdapter).notifyDataSetChanged()
-                dialog.dismiss()
             }
         }
 

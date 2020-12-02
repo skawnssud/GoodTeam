@@ -16,8 +16,10 @@
 		#{newWorkerInfo.timeEnd}, #{newWorkerInfo.payment}, #{id_branch})
 	</insert>
 	
-	<delete id="deleteWorkerInfo" parameterType="com.my.spring.domain.WorkerInfoVO">
-		DELETE FROM WORKERINFO WHERE ID = #{target.id}
+	<delete id="deleteWorkerInfo" parameterType="Int">
+		DELETE FROM WORKERINFO 
+		WHERE ID_WORKER = #{id_worker}
+		AND ID_BRANCH = #{id_branch}
 	</delete>
 	
 	<update id="modifyWorkerInfo" parameterType="com.my.spring.domain.WorkerInfoVO">

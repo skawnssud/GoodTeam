@@ -16,7 +16,7 @@ class workerAdapter(
         fun onClick(view : View, position : Int)
         fun onLongClick(view : View, position : Int) : Boolean
     }
-    private lateinit var itemClickListener: ItemClickListener
+    private var itemClickListener: ItemClickListener? = null
 
     fun setItemClickListener(itemClickListener: ItemClickListener) {
         this.itemClickListener = itemClickListener
@@ -34,10 +34,10 @@ class workerAdapter(
 
     override fun onBindViewHolder(holder: workerViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            itemClickListener.onClick(it, position)
+            itemClickListener!!.onClick(it, position)
         }
         holder.itemView.setOnLongClickListener {
-            itemClickListener.onLongClick(it, position)
+            itemClickListener!!.onLongClick(it, position)
         }
         holder.bind(listWorker[position], context)
     }

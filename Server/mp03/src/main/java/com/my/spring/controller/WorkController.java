@@ -41,9 +41,9 @@ public class WorkController {
 		return service.modifyWorkerInfo(newWorkerInfo);
 	}
 	
-	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public Boolean deleteWorkerInfo(@RequestBody WorkerInfoVO target) {
-		return service.deleteWorkerInfo(target);
+	@RequestMapping(value = "/delete/{id_worker}/{id_branch}", method = RequestMethod.DELETE)
+	public Boolean deleteWorkerInfo(@PathVariable int id_worker, @PathVariable int id_branch) {
+		return service.deleteWorkerInfo(id_worker, id_branch);
 	}
 
 }

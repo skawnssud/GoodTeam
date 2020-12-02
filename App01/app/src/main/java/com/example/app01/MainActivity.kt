@@ -35,13 +35,6 @@ class MainActivity : AppCompatActivity() {
             newOne.pay = i * 1000
             dataObject.listJob.add(newOne)
         }
-        for (i in 1..5) {
-            var newOne : Worker = Worker()
-            newOne.age = 30 + i
-            newOne.id = i + 1
-            dataObject.listWorker.add(newOne)
-        }
-        dataObject.selectWorker = dataObject.listWorker[0]
 
         val binding  = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val navController = this.findNavController(R.id.myNavHostFragment)
@@ -187,6 +180,14 @@ class MainActivity : AppCompatActivity() {
         var result = ""
         var thread = Thread(Runnable {
             result = mRetrofitAPI.getAccountById(id_worker).execute().body()!!
+        })
+        return result
+    }
+
+    fun deleteWorkerInfo(id_worker: Int, id_branch: Int) : Boolean {
+        var result = false
+        var thread = Thread(Runnable {
+            result = mRetrofitAPI.deleteWorkerInfo(id_worker, id_branch).execute().body()!!
         })
         return result
     }

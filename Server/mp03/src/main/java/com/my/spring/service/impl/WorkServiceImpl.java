@@ -26,8 +26,8 @@ public class WorkServiceImpl implements WorkService {
 	}
 
 	@Override
-	public Boolean deleteWorkerInfo(WorkerInfoVO target) {
-		return mapper.deleteWorkerInfo(target);
+	public Boolean deleteWorkerInfo(int id_worker, int id_branch) {
+		return mapper.deleteWorkerInfo(id_worker, id_branch);
 	}
 
 	@Override

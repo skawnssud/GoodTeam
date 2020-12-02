@@ -49,8 +49,8 @@ interface retrofitAPI {
     @PUT("/spring/work")
     fun modifyWorkerInfo(@Body newWorkerInfo : WorkerInfo) : Call<Boolean>
 
-    @DELETE("/spring/work")
-    fun deleteWorkerInfo(@Body target : WorkerInfo) : Call<Boolean>
+    @DELETE("/spring/work/delete/{id_worker}/{id_branch}")
+    fun deleteWorkerInfo(@Path("id_worker") id_worker : Int, @Path("id_branch") id_branch : Int) : Call<Boolean>
 
     @GET("/spring/user/id_worker/{id_worker}")
     fun getAccountById(@Path("id_worker") id_worker : Int) : Call<String>
