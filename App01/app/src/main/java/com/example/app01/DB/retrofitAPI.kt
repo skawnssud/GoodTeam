@@ -2,6 +2,8 @@ package com.example.app01.DB
 
 import com.example.app01.dto.User
 import com.example.app01.dto.branch.Branch
+import com.example.app01.dto.Relation
+import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.worker.WorkerView
 import retrofit2.Call
 import retrofit2.http.*
@@ -23,6 +25,9 @@ interface retrofitAPI {
     @GET("/spring/branch/id_boss/{id_boss}")
     fun searchBranchByIdBoss(@Path("id_boss") id_boss : Int) : Call<List<Branch>>
 
+    @GET("/spring/branch/id_branch")
+    fun getIdBranch(@Body target : Branch) : Call<Int>
+
     @POST("/spring/branch")
     fun createBranch(@Body newBranch : Branch) : Call<Boolean>
 
@@ -32,6 +37,23 @@ interface retrofitAPI {
     @PUT("/spring/branch")
     fun modifyBranch(@Body newBranch : Branch) : Call<Boolean>
 
-    @GET("/spring/user/workView/{id_branch}")
+    @GET("/spring/user/worker/{id_branch}")
     fun getWorkerViewByIdBranch(@Path("id_branch") id_branch : Int) : Call<List<WorkerView>>
+
+    @GET("/spring/work/{id_worker}/{id_branch}")
+    fun getWorkerInfoByIdWorker(@Path("id_worker") id_worker : Int, @Path("id_branch") id_branch : Int) : Call<WorkerInfo>
+
+    @POST("/spring/work/{id_branch}")
+    fun createWorkerInfo(@Body newWorkerInfo : WorkerInfo, @Path("id_branch") id_branch : Int) : Call<Boolean>
+
+    @PUT("/spring/work")
+    fun modifyWorkerInfo(@Body newWorkerInfo : WorkerInfo) : Call<Boolean>
+
+    @DELETE("/spring/work")
+    fun deleteWorkerInfo(@Body target : WorkerInfo) : Call<Boolean>
+
+    @GET("/spring/user/id_worker/{id_worker}")
+    fun getAccountById(@Path("id_worker") id_worker : Int) : Call<String>
+
+
 }

@@ -9,7 +9,7 @@ import com.example.app01.databinding.ItemWorkerBinding
 class workerViewHolder(elementView : View) : RecyclerView.ViewHolder(elementView) {
     private var binding : ItemWorkerBinding = DataBindingUtil.bind(elementView)!!
 
-    fun bind(item: Worker, context: Context) {
+    fun bind(item: WorkerView, context: Context) {
         binding.value = item
     }
 }

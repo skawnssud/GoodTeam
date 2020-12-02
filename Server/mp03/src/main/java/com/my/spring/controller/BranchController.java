@@ -37,7 +37,9 @@ public class BranchController {
 	
 	@RequestMapping(value = "/id_boss/{id_boss}", method = RequestMethod.GET)
 	public List<BranchVO> searchByIdBoss(@PathVariable int id_boss) {
-		System.out.println("searching id_boss: " + id_boss);
+		System.out.println("::searching branches id_boss:: ");
+		System.out.println("id_boss\t|\t" + id_boss);
+		System.out.println();
 		if (service.searchByIdBoss(id_boss) == null) {
 			List nonee = new ArrayList();
 			return nonee;
@@ -62,6 +64,11 @@ public class BranchController {
 	@RequestMapping(value = "", method = RequestMethod.PUT)
 	public Boolean modifyBranch(@RequestBody BranchVO newBranch) {
 		return service.modifyBranch(newBranch);
+	}
+	
+	@RequestMapping(value = "/id_branch", method = RequestMethod.GET)
+	public int getIdBranch(@RequestBody BranchVO target) {
+		return service.getIdBranch(target);
 	}
 	
 	

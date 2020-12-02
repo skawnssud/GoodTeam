@@ -7,7 +7,7 @@
 	</select>
 	
 	<select id="searchByTitle" resultType="com.my.spring.domain.BranchVO" parameterType="String">
-	  SELECT * FROM BRANCH WHERE ACCOUNT = #{title}
+	  SELECT * FROM BRANCH WHERE TITLE = #{title}
 	</select>
 	
 	<select id="searchByIdBoss" resultType="com.my.spring.domain.BranchVO" parameterType="int">
@@ -18,6 +18,12 @@
 		INSERT INTO BRANCH (ID, TITLE, ID_BOSS) VALUES (
 		branch_seq.nextval, #{newBranch.title}, #{newBranch.id_boss})
 	</insert>
+	
+	<select id="getIdBranch" parameterType="com.my.spring.domain.BranchVO" resultType="Int">
+		SELECT ID FROM BRANCH 
+		WHERE TITLE = #{target.title}
+		AND ID_BOSS = #{target.id_boss}
+	</select>
 	
 	<delete id="deleteBranch" parameterType="com.my.spring.domain.BranchVO">
 		DELETE FROM BRANCH WHERE ID_BOSS = #{target.id_boss} and TITLE = #{target.title}

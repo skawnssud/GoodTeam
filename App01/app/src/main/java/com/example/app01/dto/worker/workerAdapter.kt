@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class workerAdapter(
-    var listWorker: ArrayList<Worker>, val context: Context
+    var listWorker: ArrayList<WorkerView>, val context: Context
 ) : RecyclerView.Adapter<workerViewHolder>() {
 
     interface ItemClickListener {

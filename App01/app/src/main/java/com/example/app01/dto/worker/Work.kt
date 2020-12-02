@@ -1,10 +1,9 @@
 package com.example.app01.dto.worker
 
-data class Work(
-    var id_worker: Int,
-    var timeStart: String,
-    var timeEnd: String
-) {
+class Work {
+    var id_worker: Int = 0
+    var timeStart: String = ""
+    var timeEnd: String= ""
     var payment : Int = 8590
     var hoursOfWork : String = "9:00"
     fun calculate(fee : Int) {

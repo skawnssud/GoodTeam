@@ -12,16 +12,30 @@
 	
 	<select id="getWorkerViewByIdBranch" resultType="com.my.spring.domain.WorkerViewVO" parameterType="int">
 		SELECT A.ID, A.NAME, A.AGE 
-		FROM USERINFO A, RELATION S
+		FROM USERINFO A, WORKERINFO S
 		WHERE S.ID_BRANCH = #{id_branch}
 		AND A.ID = S.ID_WORKER
 		ORDER BY ID DESC
 	</select>
 	
+	<select id="getAccountById" resultType = "String" parameterType = "Int">
+		SELECT account
+		from USERINFO a
+		where a.id = #{id_worker}
+	</select>
+	
+	<select id="getIdRelation" resultType="Int" parameterType="com.my.spring.domain.RelationVO">
+		SELECT ID
+		FROM RELATION
+		WHERE ID_WORKER = #{target.id_worker}
+		AND ID_BRANCH = #{target.id_branch}
+	</select>
 	
 	<!-- Relation 생성  -->
-	<insert id="">
-	
+	<insert id="createRelation" parameterType="com.my.spring.domain.RelationVO">
+		INSERT INTO RELATION (ID, ID_BRANCH, ID_WORKER) VALUES (
+		RELATION_SEQ.nextval, #{newRelation.id_branch}, #{newRelation.id_worker}
+		)
 	</insert>
 	
 	

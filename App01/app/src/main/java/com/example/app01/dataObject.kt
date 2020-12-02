@@ -4,6 +4,7 @@ import com.example.app01.dto.worker.WorkerView
 import com.example.app01.dto.User
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.worker.Worker
+import com.example.app01.dto.worker.WorkerInfo
 
 object dataObject {
     var listAnnouncement : ArrayList<itemAnnouncement> = ArrayList<itemAnnouncement>()
@@ -14,6 +15,6 @@ object dataObject {
     var selectUser : User = User()
     var selectBranch : Branch = Branch()
     var selectWorker: Worker = Worker()
-    var selectRelation : WorkerView =
-        WorkerView()
+    var selectWorkerInfo : WorkerInfo = WorkerInfo()
+    var selectRelation : WorkerView = WorkerView()
 }

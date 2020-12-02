@@ -17,9 +17,11 @@ import com.example.app01.dataObject
 import com.example.app01.databinding.DialogBranchCreationBinding
 import com.example.app01.databinding.DialogWorkerCreationBinding
 import com.example.app01.databinding.FragmentManagementBinding
+import com.example.app01.dto.Relation
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchRAdapter
 import com.example.app01.dto.worker.Worker
+import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.worker.workerAdapter
 
 class managementFragment : Fragment() {
@@ -46,20 +48,22 @@ class managementFragment : Fragment() {
         }
 
         // RecyclerView for workers
-        mWorkerAdapter = workerAdapter(dataObject.listWorker, requireContext())
+        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
         binding.RvWorkers.adapter = mWorkerAdapter
         var snapHelper1 : PagerSnapHelper = PagerSnapHelper()
         snapHelper1.attachToRecyclerView(binding.RvWorkers)
+        /**
         mWorkerAdapter.setItemClickListener(object : workerAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
-                var target = dataObject.listWorker[position]
+                var target = dataObject.listWorkerView[position]
                 val dialog = AlertDialog.Builder(requireContext()).create()
                 bindingDialogWorker = DataBindingUtil.inflate(inflater,
                     R.layout.dialog_worker_creation, container, false)
                 dialog.setView(bindingDialogWorker.root)
                 dialog.show()
-                bindingDialogWorker.inputName = "Name of worker"
-                bindingDialogWorker.name = target.name
+                bindingDialogWorker.inputName = "Account of worker"
+                bindingDialogWorker.account =
+                    (activity as MainActivity).getAccountById(target.id)
                 bindingDialogWorker.age = target.age.toString()
                 bindingDialogWorker.buttonCancel.setOnClickListener {
                     dialog.cancel()
@@ -77,6 +81,7 @@ class managementFragment : Fragment() {
             }
 
         })
+        */
 
         // RecyclerView for Branches
         mBranchAdapter = branchRAdapter(dataObject.listBranch, requireContext())
@@ -104,6 +109,10 @@ class managementFragment : Fragment() {
                     mBranchAdapter.notifyItemChanged(position)
                     dialog.dismiss()
                 }
+            }
+
+            override fun onLongClick(view: View, position: Int) {
+                (activity as MainActivity).alertToast("실ㅇ험")
             }
         })
 
@@ -134,15 +143,21 @@ class managementFragment : Fragment() {
                 R.layout.dialog_worker_creation, container, false)
             dialog.setView(bindingDialogWorker.root)
             dialog.show()
-            bindingDialogWorker.inputName = "Name of new worker"
+            bindingDialogWorker.inputName = "Account of new worker"
             bindingDialogWorker.buttonCancel.setOnClickListener {
                 dialog.cancel()
             }
             bindingDialogWorker.buttonConfirm.setOnClickListener {
-                val newWorker = Worker()
-                newWorker.name = bindingDialogWorker.name.toString()
-                newWorker.age = bindingDialogWorker.age!!.toInt()
-                dataObject.listWorker.add(newWorker)
+                val newWorker =
+                    (activity as MainActivity).searchUserByAccount(bindingDialogWorker.account.toString())
+                //
+                if (newWorker.name != "init") {
+                    var newWorkerInfo = WorkerInfo()
+                    newWorkerInfo.id_worker = newWorker.id
+                    (activity as MainActivity).createWorker(newWorkerInfo, dataObject.selectBranch.id)
+                }
+                (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
+                (binding.RvWorkers.adapter as workerAdapter).notifyDataSetChanged()
                 dialog.dismiss()
             }
         }

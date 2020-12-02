@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.my.spring.mapper.WorkMapper">
+	
+	<select id="searchWorkerInfoByIdWorker" resultType="com.my.spring.domain.WorkerInfoVO" parameterType="int">
+	  SELECT A.ID, A.ID_WORKER, A.TIMESTART, A.TIMEEND, A.PAYMENT 
+	  FROM WORKERINFO A
+	  WHERE A.id_worker = #{id_worker}
+	  AND A.ID_RELATION = #{id_relation} 
+	  ORDER BY ID DESC
+	</select>
+	
+	<insert id="createWorkerInfo" parameterType="com.my.spring.domain.WorkerInfoVO">
+		INSERT INTO WORKERINFO (ID, ID_WORKER, TIMESTART, TIMEEND, PAYMENT, ID_BRANCH) VALUES (
+		workerinfo_seq.nextval, #{newWorkerInfo.id_worker}, #{newWorkerInfo.timeStart}, 
+		#{newWorkerInfo.timeEnd}, #{newWorkerInfo.payment}, #{id_branch})
+	</insert>
+	
+	<delete id="deleteWorkerInfo" parameterType="com.my.spring.domain.WorkerInfoVO">
+		DELETE FROM WORKERINFO WHERE ID = #{target.id}
+	</delete>
+	
+	<update id="modifyWorkerInfo" parameterType="com.my.spring.domain.WorkerInfoVO">
+		UPDATE WORKERINFO
+		SET
+		timeStart = #{newWorkerInfo.timeStart},
+		timeEnd = #{newWorkerInfo.timeEnd},
+		payment = #{newWorkerInfo.payment}"
+		WHERE
+		ID = #{newWorkerInfo.id}
+	</update>
+	
+</mapper>

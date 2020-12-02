@@ -1,6 +1,6 @@
 package com.my.spring.domain;
 
-public class WorkerVO {
+public class RelationVO {
 	int id, id_branch, id_worker;
 
 	public int getId() {

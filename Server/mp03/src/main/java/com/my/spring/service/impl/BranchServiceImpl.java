@@ -45,4 +45,9 @@ public class BranchServiceImpl implements BranchService {
 		return mapper.modifyBranch(newBranch);
 	}
 
+	@Override
+	public int getIdBranch(BranchVO target) {
+		return mapper.getIdBranch(target);
+	}
+
 }

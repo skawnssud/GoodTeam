@@ -12,4 +12,12 @@ class Worker {
     var timeStart: String = "9:00"
     var timeEnd : String = "18:00"
     var payment : Int = 8590
+
+    fun setWorker(info : WorkerInfo, view : WorkerView) {
+        name = view.name
+        age = view.age
+        timeStart = info.timeStart
+        timeEnd = info.timeEnd
+        payment = info.payment
+    }
 }

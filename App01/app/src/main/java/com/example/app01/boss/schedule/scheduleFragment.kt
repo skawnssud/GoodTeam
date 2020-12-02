@@ -73,6 +73,9 @@ class scheduleFragment : Fragment() {
                     var select = parent?.getItemAtPosition(position) as Branch
                     binding.currentBranch = select.title
                     dataObject.selectBranch = select
+                    (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
+                    mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
+                    binding.RvWorkers.adapter = mWorkerAdapter
                     dialog.dismiss()
                 }
             }
@@ -90,7 +93,7 @@ class scheduleFragment : Fragment() {
         }
 
         // Worker Recyclerview
-        mWorkerAdapter = workerAdapter(dataObject.listWorker, requireContext())
+        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
         binding.RvWorkers.adapter = mWorkerAdapter
         var snapHelper: PagerSnapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.RvWorkers)
@@ -218,7 +221,10 @@ class scheduleFragment : Fragment() {
             dataObject.selectWorker.datesWork.addAll(dates)
             dataObject.selectWorker.infowork.clear()
             for (date in dates) {
-                var newWork : Work = Work(dataObject.selectWorker.id, dataObject.selectWorker.timeStart, dataObject.selectWorker.timeEnd)
+                var newWork : Work = Work()
+                newWork.id_worker = dataObject.selectWorker.id
+                newWork.timeStart = dataObject.selectWorker.timeStart
+                newWork.timeEnd = dataObject.selectWorker.timeEnd
                 dataObject.selectWorker.infowork[date] = newWork
             }
             for (ind in 0..dataObject.listWorker.size - 1) {
@@ -227,7 +233,10 @@ class scheduleFragment : Fragment() {
                     dataObject.listWorker[ind].datesWork.addAll(dates)
                     dataObject.listWorker[ind].infowork.clear()
                     for (date in dates) {
-                        var newWork : Work = Work(dataObject.listWorker[ind].id, dataObject.listWorker[ind].timeStart, dataObject.listWorker[ind].timeEnd)
+                        var newWork : Work = Work()
+                        newWork.id_worker = dataObject.listWorker[ind].id
+                        newWork.timeStart = dataObject.listWorker[ind].timeStart
+                        newWork.timeEnd = dataObject.listWorker[ind].timeEnd
                         dataObject.listWorker[ind].infowork[date] = newWork
                     }
                 }

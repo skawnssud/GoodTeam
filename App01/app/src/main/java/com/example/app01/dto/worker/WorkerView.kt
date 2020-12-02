@@ -1,7 +1,8 @@
 package com.example.app01.dto.worker
 
 class WorkerView {
+    // id_worker
     var id : Int = 0
-    var id_branch : Int = 0
-    var id_worker : Int = 0
+    var name : String = ""
+    var age : Int = 0
 }

@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import com.example.app01.MainActivity
 import com.example.app01.R
 import com.example.app01.dataObject
 import com.example.app01.databinding.DialogBranchSelectionBinding
@@ -51,6 +52,7 @@ class historyFragment : Fragment() {
                     var select = parent?.getItemAtPosition(position) as Branch
                     binding.currentBranch = select.title
                     dataObject.selectBranch = select
+                    (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
                     dialog.cancel()
                 }
             }
