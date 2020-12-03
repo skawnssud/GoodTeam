@@ -25,8 +25,8 @@ interface retrofitAPI {
     @GET("/spring/branch/id_boss/{id_boss}")
     fun searchBranchByIdBoss(@Path("id_boss") id_boss : Int) : Call<List<Branch>>
 
-    @GET("/spring/branch/id_branch")
-    fun getIdBranch(@Body target : Branch) : Call<Int>
+    @GET("/spring/branch/get/{title}/{id_boss}")
+    fun getIdBranch(@Path("title") title : String, @Path("id_boss") id_boss: Int) : Call<Int>
 
     @POST("/spring/branch")
     fun createBranch(@Body newBranch : Branch) : Call<Boolean>

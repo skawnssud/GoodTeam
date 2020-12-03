@@ -21,8 +21,8 @@
 	
 	<select id="getIdBranch" parameterType="com.my.spring.domain.BranchVO" resultType="Int">
 		SELECT ID FROM BRANCH 
-		WHERE TITLE = #{target.title}
-		AND ID_BOSS = #{target.id_boss}
+		WHERE TITLE = #{title}
+		AND ID_BOSS = #{id_boss}
 	</select>
 	
 	<delete id="deleteBranch" parameterType="com.my.spring.domain.BranchVO">

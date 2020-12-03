@@ -83,12 +83,14 @@ class MainActivity : AppCompatActivity() {
                 createBranch.join()
                 var id_b = 0
                 var thread = Thread(Runnable {
-                    id_b = mRetrofitAPI.getIdBranch(newBranch).execute().body()!!
+                    id_b = mRetrofitAPI.getIdBranch(newBranch.title, newBranch.id_boss).execute().body()!!
                 })
                 thread.start()
                 thread.join()
                 newBranch.id = id_b
-                createWorker(WorkerInfo(), id_b)
+                var newWorkerInfo = WorkerInfo()
+                newWorkerInfo.id_worker = dataObject.selectUser.id
+                createWorker(newWorkerInfo, id_b)
                 dataObject.listBranch.add(newBranch)
                 return true
             }
@@ -153,7 +155,9 @@ class MainActivity : AppCompatActivity() {
         newWorkerView.wage = newWorkerInfo.payment
         newWorkerView.name = dataObject.selectUser.name
         newWorkerView.age = dataObject.selectUser.age
-        dataObject.listWorkerView.add(newWorkerView)
+        if (dataObject.listWorkerView.size != 1) {
+            dataObject.listWorkerView.add(newWorkerView)
+        }
         return success
     }
 

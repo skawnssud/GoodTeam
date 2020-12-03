@@ -125,11 +125,21 @@ class managementFragment : Fragment() {
                     dialog.dismiss()
                 }
                 bindingDialogBranch.buttonDelete.setOnClickListener {
-                    (activity as MainActivity).deleteBranch(
-                        dataObject.listBranch[position])
-                    dataObject.listBranch.remove(
-                        dataObject.listBranch[position])
-                    mBranchAdapter.notifyItemChanged(position)
+                    if (dataObject.listBranch.size == 1) {
+                        (activity as MainActivity).alertToast("You cannot delete all branches.")
+                    } else {
+                        (activity as MainActivity).deleteBranch(dataObject.listBranch[position])
+                        if (position != 0) {
+                            selectBranch(0)
+                            dataObject.listBranch.remove(dataObject.listBranch[position])
+                        } else {
+                            selectBranch(1)
+                            dataObject.listBranch.remove(dataObject.listBranch[position])
+                        }
+                        mBranchAdapter.notifyItemRemoved(position)
+                        mBranchAdapter.notifyItemRangeChanged(position, dataObject.listBranch.size)
+                        mBranchAdapter.notifyItemChanged(position)
+                    }
                     dialog.dismiss()
                 }
                 return true
@@ -144,6 +154,7 @@ class managementFragment : Fragment() {
             val dialog = AlertDialog.Builder(requireContext()).create()
             bindingDialogBranch = DataBindingUtil.inflate(inflater,
                 R.layout.dialog_branch_creation, container, false)
+            bindingDialogBranch.buttonDelete.visibility = View.GONE
             dialog.setView(bindingDialogBranch.root)
             dialog.show()
             bindingDialogBranch.inputTitle = "Title of new Branch"
@@ -191,4 +202,8 @@ class managementFragment : Fragment() {
         return binding.root
     }
 
+    fun selectBranch(position : Int) {
+        dataObject.selectBranch = dataObject.listBranch[position]
+        binding.currentBranch = dataObject.selectBranch.title
+    }
 }
