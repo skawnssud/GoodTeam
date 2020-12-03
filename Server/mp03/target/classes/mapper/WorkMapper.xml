@@ -34,7 +34,7 @@
 		SET
 		timeStart = #{newWorkerInfo.timeStart},
 		timeEnd = #{newWorkerInfo.timeEnd},
-		payment = #{newWorkerInfo.payment}"
+		payment = #{newWorkerInfo.payment}
 		WHERE
 		ID = #{newWorkerInfo.id}
 	</update>
@@ -53,12 +53,12 @@
 	</insert>
 	
 	<update id="modifyWork" parameterType="com.my.spring.domain.WorkVO">
-		UNDATE WORK
+		UPDATE WORK
 		SET
 		PAYMENT = #{work.payment},
 		TIMESTART = #{work.timeStart},
 		TIMEEND = #{work.timeEnd},
-		HOURSOFWEEK = #{work.hoursOfWork},
+		HOURSOFWORK = #{work.hoursOfWork},
 		DATEWORK = #{work.dateWork}
 		WHERE
 		ID = #{work.id}

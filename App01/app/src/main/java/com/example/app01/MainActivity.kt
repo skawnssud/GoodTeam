@@ -201,6 +201,8 @@ class MainActivity : AppCompatActivity() {
         var thread = Thread(Runnable {
             result = mRetrofitAPI.modifyWorkerInfo(workerInfo).execute().body()!!
         })
+        thread.start()
+        thread.join()
         return result
     }
 
@@ -209,6 +211,8 @@ class MainActivity : AppCompatActivity() {
         var thread = Thread(Runnable {
             result = mRetrofitAPI.deleteWorkerInfo(id_worker, id_branch).execute().body()!!
         })
+        thread.start()
+        thread.join()
         return result
     }
 
@@ -259,6 +263,8 @@ class MainActivity : AppCompatActivity() {
         var thread = Thread(Runnable {
             result = mRetrofitAPI.modifyWork(work).execute().body()!!
         })
+        thread.start()
+        thread.join()
         return result
     }
 

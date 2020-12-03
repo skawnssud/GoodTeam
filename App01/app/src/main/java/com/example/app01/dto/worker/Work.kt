@@ -1,5 +1,7 @@
 package com.example.app01.dto.worker
 
+import kotlin.math.min
+
 class Work {
     var id = 0
     var id_workerInfo: Int = 0
@@ -13,10 +15,20 @@ class Work {
         var spliter = timeEnd.split(":")
         var hour = spliter[0].toInt()
         var minute = spliter[1].toInt()
+        if (minute < 10) {
+            timeEnd = hour.toString() + ":0" + minute.toString()
+        }
         spliter = timeStart.split(":")
         hour -= spliter[0].toInt()
         minute -= spliter[1].toInt()
-        if (minute < 10) {
+        if (spliter[1].toInt() < 10) {
+            timeStart = spliter[0] + ":0" + spliter[1]
+        }
+        if (minute < 0) {
+            minute = 60 + minute
+            hour = hour - 1
+            hoursOfWork = hour.toString() + ":" + minute.toString()
+        } else if (minute < 10) {
             hoursOfWork = hour.toString() + ":0" + minute.toString()
         } else {
             hoursOfWork = hour.toString() + ":" + minute.toString()

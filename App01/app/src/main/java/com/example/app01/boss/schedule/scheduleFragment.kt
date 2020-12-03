@@ -120,29 +120,24 @@ class scheduleFragment : Fragment() {
         binding.textTimeStart.setOnClickListener {
             var timeListener = object : TimePickerDialog.OnTimeSetListener {
                 override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-                    if (compareTime(binding.timeEnd.toString(), p1.toString() + ":" + p2.toString())) {
-                        binding.timeStart = p1.toString() + ":" + p2.toString()
+                    if (compareTime(p1.toString() + ":" + p2.toString(), binding.timeEnd.toString())) {
+                        if (p2 < 10) {
+                            binding.timeStart = p1.toString() + ":0" + p2.toString()
+                        } else {
+                            binding.timeStart = p1.toString() + ":" + p2.toString()
+                        }
                         dataObject.selectWorker.timeStart = binding.timeStart.toString()
                         // Update WorkerInfo
                         var workerInfo : WorkerInfo = WorkerInfo()
                         workerInfo.setWorkerInfo(dataObject.selectWorker)
                         (activity as MainActivity).modifyWorkerInfo(workerInfo)
-                        // Work 하나하나 날짜 다 바꿔주기
-                        /// 1. 서버에 업데이트
-                        /// 2. 서버에서 다시 내려받기
-                        /**
-                        for (date in dataObject.selectWorker.infowork.keys) {
-                            dataObject.selectWorker.infowork[date]!!.timeStart = dataObject.selectWorker.timeStart
+                        dataObject.selectWorker.infowork.values.forEach {
+                            it.timeStart = dataObject.selectWorker.timeStart
+                            it.calculate()
+                            (activity as MainActivity).modifyWork(it)
                         }
-                        for (ind in 0..dataObject.listWorker.size - 1) {
-                            if (dataObject.listWorker[ind].id.equals(dataObject.selectWorker.id)) {
-                                dataObject.listWorker[ind].timeStart = binding.timeStart.toString()
-                                for (date in dataObject.listWorker[ind].infowork.keys) {
-                                    dataObject.listWorker[ind].infowork[date]!!.timeStart = dataObject.listWorker[ind].timeStart
-                                }
-                            }
-                        }
-                        */
+                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerinfo)
+                        dataObject.selectWorker.datesWork = dataObject.selectWorker.infowork.keys.toMutableList()
                     } else {
                         Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
                     }
@@ -158,33 +153,27 @@ class scheduleFragment : Fragment() {
             builder.show()
 
         }
-
         binding.textTimeEnd.setOnClickListener {
             var timeListener = object : TimePickerDialog.OnTimeSetListener {
                 override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-                    if (compareTime(p1.toString() + ":" + p2.toString(), binding.timeStart.toString())) {
-                        binding.timeEnd = p1.toString() + ":" + p2.toString()
+                    if (compareTime(binding.timeStart.toString(), p1.toString() + ":" + p2.toString())) {
+                        if (p2 < 10) {
+                            binding.timeEnd = p1.toString() + ":0" + p2.toString()
+                        } else {
+                            binding.timeEnd = p1.toString() + ":" + p2.toString()
+                        }
                         dataObject.selectWorker.timeEnd = binding.timeEnd.toString()
                         // Update WorkerInfo
                         var workerInfo : WorkerInfo = WorkerInfo()
                         workerInfo.setWorkerInfo(dataObject.selectWorker)
                         (activity as MainActivity).modifyWorkerInfo(workerInfo)
-                        // Server setting required
-                        /// 1. 서버에 업데이트
-                        /// 2. 서버에서 다시 내려받기
-                        /**
-                        for (date in dataObject.selectWorker.infowork.keys) {
-                            dataObject.selectWorker.infowork[date]!!.timeEnd = dataObject.selectWorker.timeEnd
+                        dataObject.selectWorker.infowork.values.forEach {
+                            it.timeEnd = dataObject.selectWorker.timeEnd
+                            it.calculate()
+                            (activity as MainActivity).modifyWork(it)
                         }
-                        for (ind in 0..dataObject.listWorker.size - 1) {
-                            if (dataObject.listWorker[ind].id.equals(dataObject.selectWorker.id)) {
-                                dataObject.listWorker[ind].timeEnd = binding.timeEnd.toString()
-                                for (date in dataObject.listWorker[ind].infowork.keys) {
-                                    dataObject.listWorker[ind].infowork[date]!!.timeEnd = dataObject.listWorker[ind].timeEnd
-                                }
-                            }
-                        }
-                        */
+                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerinfo)
+                        dataObject.selectWorker.datesWork = dataObject.selectWorker.infowork.keys.toMutableList()
                     } else {
                         Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
                     }
@@ -286,8 +275,12 @@ class scheduleFragment : Fragment() {
                     var timeListener = object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
                             // Check if it exceed timeEnd
-                            if (compareTime(dataObject.selectWorker.infowork[date]!!.timeEnd, p1.toString() + ":" + p2.toString())) {
-                                bindingDialog.timeStart = p1.toString() + ":" + p2.toString()
+                            if (compareTime(p1.toString() + ":" + p2.toString(), dataObject.selectWorker.infowork[date]!!.timeEnd)) {
+                                if (p2 < 10) {
+                                    bindingDialog.timeStart = p1.toString() + ":0" + p2.toString()
+                                } else {
+                                    bindingDialog.timeStart = p1.toString() + ":" + p2.toString()
+                                }
                                 dataObject.selectWorker.infowork[date]!!.timeStart = bindingDialog.timeStart.toString()
                                 (activity as MainActivity).modifyWork(dataObject.selectWorker.infowork[date]!!)
                                 bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
@@ -307,12 +300,15 @@ class scheduleFragment : Fragment() {
                     builder.show()
 
                 }
-
                 bindingDialog.textTimeEnd.setOnClickListener {
                     var timeListener = object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-                            if (compareTime(p1.toString() + ":" + p2.toString(), dataObject.selectWorker.infowork[date]!!.timeStart)) {
-                                bindingDialog.timeEnd = p1.toString() + ":" + p2.toString()
+                            if (compareTime(dataObject.selectWorker.infowork[date]!!.timeStart, p1.toString() + ":" + p2.toString())) {
+                                if (p2 < 10) {
+                                    bindingDialog.timeEnd = p1.toString() + ":0" + p2.toString()
+                                } else {
+                                    bindingDialog.timeEnd = p1.toString() + ":" + p2.toString()
+                                }
                                 dataObject.selectWorker.infowork[date]!!.timeEnd = bindingDialog.timeEnd.toString()
                                 (activity as MainActivity).modifyWork(dataObject.selectWorker.infowork[date]!!)
                                 bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
@@ -363,8 +359,12 @@ class scheduleFragment : Fragment() {
         }
     }
 
-    // compare two hh:mm; True if A >= B
+    // compare two hh:mm; True if A <= B
     fun compareTime(A : String, B : String) : Boolean {
-        return A.split(":")[0].toInt() >= B.split(":")[0].toInt() && A.split(":")[1].toInt() >= B.split(":")[1].toInt()
+        if (A.split(":")[0].toInt() == B.split(":")[0].toInt()) {
+            return A.split(":")[1].toInt() <= B.split(":")[1].toInt()
+        } else {
+            return A.split(":")[0].toInt() <= B.split(":")[0].toInt()
+        }
     }
 }

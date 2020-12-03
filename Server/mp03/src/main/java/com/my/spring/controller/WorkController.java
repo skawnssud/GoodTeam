@@ -32,7 +32,6 @@ public class WorkController {
 	
 	@RequestMapping(value = "/{id_branch}", method = RequestMethod.POST)
 	public Boolean createWorkerInfo(@RequestBody WorkerInfoVO newWorkerInfo, @PathVariable int id_branch) {
-
 		System.out.println("::createWorkerInfo::\n");
 		System.out.println("id\t| " + newWorkerInfo.getId());
 		System.out.println("id_worker\t| " + newWorkerInfo.getId_worker());
@@ -44,6 +43,12 @@ public class WorkController {
 	
 	@RequestMapping(value = "", method = RequestMethod.PUT)
 	public Boolean modifyWorkerInfo(@RequestBody WorkerInfoVO newWorkerInfo) {
+		System.out.println("::modifyWorkerInfo::");
+		System.out.println("id\t| " + newWorkerInfo.getId());
+		System.out.println("id_worker\t| " + newWorkerInfo.getId_worker());
+		System.out.println("TimeStart\t| " + newWorkerInfo.getTimeStart());
+		System.out.println("TimeEnd\t\t| " + newWorkerInfo.getTimeEnd());
+		System.out.println("Payment\t\t| " + newWorkerInfo.getPayment());
 		return service.modifyWorkerInfo(newWorkerInfo);
 	}
 	
@@ -76,6 +81,13 @@ public class WorkController {
 	
 	@RequestMapping(value = "/work", method = RequestMethod.PUT)
 	public Boolean modifyWork(@RequestBody WorkVO work) {
+		System.out.println("::modifyWork::");
+		System.out.println("id_workerInfo\t|\t" + work.getId_workerInfo());
+		System.out.println("TimeStart\t|\t" + work.getTimeStart());
+		System.out.println("TimeEnd\t|\t" + work.getTimeEnd());
+		System.out.println("DateWork\t|\t" + work.getDateWork());
+		System.out.println();
+		
 		return service.modifyWork(work);
 	}
 	

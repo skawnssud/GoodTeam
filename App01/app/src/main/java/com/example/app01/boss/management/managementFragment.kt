@@ -52,27 +52,6 @@ class managementFragment : Fragment() {
         snapHelper1.attachToRecyclerView(binding.RvWorkers)
         mWorkerAdapter.setItemClickListener(object : workerAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
-                /**
-                var target = dataObject.listWorkerView[position]
-                val dialog = AlertDialog.Builder(requireContext()).create()
-                bindingDialogWorker = DataBindingUtil.inflate(inflater,
-                    R.layout.dialog_worker_creation, container, false)
-                dialog.setView(bindingDialogWorker.root)
-                dialog.show()
-                bindingDialogWorker.inputName = "Account of worker"
-                bindingDialogWorker.account =
-                    (activity as MainActivity).getAccountById(target.id)
-                bindingDialogWorker.age = target.age.toString()
-                bindingDialogWorker.buttonCancel.setOnClickListener {
-                    dialog.cancel()
-                }
-                bindingDialogWorker.buttonConfirm.setOnClickListener {
-                    dataObject.listWorker[position].name = bindingDialogWorker.name.toString()
-                    dataObject.listWorker[position].age = bindingDialogWorker.age!!.toInt()
-                    mWorkerAdapter.notifyItemChanged(position)
-                    dialog.dismiss()
-                }
-                */
             }
 
             override fun onLongClick(view: View, position: Int): Boolean {
