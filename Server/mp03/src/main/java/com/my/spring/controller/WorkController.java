@@ -38,6 +38,7 @@ public class WorkController {
 		System.out.println("TimeStart\t| " + newWorkerInfo.getTimeStart());
 		System.out.println("TimeEnd\t\t| " + newWorkerInfo.getTimeEnd());
 		System.out.println("Payment\t\t| " + newWorkerInfo.getPayment());
+		System.out.println("id_branch\t|\t" + id_branch);
 		return service.createWorkerInfo(newWorkerInfo, id_branch);
 	}
 	

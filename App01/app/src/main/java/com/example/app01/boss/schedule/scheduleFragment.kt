@@ -364,7 +364,7 @@ class scheduleFragment : Fragment() {
 
     fun defaultSetting(position : Int) {
         // Default Setting
-        setWorkerByPosition(position)
+        (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
         dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id)
         dataObject.selectWorker.datesWork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id).keys.toMutableList()
         binding.currentBranch = dataObject.selectBranch.title

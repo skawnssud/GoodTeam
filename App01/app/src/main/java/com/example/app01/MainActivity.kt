@@ -158,8 +158,17 @@ class MainActivity : AppCompatActivity() {
 
     fun createWorker(newWorkerInfo: WorkerInfo, id_branch: Int) : Boolean {
         var success = false
+        var id = id_branch
+        if (id == 0) {
+            var th = Thread(Runnable {
+                id = mRetrofitAPI.getIdBranch(dataObject.selectBranch.title, dataObject.selectUser.id).execute().body()!!
+            })
+            th.start()
+            th.join()
+            dataObject.selectBranch.id = id
+        }
         var thread = Thread(Runnable {
-            success = mRetrofitAPI.createWorkerInfo(newWorkerInfo, id_branch).execute().body()!!
+            success = mRetrofitAPI.createWorkerInfo(newWorkerInfo, id).execute().body()!!
         })
         thread.start()
         thread.join()

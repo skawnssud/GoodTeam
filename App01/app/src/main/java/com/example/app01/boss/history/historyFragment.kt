@@ -27,7 +27,6 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 class historyFragment : Fragment(), OnBackPressedListener {
     private lateinit var binding : FragmentHistoryBinding
     private lateinit var mBranchAdapter : branchAdapter
-    private lateinit var mWorkerViewAdapter: workerViewAdapter
     var mBackWait:Long = 0
 
     override fun onCreateView(
@@ -62,8 +61,6 @@ class historyFragment : Fragment(), OnBackPressedListener {
                     dataObject.listWorker = (activity as MainActivity).getWorkersByIdBranch(select.id)
                     binding.table0to11.removeAllViewsInLayout()
                     binding.table12to23.removeAllViewsInLayout()
-                    mWorkerViewAdapter.setItems(dataObject.listWorkerView)
-                    binding.RvWorkers.adapter = mWorkerViewAdapter
                     dialog.cancel()
                 }
             }
