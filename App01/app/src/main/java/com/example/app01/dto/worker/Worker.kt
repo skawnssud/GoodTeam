@@ -1,5 +1,6 @@
 package com.example.app01.dto.worker
 
+import com.example.app01.dto.workerview.WorkerView
 import com.prolificinteractive.materialcalendarview.CalendarDay
 
 class Worker {

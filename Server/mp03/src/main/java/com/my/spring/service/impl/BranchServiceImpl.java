@@ -36,8 +36,8 @@ public class BranchServiceImpl implements BranchService {
 	}
 
 	@Override
-	public Boolean deleteBranch(BranchVO target) {
-		return mapper.deleteBranch(target);
+	public Boolean deleteBranch(int id_branch) {
+		return mapper.deleteBranch(id_branch);
 	}
 
 	@Override

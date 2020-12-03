@@ -12,7 +12,7 @@ import com.example.app01.dto.User
 import com.example.app01.dto.worker.Work
 import com.example.app01.dto.worker.Worker
 import com.example.app01.dto.worker.WorkerInfo
-import com.example.app01.dto.worker.WorkerView
+import com.example.app01.dto.workerview.WorkerView
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,16 +28,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initServer()
-        for (i in 0..5) {
-            var newOne : itemAnnouncement = itemAnnouncement(i,i,"Announcement " + i,"Description Test " + i,false)
-            dataObject.listAnnouncement.add(newOne)
-        }
-        for (i in 1..5) {
-            var newOne : itemJob = itemJob("Job test " + i)
-            newOne.pay = i * 1000
-            dataObject.listJob.add(newOne)
-        }
-
         val binding  = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val navController = this.findNavController(R.id.myNavHostFragment)
 
@@ -53,7 +43,6 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create()).build()
         mRetrofitAPI = mRetrofit.create(retrofitAPI::class.java)
     }
-
     fun getRetrofitAPI() : retrofitAPI {
         return mRetrofitAPI
     }
@@ -125,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     fun deleteBranch(target : Branch) : Boolean {
         var success = false
         var deleteBranch = Thread(Runnable {
-            success = mRetrofitAPI.deleteBranch(target).execute().body()!!
+            success = mRetrofitAPI.deleteBranch(target.id).execute().body()!!
         })
         deleteBranch.start()
         deleteBranch.join()

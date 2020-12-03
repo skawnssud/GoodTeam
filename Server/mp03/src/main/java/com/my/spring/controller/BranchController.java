@@ -56,9 +56,9 @@ public class BranchController {
 		return service.createBranch(newBranch);
 	}
 	
-	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public Boolean deleteBranch(@RequestBody BranchVO target) {
-		return service.deleteBranch(target);
+	@RequestMapping(value = "/{id_branch}", method = RequestMethod.DELETE)
+	public Boolean deleteBranch(@PathVariable int id_branch) {
+		return service.deleteBranch(id_branch);
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.PUT)

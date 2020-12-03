@@ -19,14 +19,14 @@ import com.example.app01.databinding.FragmentManagementBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchRAdapter
 import com.example.app01.dto.worker.WorkerInfo
-import com.example.app01.dto.worker.workerAdapter
+import com.example.app01.dto.workerview.workerViewAdapter
 
 class managementFragment : Fragment() {
     private lateinit var binding : FragmentManagementBinding
     private lateinit var bindingDialogBranch : DialogBranchCreationBinding
     private lateinit var bindingDialogWorker : DialogWorkerCreationBinding
     private lateinit var bindingDialogDelete : DialogDeleteConfirmBinding
-    private lateinit var mWorkerAdapter: workerAdapter
+    private lateinit var mWorkerViewAdapter: workerViewAdapter
     private lateinit var mBranchAdapter : branchRAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,38 +48,47 @@ class managementFragment : Fragment() {
         binding.currentBranch = dataObject.selectBranch.title
 
         // RecyclerView for workers
-        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext(), object : workerAdapter.ItemClickListener {
-            override fun onClick(view: View, position: Int) {
-            }
-
-            override fun onLongClick(view: View, position: Int): Boolean {
-                if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
-                    val dialog = AlertDialog.Builder(requireContext()).create()
-                    bindingDialogDelete = DataBindingUtil.inflate(inflater,
-                        R.layout.dialog_delete_confirm, container, false)
-                    dialog.setView(bindingDialogDelete.root)
-                    dialog.show()
-                    bindingDialogDelete.title = "Are you sure to delete this worker?"
-                    bindingDialogDelete.textWarn = "It can't be recovered once you delete."
-                    bindingDialogDelete.buttonCancel.setOnClickListener {
-                        dialog.cancel()
-                    }
-                    bindingDialogDelete.buttonConfirm.setOnClickListener {
-                        (activity as MainActivity).deleteWorkerInfo(dataObject.listWorkerView[position].id, dataObject.selectBranch.id)
-                        dataObject.listWorkerView.remove(dataObject.listWorkerView[position])
-                        mWorkerAdapter.setItems(dataObject.listWorkerView)
-                        binding.RvWorkers.adapter = mWorkerAdapter
-                        dialog.dismiss()
-                    }
-                } else {
-                    (activity as MainActivity).alertToast("It is yourself.")
+        mWorkerViewAdapter = workerViewAdapter(
+            dataObject.listWorkerView,
+            requireContext(),
+            object :
+                workerViewAdapter.ItemClickListener {
+                override fun onClick(view: View, position: Int) {
                 }
 
-                return true
-            }
+                override fun onLongClick(view: View, position: Int): Boolean {
+                    if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
+                        val dialog = AlertDialog.Builder(requireContext()).create()
+                        bindingDialogDelete = DataBindingUtil.inflate(
+                            inflater,
+                            R.layout.dialog_delete_confirm, container, false
+                        )
+                        dialog.setView(bindingDialogDelete.root)
+                        dialog.show()
+                        bindingDialogDelete.title = "Are you sure to delete this worker?"
+                        bindingDialogDelete.textWarn = "It can't be recovered once you delete."
+                        bindingDialogDelete.buttonCancel.setOnClickListener {
+                            dialog.cancel()
+                        }
+                        bindingDialogDelete.buttonConfirm.setOnClickListener {
+                            (activity as MainActivity).deleteWorkerInfo(
+                                dataObject.listWorkerView[position].id,
+                                dataObject.selectBranch.id
+                            )
+                            dataObject.listWorkerView.remove(dataObject.listWorkerView[position])
+                            mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                            binding.RvWorkers.adapter = mWorkerViewAdapter
+                            dialog.dismiss()
+                        }
+                    } else {
+                        (activity as MainActivity).alertToast("It is yourself.")
+                    }
 
-        })
-        binding.RvWorkers.adapter = mWorkerAdapter
+                    return true
+                }
+
+            })
+        binding.RvWorkers.adapter = mWorkerViewAdapter
         var snapHelper1 : PagerSnapHelper = PagerSnapHelper()
         snapHelper1.attachToRecyclerView(binding.RvWorkers)
 
@@ -91,8 +100,8 @@ class managementFragment : Fragment() {
                 dataObject.selectBranch = select
                 binding.currentBranch = select.title
                 (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
-                mWorkerAdapter.setItems(dataObject.listWorkerView)
-                binding.RvWorkers.adapter = mWorkerAdapter
+                mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                binding.RvWorkers.adapter = mWorkerViewAdapter
             }
 
             // Long Click
@@ -112,6 +121,14 @@ class managementFragment : Fragment() {
                 bindingDialogBranch.buttonConfirm.setOnClickListener {
                     dataObject.listBranch[position].title = bindingDialogBranch.title.toString()
                     (activity as MainActivity).modifyBranch(target)
+                    mBranchAdapter.notifyItemChanged(position)
+                    dialog.dismiss()
+                }
+                bindingDialogBranch.buttonDelete.setOnClickListener {
+                    (activity as MainActivity).deleteBranch(
+                        dataObject.listBranch[position])
+                    dataObject.listBranch.remove(
+                        dataObject.listBranch[position])
                     mBranchAdapter.notifyItemChanged(position)
                     dialog.dismiss()
                 }
@@ -162,8 +179,8 @@ class managementFragment : Fragment() {
                     newWorkerInfo.id_worker = newWorker.id
                     (activity as MainActivity).createWorker(newWorkerInfo, dataObject.selectBranch.id)
                     (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
-                    mWorkerAdapter.setItems(dataObject.listWorkerView)
-                    binding.RvWorkers.adapter = mWorkerAdapter
+                    mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                    binding.RvWorkers.adapter = mWorkerViewAdapter
                     dialog.dismiss()
                 } else {
                     (activity as MainActivity).alertToast("Invalid account. Please check again.")

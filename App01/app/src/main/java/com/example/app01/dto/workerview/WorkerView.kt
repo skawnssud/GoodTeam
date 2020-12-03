@@ -1,4 +1,6 @@
-package com.example.app01.dto.worker
+package com.example.app01.dto.workerview
+
+import com.example.app01.dto.worker.Worker
 
 class WorkerView {
     // id_worker

@@ -26,7 +26,7 @@
 	</select>
 	
 	<delete id="deleteBranch" parameterType="com.my.spring.domain.BranchVO">
-		DELETE FROM BRANCH WHERE ID_BOSS = #{target.id_boss} and TITLE = #{target.title}
+		DELETE FROM BRANCH WHERE ID = #{id_branch}
 	</delete>
 	
 	<update id="modifyBranch" parameterType="com.my.spring.domain.BranchVO">

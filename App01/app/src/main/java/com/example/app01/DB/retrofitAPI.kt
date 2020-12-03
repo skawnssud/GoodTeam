@@ -4,7 +4,7 @@ import com.example.app01.dto.User
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.worker.Work
 import com.example.app01.dto.worker.WorkerInfo
-import com.example.app01.dto.worker.WorkerView
+import com.example.app01.dto.workerview.WorkerView
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -31,8 +31,8 @@ interface retrofitAPI {
     @POST("/spring/branch")
     fun createBranch(@Body newBranch : Branch) : Call<Boolean>
 
-    @DELETE("/spring/branch")
-    fun deleteBranch(@Body target : Branch) : Call<Boolean>
+    @DELETE("/spring/branch/{id_branch}")
+    fun deleteBranch(@Path("id_branch") id_branch: Int) : Call<Boolean>
 
     @PUT("/spring/branch")
     fun modifyBranch(@Body newBranch : Branch) : Call<Boolean>

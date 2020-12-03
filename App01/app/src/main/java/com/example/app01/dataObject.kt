@@ -1,6 +1,6 @@
 package com.example.app01
 
-import com.example.app01.dto.worker.WorkerView
+import com.example.app01.dto.workerview.WorkerView
 import com.example.app01.dto.User
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.worker.Worker
@@ -16,5 +16,6 @@ object dataObject {
     var selectBranch : Branch = Branch()
     var selectWorker: Worker = Worker()
     var selectWorkerInfo : WorkerInfo = WorkerInfo()
-    var selectRelation : WorkerView = WorkerView()
+    var selectRelation : WorkerView =
+        WorkerView()
 }

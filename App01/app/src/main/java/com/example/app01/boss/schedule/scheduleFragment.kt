@@ -2,7 +2,6 @@ package com.example.app01.boss.schedule
 
 import android.app.AlertDialog
 import android.app.TimePickerDialog
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,21 +21,16 @@ import com.example.app01.databinding.DialogWorkerCreationBinding
 import com.example.app01.databinding.FragmentScheduleBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchAdapter
-import com.example.app01.dto.worker.Work
-import com.example.app01.dto.worker.Worker
 import com.example.app01.dto.worker.WorkerInfo
-import com.example.app01.dto.worker.workerAdapter
+import com.example.app01.dto.workerview.workerViewAdapter
 import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.CalendarMode
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import kotlinx.android.synthetic.main.dialog_branch_selection.view.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 class scheduleFragment : Fragment() {
     private lateinit var binding: FragmentScheduleBinding
     private lateinit var bindingDialogWorker : DialogWorkerCreationBinding
-    private lateinit var mWorkerAdapter: workerAdapter
+    private lateinit var mWorkerViewAdapter: workerViewAdapter
     private lateinit var mBranchAdapter: branchAdapter
     private var modifyOn: Boolean = false
     private var activateRangeListener : Boolean = true
@@ -74,25 +68,30 @@ class scheduleFragment : Fragment() {
                     binding.currentBranch = select.title
                     dataObject.selectBranch = select
                     (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
-                    mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext(), object : workerAdapter.ItemClickListener {
-                        // When Click Worker
-                        override fun onClick(view: View, position: Int) {
-                            if (modifyOn == false) {
-                                defaultSetting(position)
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Modification is on process. please finish.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
+                    mWorkerViewAdapter =
+                        workerViewAdapter(
+                            dataObject.listWorkerView,
+                            requireContext(),
+                            object :
+                                workerViewAdapter.ItemClickListener {
+                                // When Click Worker
+                                override fun onClick(view: View, position: Int) {
+                                    if (modifyOn == false) {
+                                        defaultSetting(position)
+                                    } else {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Modification is on process. please finish.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
 
-                        override fun onLongClick(view: View, position: Int) : Boolean {
-                            return true
-                        }
-                    })
-                    binding.RvWorkers.adapter = mWorkerAdapter
+                                override fun onLongClick(view: View, position: Int): Boolean {
+                                    return true
+                                }
+                            })
+                    binding.RvWorkers.adapter = mWorkerViewAdapter
                     defaultSetting(0)
                     dialog.dismiss()
                 }
@@ -111,51 +110,60 @@ class scheduleFragment : Fragment() {
         }
 
         // Worker Recyclerview
-        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext(), object : workerAdapter.ItemClickListener {
-            // When Click Worker
-            override fun onClick(view: View, position: Int) {
-                if (modifyOn == false) {
-                    defaultSetting(position)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Modification is on process. please finish.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            override fun onLongClick(view: View, position: Int) : Boolean {
-                if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
-                    setWorkerByPosition(position)
-                    val dialog = AlertDialog.Builder(requireContext()).create()
-                    bindingDialogWorker = DataBindingUtil.inflate(inflater,
-                        R.layout.dialog_worker_creation, container, false)
-                    dialog.setView(bindingDialogWorker.root)
-                    dialog.show()
-                    bindingDialogWorker.inputName= "Hourly wage"
-                    bindingDialogWorker.account = dataObject.listWorkerView[position].wage.toString()
-                    bindingDialogWorker.buttonCancel.setOnClickListener {
-                        dialog.cancel()
-                    }
-                    bindingDialogWorker.buttonConfirm.setOnClickListener {
-                        dataObject.selectWorkerInfo.payment = bindingDialogWorker.account!!.toString().toInt()
-                        dataObject.listWorkerView[position].wage = bindingDialogWorker.account!!.toString().toInt()
-                        (activity as MainActivity).modifyWorkerInfo(dataObject.selectWorkerInfo)
-                        mWorkerAdapter.setItems(dataObject.listWorkerView)
+        mWorkerViewAdapter = workerViewAdapter(
+            dataObject.listWorkerView,
+            requireContext(),
+            object :
+                workerViewAdapter.ItemClickListener {
+                // When Click Worker
+                override fun onClick(view: View, position: Int) {
+                    if (modifyOn == false) {
                         defaultSetting(position)
-                        binding.RvWorkers.adapter = mWorkerAdapter
-                        dialog.dismiss()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Modification is on process. please finish.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                } else {
-                    (activity as MainActivity).alertToast("It is yourself.")
                 }
 
-                return true
-            }
-        })
-        mWorkerAdapter.setOption(1)
-        binding.RvWorkers.adapter = mWorkerAdapter
+                override fun onLongClick(view: View, position: Int): Boolean {
+                    if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
+                        setWorkerByPosition(position)
+                        val dialog = AlertDialog.Builder(requireContext()).create()
+                        bindingDialogWorker = DataBindingUtil.inflate(
+                            inflater,
+                            R.layout.dialog_worker_creation, container, false
+                        )
+                        dialog.setView(bindingDialogWorker.root)
+                        dialog.show()
+                        bindingDialogWorker.inputName = "Hourly wage"
+                        bindingDialogWorker.account =
+                            dataObject.listWorkerView[position].wage.toString()
+                        bindingDialogWorker.buttonCancel.setOnClickListener {
+                            dialog.cancel()
+                        }
+                        bindingDialogWorker.buttonConfirm.setOnClickListener {
+                            dataObject.selectWorkerInfo.payment =
+                                bindingDialogWorker.account!!.toString().toInt()
+                            dataObject.listWorkerView[position].wage =
+                                bindingDialogWorker.account!!.toString().toInt()
+                            (activity as MainActivity).modifyWorkerInfo(dataObject.selectWorkerInfo)
+                            mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                            defaultSetting(position)
+                            binding.RvWorkers.adapter = mWorkerViewAdapter
+                            dialog.dismiss()
+                        }
+                    } else {
+                        (activity as MainActivity).alertToast("It is yourself.")
+                    }
+
+                    return true
+                }
+            })
+        mWorkerViewAdapter.setOption(1)
+        binding.RvWorkers.adapter = mWorkerViewAdapter
         var snapHelper: PagerSnapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.RvWorkers)
 

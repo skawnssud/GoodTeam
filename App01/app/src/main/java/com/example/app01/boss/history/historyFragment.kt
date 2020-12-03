@@ -11,10 +11,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TableRow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.app01.MainActivity
 import com.example.app01.R
 import com.example.app01.dataObject
@@ -23,13 +21,13 @@ import com.example.app01.databinding.FragmentHistoryBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchAdapter
 import com.example.app01.dto.worker.Work
-import com.example.app01.dto.worker.workerAdapter
+import com.example.app01.dto.workerview.workerViewAdapter
 import com.prolificinteractive.materialcalendarview.CalendarDay
 
 class historyFragment : Fragment() {
     private lateinit var binding : FragmentHistoryBinding
     private lateinit var mBranchAdapter : branchAdapter
-    private lateinit var mWorkerAdapter: workerAdapter
+    private lateinit var mWorkerViewAdapter: workerViewAdapter
     private lateinit var temp : ArrayList<Work>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,11 +60,8 @@ class historyFragment : Fragment() {
                     dataObject.listWorker = (activity as MainActivity).getWorkersByIdBranch(select.id)
                     binding.table0to11.removeAllViewsInLayout()
                     binding.table12to23.removeAllViewsInLayout()
-                    mWorkerAdapter.setItems(dataObject.listWorkerView)
-                    temp = ArrayList<Work>()
-                    temp.addAll(dataObject.selectWorker.infowork.values)
-                    mWorkerAdapter.setListWork(temp)
-                    binding.RvWorkers.adapter = mWorkerAdapter
+                    mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                    binding.RvWorkers.adapter = mWorkerViewAdapter
                     dialog.cancel()
                 }
             }
@@ -87,22 +82,6 @@ class historyFragment : Fragment() {
         binding.Cv.setOnDateChangedListener { widget, date, selected ->
             drawTimeTable(date)
         }
-
-        // Worker List
-        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext(), object : workerAdapter.ItemClickListener {
-            override fun onClick(view: View, position: Int) {
-            }
-            override fun onLongClick(view: View, position: Int): Boolean {
-                return true
-            }
-        })
-        mWorkerAdapter.setOption(2)
-        temp = ArrayList<Work>()
-        temp.addAll(dataObject.selectWorker.infowork.values)
-        mWorkerAdapter.setListWork(temp)
-        binding.RvWorkers.adapter = mWorkerAdapter
-        var snapHelper1 : PagerSnapHelper = PagerSnapHelper()
-        snapHelper1.attachToRecyclerView(binding.RvWorkers)
 
         return binding.root
     }

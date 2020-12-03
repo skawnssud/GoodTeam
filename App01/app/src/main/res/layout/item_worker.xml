@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.example.app01.dto.worker.WorkerView"/>
+        <import type="com.example.app01.dto.workerview.WorkerView"/>
 
         <variable
             name="value"
-            type="WorkerView" />
+            type="com.example.app01.dto.workerview.WorkerView" />
         <variable
             name="wage"
             type="String" />
