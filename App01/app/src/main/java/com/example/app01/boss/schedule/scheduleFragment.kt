@@ -18,6 +18,7 @@ import com.example.app01.MainActivity
 import com.example.app01.R
 import com.example.app01.dataObject
 import com.example.app01.databinding.DialogDateModificationBinding
+import com.example.app01.databinding.DialogWorkerCreationBinding
 import com.example.app01.databinding.FragmentScheduleBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchAdapter
@@ -34,6 +35,7 @@ import kotlin.collections.ArrayList
 
 class scheduleFragment : Fragment() {
     private lateinit var binding: FragmentScheduleBinding
+    private lateinit var bindingDialogWorker : DialogWorkerCreationBinding
     private lateinit var mWorkerAdapter: workerAdapter
     private lateinit var mBranchAdapter: branchAdapter
     private var modifyOn: Boolean = false
@@ -124,32 +126,38 @@ class scheduleFragment : Fragment() {
             }
 
             override fun onLongClick(view: View, position: Int) : Boolean {
+                if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
+                    setWorkerByPosition(position)
+                    val dialog = AlertDialog.Builder(requireContext()).create()
+                    bindingDialogWorker = DataBindingUtil.inflate(inflater,
+                        R.layout.dialog_worker_creation, container, false)
+                    dialog.setView(bindingDialogWorker.root)
+                    dialog.show()
+                    bindingDialogWorker.inputName= "Hourly wage"
+                    bindingDialogWorker.account = dataObject.listWorkerView[position].wage.toString()
+                    bindingDialogWorker.buttonCancel.setOnClickListener {
+                        dialog.cancel()
+                    }
+                    bindingDialogWorker.buttonConfirm.setOnClickListener {
+                        dataObject.selectWorkerInfo.payment = bindingDialogWorker.account!!.toString().toInt()
+                        dataObject.listWorkerView[position].wage = bindingDialogWorker.account!!.toString().toInt()
+                        (activity as MainActivity).modifyWorkerInfo(dataObject.selectWorkerInfo)
+                        mWorkerAdapter.setItems(dataObject.listWorkerView)
+                        defaultSetting(position)
+                        binding.RvWorkers.adapter = mWorkerAdapter
+                        dialog.dismiss()
+                    }
+                } else {
+                    (activity as MainActivity).alertToast("It is yourself.")
+                }
+
                 return true
             }
         })
+        mWorkerAdapter.setOption(1)
         binding.RvWorkers.adapter = mWorkerAdapter
         var snapHelper: PagerSnapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.RvWorkers)
-
-        /**
-        mWorkerAdapter.setItemClickListener(object : workerAdapter.ItemClickListener {
-            override fun onClick(view: View, position: Int) {
-                if (modifyOn == false) {
-                    defaultSetting(position)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Modification is on process. please finish.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            override fun onLongClick(view: View, position: Int) : Boolean {
-                return true
-            }
-        })
-        */
 
         // Time picker
         binding.textTimeStart.setOnClickListener {
@@ -348,11 +356,7 @@ class scheduleFragment : Fragment() {
 
     fun defaultSetting(position : Int) {
         // Default Setting
-        dataObject.selectWorker.setWorker(
-            (activity as MainActivity)
-                .getWorkerInfo(dataObject.listWorkerView[position].id, dataObject.selectBranch.id), dataObject.listWorkerView[position]
-        )
-        dataObject.selectWorkerInfo.setWorkerInfo(dataObject.selectWorker)
+        setWorkerByPosition(position)
         dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id)
         dataObject.selectWorker.datesWork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id).keys.toMutableList()
         binding.currentBranch = dataObject.selectBranch.title
@@ -360,6 +364,14 @@ class scheduleFragment : Fragment() {
         binding.timeStart = dataObject.selectWorker.timeStart
         binding.timeEnd = dataObject.selectWorker.timeEnd
         paintCalander(dataObject.selectWorker.datesWork)
+    }
+
+    fun setWorkerByPosition(position : Int) {
+        dataObject.selectWorker.setWorker(
+            (activity as MainActivity)
+                .getWorkerInfo(dataObject.listWorkerView[position].id, dataObject.selectBranch.id), dataObject.listWorkerView[position]
+        )
+        dataObject.selectWorkerInfo.setWorkerInfo(dataObject.selectWorker)
     }
 
     // Marking current selection dates on Calender

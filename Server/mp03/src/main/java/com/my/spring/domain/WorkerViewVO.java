@@ -2,7 +2,7 @@ package com.my.spring.domain;
 
 public class WorkerViewVO {
 	// id = id_worker
-	int id, age;
+	int id, age, wage;
 	String name;
 	public int getId() {
 		return id;
@@ -21,6 +21,12 @@ public class WorkerViewVO {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public int getWage() {
+		return wage;
+	}
+	public void setWage(int wage) {
+		this.wage = wage;
 	}
 
 }

@@ -82,6 +82,7 @@ public class WorkController {
 	@RequestMapping(value = "/work", method = RequestMethod.PUT)
 	public Boolean modifyWork(@RequestBody WorkVO work) {
 		System.out.println("::modifyWork::");
+		System.out.println("payment\t|\t" + work.getPayment());
 		System.out.println("id_workerInfo\t|\t" + work.getId_workerInfo());
 		System.out.println("TimeStart\t|\t" + work.getTimeStart());
 		System.out.println("TimeEnd\t|\t" + work.getTimeEnd());

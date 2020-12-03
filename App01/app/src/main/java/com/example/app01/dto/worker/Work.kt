@@ -22,7 +22,7 @@ class Work {
         hour -= spliter[0].toInt()
         minute -= spliter[1].toInt()
         if (spliter[1].toInt() < 10) {
-            timeStart = spliter[0] + ":0" + spliter[1]
+            timeStart = spliter[0].toInt().toString() + ":0" + spliter[1].toInt().toString()
         }
         if (minute < 0) {
             minute = 60 + minute

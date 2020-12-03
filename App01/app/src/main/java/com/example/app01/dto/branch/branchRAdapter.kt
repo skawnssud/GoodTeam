@@ -10,17 +10,16 @@ import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 
 class branchRAdapter(
-    var listBranch: ArrayList<Branch>, val context: Context
+    var listBranch: ArrayList<Branch>, val context: Context, var itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<branchViewHolder>() {
 
     interface ItemClickListener {
         fun onClick(view : View, position : Int)
         fun onLongClick(view : View, position : Int) : Boolean
     }
-    private lateinit var itemClickListener: ItemClickListener
 
-    fun setItemClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListener = itemClickListener
+    fun setItems( newItems : ArrayList<Branch>) {
+        listBranch = newItems
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): branchViewHolder {

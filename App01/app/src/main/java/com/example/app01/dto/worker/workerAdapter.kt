@@ -12,9 +12,15 @@ class workerAdapter(
     var listWorker: ArrayList<WorkerView>, val context: Context, var itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<workerViewHolder>() {
 
+    private var option : Int = 0
+
     interface ItemClickListener {
         fun onClick(view : View, position : Int)
         fun onLongClick(view : View, position : Int) : Boolean
+    }
+
+    fun setOption(option : Int) {
+        this.option = option
     }
 
     fun setItems(newItems : ArrayList<WorkerView>) {
@@ -37,6 +43,9 @@ class workerAdapter(
         }
         holder.itemView.setOnLongClickListener {
             itemClickListener!!.onLongClick(it, position)
+        }
+        if (option != 0) {
+            holder.setUsage(option)
         }
         holder.bind(listWorker[position], context)
     }

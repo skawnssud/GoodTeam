@@ -148,9 +148,8 @@ class MainActivity : AppCompatActivity() {
             })
             getViews2.start()
             getViews2.join()
-        } else {
-            dataObject.listWorkerView = list
         }
+        dataObject.listWorkerView = list
     }
 
     fun createWorker(newWorkerInfo: WorkerInfo, id_branch: Int) : Boolean {
@@ -162,6 +161,7 @@ class MainActivity : AppCompatActivity() {
         thread.join()
         var newWorkerView = WorkerView()
         newWorkerView.id = newWorkerInfo.id_worker
+        newWorkerView.wage = newWorkerInfo.payment
         newWorkerView.name = dataObject.selectUser.name
         newWorkerView.age = dataObject.selectUser.age
         dataObject.listWorkerView.add(newWorkerView)
@@ -203,6 +203,11 @@ class MainActivity : AppCompatActivity() {
         })
         thread.start()
         thread.join()
+        var target = getWorksByIdWorkerInfo(workerInfo.id)
+        target.forEach { calendarDay, work ->
+            work.payment = workerInfo.payment
+            modifyWork(work)
+        }
         return result
     }
 

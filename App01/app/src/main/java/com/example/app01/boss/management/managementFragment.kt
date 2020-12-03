@@ -80,47 +80,9 @@ class managementFragment : Fragment() {
         binding.RvWorkers.adapter = mWorkerAdapter
         var snapHelper1 : PagerSnapHelper = PagerSnapHelper()
         snapHelper1.attachToRecyclerView(binding.RvWorkers)
-        /**
-        mWorkerAdapter.setItemClickListener(object : workerAdapter.ItemClickListener {
-            override fun onClick(view: View, position: Int) {
-            }
-
-            override fun onLongClick(view: View, position: Int): Boolean {
-                if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
-                    val dialog = AlertDialog.Builder(requireContext()).create()
-                    bindingDialogDelete = DataBindingUtil.inflate(inflater,
-                        R.layout.dialog_delete_confirm, container, false)
-                    dialog.setView(bindingDialogDelete.root)
-                    dialog.show()
-                    bindingDialogDelete.title = "Are you sure to delete this worker?"
-                    bindingDialogDelete.textWarn = "It can't be recovered once you delete."
-                    bindingDialogDelete.buttonCancel.setOnClickListener {
-                        dialog.cancel()
-                    }
-                    bindingDialogDelete.buttonConfirm.setOnClickListener {
-                        (activity as MainActivity).deleteWorkerInfo(dataObject.listWorkerView[position].id, dataObject.selectBranch.id)
-                        dataObject.listWorkerView.remove(dataObject.listWorkerView[position])
-                        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
-                        binding.RvWorkers.adapter = mWorkerAdapter
-                        dialog.dismiss()
-                    }
-                } else {
-                    (activity as MainActivity).alertToast("It is yourself.")
-                }
-
-                return true
-            }
-
-        })
-        */
 
         // RecyclerView for Branches
-        mBranchAdapter = branchRAdapter(dataObject.listBranch, requireContext())
-        binding.RvBranches.adapter = mBranchAdapter
-        var snapHelper2 : PagerSnapHelper = PagerSnapHelper()
-        snapHelper2.attachToRecyclerView(binding.RvBranches)
-        // Click event
-        mBranchAdapter.setItemClickListener( object : branchRAdapter.ItemClickListener {
+        mBranchAdapter = branchRAdapter(dataObject.listBranch, requireContext(), object : branchRAdapter.ItemClickListener {
             // Click
             override fun onClick(view: View, position: Int) {
                 var select = dataObject.listBranch[position]
@@ -153,6 +115,9 @@ class managementFragment : Fragment() {
                 return true
             }
         })
+        binding.RvBranches.adapter = mBranchAdapter
+        var snapHelper2 : PagerSnapHelper = PagerSnapHelper()
+        snapHelper2.attachToRecyclerView(binding.RvBranches)
 
         // Add new Branch
         binding.addBranch.setOnClickListener {

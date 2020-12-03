@@ -22,6 +22,7 @@ import com.example.app01.databinding.FragmentHistoryBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchAdapter
 import com.example.app01.dto.worker.workerAdapter
+import com.prolificinteractive.materialcalendarview.CalendarDay
 
 class historyFragment : Fragment() {
     private lateinit var binding : FragmentHistoryBinding
@@ -55,6 +56,7 @@ class historyFragment : Fragment() {
                     dataObject.selectBranch = select
                     (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
                     dataObject.listWorker = (activity as MainActivity).getWorkersByIdBranch(select.id)
+                    createTimeTableFrame()
                     dialog.cancel()
                 }
             }
@@ -73,89 +75,95 @@ class historyFragment : Fragment() {
 
         // When Select Calender
         binding.Cv.setOnDateChangedListener { widget, date, selected ->
-            // Create frame for time table
-            binding.table0to11.removeAllViewsInLayout()
-            var tableRow : TableRow = TableRow(requireContext())
-            tableRow.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            val newText : TextView = TextView(requireContext())
-            newText.width = 100
-            newText.setBackgroundResource(R.drawable.back_03)
-            newText.gravity = Gravity.CENTER
-            newText.setText("name")
-            tableRow.addView(newText)
-            for (count in 0..11) {
-                val newText : TextView = TextView(requireContext())
-                newText.setBackgroundResource(R.drawable.back_03)
-                newText.gravity = Gravity.CENTER
-                newText.setText(count.toString())
-                tableRow.addView(newText)
-            }
-            binding.table12to23.removeAllViewsInLayout()
-            var tableRow2 : TableRow = TableRow(requireContext())
-            tableRow2.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            val newText2 : TextView = TextView(requireContext())
-            newText2.width = 100
-            newText2.setBackgroundResource(R.drawable.back_03)
-            newText2.gravity = Gravity.CENTER
-            newText2.setText("name")
-            tableRow2.addView(newText2)
-            for (count in 12..23) {
-                val newText : TextView = TextView(requireContext())
-                newText.gravity = Gravity.CENTER
-                newText.setText(count.toString())
-                tableRow2.addView(newText)
-            }
-            binding.table12to23.addView(tableRow2)
-            binding.table0to11.addView(tableRow)
-
-
-            dataObject.listWorker.forEach {
-                // Calculating blanks we have to paint
-                var hourStart : Int = 0
-                var minStart : Int = 0
-                var hourEnd : Int = 0
-                var minEnd : Int = 0
-                if (it.datesWork.contains(date)) {
-                    hourStart = it.infowork[date]!!.timeStart.split(":")[0].toInt()
-                    minStart = it.infowork[date]!!.timeStart.split(":")[1].toInt()
-                    hourEnd = it.infowork[date]!!.timeEnd.split(":")[0].toInt()
-                    minEnd = it.infowork[date]!!.timeEnd.split(":")[1].toInt()
-                }
-                // Paint target blanks in timetable
-                var tableRow : TableRow = TableRow(requireContext())
-                tableRow.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                val newText : TextView = TextView(requireContext())
-                newText.setBackgroundResource(R.drawable.back_03)
-                newText.gravity = Gravity.CENTER
-                newText.setText(it.name)
-                tableRow.addView(newText)
-                for (count in 0..11) {
-                    val newText : TextView = TextView(requireContext())
-                    if ((hourStart..hourEnd).contains(count)) {
-                        newText.setBackgroundColor(Color.parseColor("#47ff8f"))
-                    }
-                    tableRow.addView(newText)
-                }
-                binding.table0to11.addView(tableRow)
-
-                var tableRow2 : TableRow = TableRow(requireContext())
-                tableRow2.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                val newText2 : TextView = TextView(requireContext())
-                newText2.setBackgroundResource(R.drawable.back_03)
-                newText2.gravity = Gravity.CENTER
-                newText2.setText(it.name)
-                tableRow2.addView(newText2)
-                for (count in 12..23) {
-                    val newText : TextView = TextView(requireContext())
-                    if ((hourStart..hourEnd).contains(count)) {
-                        newText.setBackgroundColor(Color.parseColor("#47ff8f"))
-                    }
-                    tableRow2.addView(newText)
-                }
-                binding.table12to23.addView(tableRow2)
-            }
+            drawTimeTable(date)
         }
 
         return binding.root
+    }
+
+    // Create frame for time table
+    fun createTimeTableFrame() {
+        binding.table0to11.removeAllViewsInLayout()
+        var tableRow : TableRow = TableRow(requireContext())
+        tableRow.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val newText : TextView = TextView(requireContext())
+        newText.width = 100
+        newText.setBackgroundResource(R.drawable.back_03)
+        newText.gravity = Gravity.CENTER
+        newText.setText("name")
+        tableRow.addView(newText)
+        for (count in 0..11) {
+            val newText : TextView = TextView(requireContext())
+            newText.setBackgroundResource(R.drawable.back_03)
+            newText.gravity = Gravity.CENTER
+            newText.setText(count.toString())
+            tableRow.addView(newText)
+        }
+        binding.table12to23.removeAllViewsInLayout()
+        var tableRow2 : TableRow = TableRow(requireContext())
+        tableRow2.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val newText2 : TextView = TextView(requireContext())
+        newText2.width = 100
+        newText2.setBackgroundResource(R.drawable.back_03)
+        newText2.gravity = Gravity.CENTER
+        newText2.setText("name")
+        tableRow2.addView(newText2)
+        for (count in 12..23) {
+            val newText : TextView = TextView(requireContext())
+            newText.gravity = Gravity.CENTER
+            newText.setText(count.toString())
+            tableRow2.addView(newText)
+        }
+        binding.table12to23.addView(tableRow2)
+        binding.table0to11.addView(tableRow)
+    }
+
+    fun drawTimeTable(date : CalendarDay) {
+        createTimeTableFrame()
+        dataObject.listWorker.forEach {
+            // Calculating blanks we have to paint
+            var hourStart : Int = 0
+            var minStart : Int = 0
+            var hourEnd : Int = 0
+            var minEnd : Int = 0
+            if (it.datesWork.contains(date)) {
+                hourStart = it.infowork[date]!!.timeStart.split(":")[0].toInt()
+                minStart = it.infowork[date]!!.timeStart.split(":")[1].toInt()
+                hourEnd = it.infowork[date]!!.timeEnd.split(":")[0].toInt()
+                minEnd = it.infowork[date]!!.timeEnd.split(":")[1].toInt()
+            }
+            // Paint target blanks in timetable
+            var tableRow : TableRow = TableRow(requireContext())
+            tableRow.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val newText : TextView = TextView(requireContext())
+            newText.setBackgroundResource(R.drawable.back_03)
+            newText.gravity = Gravity.CENTER
+            newText.setText(it.name)
+            tableRow.addView(newText)
+            for (count in 0..11) {
+                val newText : TextView = TextView(requireContext())
+                if ((hourStart..hourEnd).contains(count)) {
+                    newText.setBackgroundColor(Color.parseColor("#47ff8f"))
+                }
+                tableRow.addView(newText)
+            }
+            binding.table0to11.addView(tableRow)
+
+            var tableRow2 : TableRow = TableRow(requireContext())
+            tableRow2.layoutParams = TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val newText2 : TextView = TextView(requireContext())
+            newText2.setBackgroundResource(R.drawable.back_03)
+            newText2.gravity = Gravity.CENTER
+            newText2.setText(it.name)
+            tableRow2.addView(newText2)
+            for (count in 12..23) {
+                val newText : TextView = TextView(requireContext())
+                if ((hourStart..hourEnd).contains(count)) {
+                    newText.setBackgroundColor(Color.parseColor("#47ff8f"))
+                }
+                tableRow2.addView(newText)
+            }
+            binding.table12to23.addView(tableRow2)
+        }
     }
 }

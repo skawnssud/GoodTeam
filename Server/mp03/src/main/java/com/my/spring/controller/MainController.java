@@ -73,6 +73,10 @@ public class MainController {
 		System.out.println("::getWorkerViewByIdBranch::");
 		System.out.println("id_branch\t|\t" + id_branch);
 		System.out.println();
+		List<WorkerViewVO> result = userService.getWorkerViewByIdBranch(id_branch);
+		for (WorkerViewVO one : result) {
+			System.out.println(one.getWage());
+		}
 		return userService.getWorkerViewByIdBranch(id_branch);
 	}
 	

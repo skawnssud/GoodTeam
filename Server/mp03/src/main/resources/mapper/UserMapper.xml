@@ -11,7 +11,7 @@
 	</select>
 	
 	<select id="getWorkerViewByIdBranch" resultType="com.my.spring.domain.WorkerViewVO" parameterType="int">
-		SELECT A.ID, A.NAME, A.AGE 
+		SELECT A.ID, A.NAME, A.AGE, S.PAYMENT AS WAGE
 		FROM USERINFO A, WORKERINFO S
 		WHERE S.ID_BRANCH = #{id_branch}
 		AND A.ID = S.ID_WORKER

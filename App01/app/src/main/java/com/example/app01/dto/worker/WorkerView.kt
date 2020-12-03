@@ -5,9 +5,11 @@ class WorkerView {
     var id : Int = 0
     var name : String = ""
     var age : Int = 0
+    var wage : Int = 0
 
     fun setWorkerView(worker : Worker) {
         name = worker.name
         age = worker.age
+        wage = worker.payment
     }
 }
