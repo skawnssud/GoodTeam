@@ -146,8 +146,11 @@ class historyFragment : Fragment(), OnBackPressedListener {
             tableRow.addView(newText)
             for (count in 0..11) {
                 val newText : TextView = TextView(requireContext())
-                if ((hourStart..hourEnd).contains(count)) {
-                    newText.setBackgroundColor(Color.parseColor("#47ff8f"))
+                if (hourStart == 0 && hourEnd == 0) {
+                } else {
+                    if ((hourStart..hourEnd).contains(count)) {
+                        newText.setBackgroundColor(Color.parseColor("#47ff8f"))
+                    }
                 }
                 tableRow.addView(newText)
             }

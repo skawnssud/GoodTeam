@@ -170,7 +170,7 @@ class managementFragment : Fragment() {
             }
         }
 
-        // Add new Worker to timetable
+        // Add new Worker to current branch
         binding.addWorker.setOnClickListener {
             val dialog = AlertDialog.Builder(requireContext()).create()
             bindingDialogWorker = DataBindingUtil.inflate(inflater,
@@ -186,13 +186,26 @@ class managementFragment : Fragment() {
                     (activity as MainActivity).searchUserByAccount(bindingDialogWorker.account.toString())
                 // If account correct
                 if (newWorker.account != "allowed") {
-                    var newWorkerInfo = WorkerInfo()
-                    newWorkerInfo.id_worker = newWorker.id
-                    (activity as MainActivity).createWorker(newWorkerInfo, dataObject.selectBranch.id)
-                    (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
-                    mWorkerViewAdapter.setItems(dataObject.listWorkerView)
-                    binding.RvWorkers.adapter = mWorkerViewAdapter
-                    dialog.dismiss()
+                    // if role is apparently worker
+                    var isWorker = 1 == newWorker.role
+                    var notDupl = true
+                    dataObject.listWorkerView.forEach {
+                        // If duplicated
+                        if (it.id == newWorker.id) {
+                            notDupl = false
+                        }
+                    }
+                    if (notDupl && isWorker) {
+                        var newWorkerInfo = WorkerInfo()
+                        newWorkerInfo.id_worker = newWorker.id
+                        (activity as MainActivity).createWorker(newWorkerInfo, dataObject.selectBranch.id)
+                        (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
+                        mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                        binding.RvWorkers.adapter = mWorkerViewAdapter
+                        dialog.dismiss()
+                    } else {
+                        (activity as MainActivity).alertToast("Invalid account. Please check again.")
+                    }
                 } else {
                     (activity as MainActivity).alertToast("Invalid account. Please check again.")
                 }
