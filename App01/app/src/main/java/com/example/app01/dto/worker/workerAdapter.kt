@@ -13,6 +13,7 @@ class workerAdapter(
 ) : RecyclerView.Adapter<workerViewHolder>() {
 
     private var option : Int = 0
+    private var listWork : ArrayList<Work> = ArrayList<Work>()
 
     interface ItemClickListener {
         fun onClick(view : View, position : Int)
@@ -21,6 +22,9 @@ class workerAdapter(
 
     fun setOption(option : Int) {
         this.option = option
+    }
+    fun setListWork(work : ArrayList<Work>) {
+        this.listWork = work
     }
 
     fun setItems(newItems : ArrayList<WorkerView>) {
@@ -44,8 +48,14 @@ class workerAdapter(
         holder.itemView.setOnLongClickListener {
             itemClickListener!!.onLongClick(it, position)
         }
-        if (option != 0) {
-            holder.setUsage(option)
+        when (option) {
+            1 -> {
+                holder.setUsage(option)
+            }
+            2 -> {
+                holder.setUsage(option)
+                holder.setWork(listWork[position])
+            }
         }
         holder.bind(listWorker[position], context)
     }

@@ -256,7 +256,7 @@ class scheduleFragment : Fragment() {
                     //Deactivate
                     modifyOn = false
                     binding.Cv.selectionMode = MaterialCalendarView.SELECTION_MODE_NONE
-                    binding.buttonModify.setBackgroundResource(R.drawable.write_half_blue_01)
+                    binding.buttonModify.setBackgroundResource(R.drawable.write_half_red_01)
                     paintCalander(dataObject.selectWorker.datesWork)
                 }
             }

@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Top bar -->
         <LinearLayout
             android:id="@+id/bannerTop"
             android:layout_width="match_parent"
@@ -74,6 +75,7 @@
             android:layout_weight="1"
             android:background="@drawable/back_01">
 
+            <!-- Center contents -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -83,13 +85,14 @@
                     android:id="@+id/Cv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
                     android:orientation="horizontal"
                     app:mcv_selectionMode="single"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    app:mcv_tileHeight="35dp"/>
+                    app:mcv_tileHeight="35dp" />
 
+                <!-- time table -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -102,8 +105,8 @@
                         android:id="@+id/table_0to11"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:stretchColumns="*"
                         android:background="@drawable/back_03"
+                        android:stretchColumns="*"
                         app:layout_constraintTop_toTopOf="parent">
 
                     </TableLayout>
@@ -112,16 +115,34 @@
                         android:id="@+id/table_12to23"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:stretchColumns="*"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/back_03"
+                        android:stretchColumns="*"
                         app:layout_constraintTop_toBottomOf="@id/table_0to11">
+
                     </TableLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Wage notification -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/RvWorkers"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
             </LinearLayout>
         </ScrollView>
 
+        <!-- Bottome bar -->
 
         <LinearLayout
             android:layout_width="match_parent"

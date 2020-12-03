@@ -45,6 +45,8 @@ class managementFragment : Fragment() {
             it.findNavController().navigate(R.id.action_managementFragment_to_infoFragment)
         }
 
+        binding.currentBranch = dataObject.selectBranch.title
+
         // RecyclerView for workers
         mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext(), object : workerAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
@@ -87,6 +89,7 @@ class managementFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 var select = dataObject.listBranch[position]
                 dataObject.selectBranch = select
+                binding.currentBranch = select.title
                 (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
                 mWorkerAdapter.setItems(dataObject.listWorkerView)
                 binding.RvWorkers.adapter = mWorkerAdapter

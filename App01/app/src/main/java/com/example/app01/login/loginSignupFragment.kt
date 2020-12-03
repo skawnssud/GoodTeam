@@ -68,7 +68,7 @@ class loginSignupFragment : Fragment() {
         searchUserByAccount.start()
         searchUserByAccount.join()
 
-        if (checkVar.account == "init") {
+        if (checkVar.account == "allowed") {
             var thread = Thread(Runnable {
                 result = (activity as MainActivity).getRetrofitAPI().createAccount(newUser).execute().body()!!
             })
