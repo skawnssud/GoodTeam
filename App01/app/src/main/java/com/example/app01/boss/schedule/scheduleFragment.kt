@@ -37,6 +37,7 @@ class scheduleFragment : Fragment() {
     private lateinit var mWorkerAdapter: workerAdapter
     private lateinit var mBranchAdapter: branchAdapter
     private var modifyOn: Boolean = false
+    private var activateRangeListener : Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -229,12 +230,16 @@ class scheduleFragment : Fragment() {
 
         // Save selected dates to target worker
         binding.Cv.setOnRangeSelectedListener { widget, dates ->
-            dataObject.selectWorker.datesWork.clear()
-            dataObject.selectWorker.datesWork.addAll(dates)
-            // Delete all works -> Create works
-            (activity as MainActivity).deleteWorkByIdWorkInfo(dataObject.selectWorkerInfo.id)
-            (activity as MainActivity).createWork(dataObject.selectWorkerInfo, dates)
-            dataObject.selectWorker.infowork.clear()
+            if (activateRangeListener) {
+                dataObject.selectWorker.datesWork.clear()
+                dataObject.selectWorker.datesWork.addAll(dates)
+                // Delete all works -> Create works
+                (activity as MainActivity).deleteWorkByIdWorkInfo(dataObject.selectWorkerInfo.id)
+                (activity as MainActivity).createWork(dataObject.selectWorkerInfo, dates)
+                dataObject.selectWorker.infowork.clear()
+            } else {
+
+            }
             // 선택 날짜들 한땀한땀 집어넣기
             /**
             for (date in dates) {
@@ -339,6 +344,8 @@ class scheduleFragment : Fragment() {
                 .getWorkerInfo(dataObject.listWorkerView[position].id, dataObject.selectBranch.id), dataObject.listWorkerView[position]
         )
         dataObject.selectWorkerInfo.setWorkerInfo(dataObject.selectWorker)
+        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id)
+        dataObject.selectWorker.datesWork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id).keys.toMutableList()
         binding.currentBranch = dataObject.selectBranch.title
         binding.currentWorker = dataObject.selectWorker.name
         binding.timeStart = dataObject.selectWorker.timeStart
@@ -350,7 +357,9 @@ class scheduleFragment : Fragment() {
     fun paintCalander(dates: List<CalendarDay>) {
         binding.Cv.clearSelection()
         if (dates.size != 0) {
+            activateRangeListener = false
             binding.Cv.selectRange(dates[0], dates[dates.size - 1])
+            activateRangeListener = true
         }
     }
 

@@ -41,8 +41,9 @@
 	
 	<select id="getWorkByIdWorkerInfo" resultType="com.my.spring.domain.WorkVO" parameterType="int">
 		SELECT * 
-		FROM WORKERINFO
-		WHERE ID = #{id_workerinfo}
+		FROM WORK
+		WHERE ID_WORKERINFO = #{id_workerinfo}
+		ORDER BY DATEWORK DESC
 	</select>
 	
 	<insert id="createWorkByIdWorkerInfo" parameterType="com.my.spring.domain.WorkVO">

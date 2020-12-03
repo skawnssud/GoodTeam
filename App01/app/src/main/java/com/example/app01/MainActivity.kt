@@ -247,7 +247,9 @@ class MainActivity : AppCompatActivity() {
         thread.start()
         thread.join()
         temp.forEach {
-            print(it.dateWork)
+            var cut = it.dateWork.split("-")
+            var calendarDay = CalendarDay.from(cut[0].toInt(), cut[1].toInt(), cut[2].toInt())
+            result[calendarDay] = it
         }
         return result
     }

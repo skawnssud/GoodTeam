@@ -2,7 +2,7 @@ package com.example.app01.dto.worker
 
 class Work {
     var id = 0
-    var id_workerinfo: Int = 0
+    var id_workerInfo: Int = 0
     var timeStart: String = ""
     var timeEnd: String= ""
     var payment : Int = 8590
@@ -26,7 +26,7 @@ class Work {
     }
 
     fun setFromWorkerInfo(workerInfo: WorkerInfo) {
-        id_workerinfo = workerInfo.id
+        id_workerInfo = workerInfo.id
         timeStart = workerInfo.timeStart
         timeEnd = workerInfo.timeEnd
         payment = workerInfo.payment
