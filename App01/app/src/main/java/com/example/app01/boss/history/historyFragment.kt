@@ -34,6 +34,7 @@ class historyFragment : Fragment() {
             R.layout.fragment_history, container, false)
         // Default Setting
         binding.currentBranch = dataObject.selectBranch.title
+        dataObject.listWorker = (activity as MainActivity).getWorkersByIdBranch(dataObject.selectBranch.id)
 
         // Branch Selection
         binding.selectionBranch.setOnClickListener {
