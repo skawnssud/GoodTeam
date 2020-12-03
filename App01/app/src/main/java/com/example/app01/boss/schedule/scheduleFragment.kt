@@ -204,14 +204,16 @@ class scheduleFragment : Fragment() {
         binding.buttonModify.setOnClickListener {
             if (!dataObject.selectWorker.name.equals("name")) {
                 if (modifyOn == false) {
+                    // Activate
                     modifyOn = true
                     binding.Cv.selectionMode = MaterialCalendarView.SELECTION_MODE_RANGE
-                    binding.buttonModify.setBackgroundColor(Color.RED)
+                    binding.buttonModify.setBackgroundResource(R.drawable.write_half_green_01)
                     paintCalander(dataObject.selectWorker.datesWork)
                 } else {
+                    //Deactivate
                     modifyOn = false
                     binding.Cv.selectionMode = MaterialCalendarView.SELECTION_MODE_NONE
-                    binding.buttonModify.setBackgroundColor(Color.parseColor("#488bff"))
+                    binding.buttonModify.setBackgroundResource(R.drawable.write_half_blue_01)
                     paintCalander(dataObject.selectWorker.datesWork)
                 }
             }
@@ -229,30 +231,6 @@ class scheduleFragment : Fragment() {
             } else {
 
             }
-            // 선택 날짜들 한땀한땀 집어넣기
-            /**
-            for (date in dates) {
-                var newWork : Work = Work()
-                newWork.id_worker = dataObject.selectWorker.id
-                newWork.timeStart = dataObject.selectWorker.timeStart
-                newWork.timeEnd = dataObject.selectWorker.timeEnd
-                dataObject.selectWorker.infowork[date] = newWork
-            }
-            for (ind in 0..dataObject.listWorker.size - 1) {
-                if (dataObject.listWorker[ind].id.equals(dataObject.selectWorker.id)) {
-                    dataObject.listWorker[ind].datesWork.clear()
-                    dataObject.listWorker[ind].datesWork.addAll(dates)
-                    dataObject.listWorker[ind].infowork.clear()
-                    for (date in dates) {
-                        var newWork : Work = Work()
-                        newWork.id_worker = dataObject.listWorker[ind].id
-                        newWork.timeStart = dataObject.listWorker[ind].timeStart
-                        newWork.timeEnd = dataObject.listWorker[ind].timeEnd
-                        dataObject.listWorker[ind].infowork[date] = newWork
-                    }
-                }
-            }
-            */
         }
 
         // Dialog for each date available
