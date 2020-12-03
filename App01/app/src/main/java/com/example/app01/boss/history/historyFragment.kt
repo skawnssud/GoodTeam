@@ -15,26 +15,28 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.app01.MainActivity
 import com.example.app01.R
+import com.example.app01.custominterface.OnBackPressedListener
 import com.example.app01.dataObject
 import com.example.app01.databinding.DialogBranchSelectionBinding
 import com.example.app01.databinding.FragmentHistoryBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchAdapter
-import com.example.app01.dto.worker.Work
 import com.example.app01.dto.workerview.workerViewAdapter
 import com.prolificinteractive.materialcalendarview.CalendarDay
 
-class historyFragment : Fragment() {
+class historyFragment : Fragment(), OnBackPressedListener {
     private lateinit var binding : FragmentHistoryBinding
     private lateinit var mBranchAdapter : branchAdapter
     private lateinit var mWorkerViewAdapter: workerViewAdapter
-    private lateinit var temp : ArrayList<Work>
+    var mBackWait:Long = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_history, container, false)
+
         // Default Setting
         binding.currentBranch = dataObject.selectBranch.title
         dataObject.listWorker = (activity as MainActivity).getWorkersByIdBranch(dataObject.selectBranch.id)
@@ -170,5 +172,15 @@ class historyFragment : Fragment() {
             }
             binding.table12to23.addView(tableRow2)
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        (activity as MainActivity).alertToast("Press back button one more if you want to terminate app.")
+        if(System.currentTimeMillis() - mBackWait >=2000 ) {
+            mBackWait = System.currentTimeMillis()
+        } else {
+            (activity as MainActivity).finish()
+        }
+        return true
     }
 }

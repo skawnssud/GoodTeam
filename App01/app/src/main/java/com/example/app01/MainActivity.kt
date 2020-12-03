@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.app01.DB.retrofitAPI
+import com.example.app01.custominterface.OnBackPressedListener
 import com.example.app01.databinding.ActivityMainBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.User
@@ -24,14 +25,26 @@ import kotlin.collections.HashMap
 class MainActivity : AppCompatActivity() {
     private lateinit var mRetrofit: Retrofit
     private lateinit var mRetrofitAPI: retrofitAPI
+    private lateinit var binding : ActivityMainBinding
+    var mBackWait:Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initServer()
-        val binding  = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding  = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navController = this.findNavController(R.id.myNavHostFragment)
 
     }
+
+    override fun onBackPressed() {
+        alertToast("Press back button one more if you want to terminate app.")
+        if(System.currentTimeMillis() - mBackWait >=2000 ) {
+            mBackWait = System.currentTimeMillis()
+        } else {
+            finish()
+        }
+    }
+
     fun getCurrentYear(): Int = Calendar.getInstance().get(Calendar.YEAR)
     fun getCurrentMonth(): Int = Calendar.getInstance().get(Calendar.MONTH) + 1
     fun getCurrentDay(): Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
