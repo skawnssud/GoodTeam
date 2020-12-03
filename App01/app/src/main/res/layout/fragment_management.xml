@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".boss.management.managementFragment">
 
+    <data>
+        <variable
+            name="currentBranch"
+            type="String" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/staticBanner"
@@ -36,11 +42,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="MANAGEMENT"
                     android:textSize="30dp" />
+
+                <TextView
+                    android:id="@+id/textBranch"
+                    style="@style/textWhite18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:text="@{currentBranch}" />
             </LinearLayout>
 
             <ImageView

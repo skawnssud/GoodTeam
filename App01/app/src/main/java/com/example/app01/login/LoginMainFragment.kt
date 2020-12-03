@@ -33,7 +33,9 @@ class LoginMainFragment : Fragment() {
         binding.buttonLogin.setOnClickListener {
             // Check id~pw validation
             var check: Boolean = false
-            if (binding.id != null || binding.pw != null || binding.id == "" || binding.pw == "") {
+            if (binding.id != null || binding.pw != null
+                || binding.id == "" || binding.pw == ""
+                || binding.id!!.contains("\\") || binding.pw!!.contains("\\")) {
                 var thread = Thread(Runnable {
                     check =
                         (activity as MainActivity).getRetrofitAPI().checkValidation(binding.id.toString(), binding.pw.toString())
