@@ -46,10 +46,41 @@ class managementFragment : Fragment() {
         }
 
         // RecyclerView for workers
-        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
+        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext(), object : workerAdapter.ItemClickListener {
+            override fun onClick(view: View, position: Int) {
+            }
+
+            override fun onLongClick(view: View, position: Int): Boolean {
+                if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
+                    val dialog = AlertDialog.Builder(requireContext()).create()
+                    bindingDialogDelete = DataBindingUtil.inflate(inflater,
+                        R.layout.dialog_delete_confirm, container, false)
+                    dialog.setView(bindingDialogDelete.root)
+                    dialog.show()
+                    bindingDialogDelete.title = "Are you sure to delete this worker?"
+                    bindingDialogDelete.textWarn = "It can't be recovered once you delete."
+                    bindingDialogDelete.buttonCancel.setOnClickListener {
+                        dialog.cancel()
+                    }
+                    bindingDialogDelete.buttonConfirm.setOnClickListener {
+                        (activity as MainActivity).deleteWorkerInfo(dataObject.listWorkerView[position].id, dataObject.selectBranch.id)
+                        dataObject.listWorkerView.remove(dataObject.listWorkerView[position])
+                        mWorkerAdapter.setItems(dataObject.listWorkerView)
+                        binding.RvWorkers.adapter = mWorkerAdapter
+                        dialog.dismiss()
+                    }
+                } else {
+                    (activity as MainActivity).alertToast("It is yourself.")
+                }
+
+                return true
+            }
+
+        })
         binding.RvWorkers.adapter = mWorkerAdapter
         var snapHelper1 : PagerSnapHelper = PagerSnapHelper()
         snapHelper1.attachToRecyclerView(binding.RvWorkers)
+        /**
         mWorkerAdapter.setItemClickListener(object : workerAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
             }
@@ -81,6 +112,7 @@ class managementFragment : Fragment() {
             }
 
         })
+        */
 
         // RecyclerView for Branches
         mBranchAdapter = branchRAdapter(dataObject.listBranch, requireContext())
@@ -94,7 +126,7 @@ class managementFragment : Fragment() {
                 var select = dataObject.listBranch[position]
                 dataObject.selectBranch = select
                 (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
-                mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
+                mWorkerAdapter.setItems(dataObject.listWorkerView)
                 binding.RvWorkers.adapter = mWorkerAdapter
             }
 
@@ -162,7 +194,7 @@ class managementFragment : Fragment() {
                     newWorkerInfo.id_worker = newWorker.id
                     (activity as MainActivity).createWorker(newWorkerInfo, dataObject.selectBranch.id)
                     (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
-                    mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
+                    mWorkerAdapter.setItems(dataObject.listWorkerView)
                     binding.RvWorkers.adapter = mWorkerAdapter
                     dialog.dismiss()
                 } else {

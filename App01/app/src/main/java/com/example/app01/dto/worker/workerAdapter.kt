@@ -9,17 +9,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class workerAdapter(
-    var listWorker: ArrayList<WorkerView>, val context: Context
+    var listWorker: ArrayList<WorkerView>, val context: Context, var itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<workerViewHolder>() {
 
     interface ItemClickListener {
         fun onClick(view : View, position : Int)
         fun onLongClick(view : View, position : Int) : Boolean
     }
-    private var itemClickListener: ItemClickListener? = null
 
-    fun setItemClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListener = itemClickListener
+    fun setItems(newItems : ArrayList<WorkerView>) {
+        listWorker = newItems
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): workerViewHolder {

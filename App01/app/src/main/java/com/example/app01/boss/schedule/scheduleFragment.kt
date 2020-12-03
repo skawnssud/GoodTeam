@@ -72,7 +72,24 @@ class scheduleFragment : Fragment() {
                     binding.currentBranch = select.title
                     dataObject.selectBranch = select
                     (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
-                    mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
+                    mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext(), object : workerAdapter.ItemClickListener {
+                        // When Click Worker
+                        override fun onClick(view: View, position: Int) {
+                            if (modifyOn == false) {
+                                defaultSetting(position)
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Modification is on process. please finish.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
+                        override fun onLongClick(view: View, position: Int) : Boolean {
+                            return true
+                        }
+                    })
                     binding.RvWorkers.adapter = mWorkerAdapter
                     defaultSetting(0)
                     dialog.dismiss()
@@ -92,12 +109,29 @@ class scheduleFragment : Fragment() {
         }
 
         // Worker Recyclerview
-        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext())
+        mWorkerAdapter = workerAdapter(dataObject.listWorkerView, requireContext(), object : workerAdapter.ItemClickListener {
+            // When Click Worker
+            override fun onClick(view: View, position: Int) {
+                if (modifyOn == false) {
+                    defaultSetting(position)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Modification is on process. please finish.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onLongClick(view: View, position: Int) : Boolean {
+                return true
+            }
+        })
         binding.RvWorkers.adapter = mWorkerAdapter
         var snapHelper: PagerSnapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.RvWorkers)
 
-        // When Click Worker
+        /**
         mWorkerAdapter.setItemClickListener(object : workerAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
                 if (modifyOn == false) {
@@ -115,6 +149,7 @@ class scheduleFragment : Fragment() {
                 return true
             }
         })
+        */
 
         // Time picker
         binding.textTimeStart.setOnClickListener {
