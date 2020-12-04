@@ -8,12 +8,11 @@ import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.workerdetail.WorkerDetail
 
 object dataObject {
-    var listAnnouncement : ArrayList<itemAnnouncement> = ArrayList<itemAnnouncement>()
-    var listJob : ArrayList<itemJob> = ArrayList<itemJob>()
     var listWorker : ArrayList<Worker> = ArrayList<Worker>()
     var listBranch : ArrayList<Branch> = ArrayList<Branch>()
     var listWorkerView : ArrayList<WorkerView> = ArrayList()
     var listWorkerDetail : ArrayList<WorkerDetail> = ArrayList()
+    var listWorkerInfo : ArrayList<WorkerInfo> = ArrayList()
     var selectUser : User = User()
     var selectBranch : Branch = Branch()
     var selectWorker: Worker = Worker()

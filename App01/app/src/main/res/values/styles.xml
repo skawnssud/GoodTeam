@@ -28,7 +28,7 @@
 
     <style name="item01">
         <item name="android:background">@drawable/item_01</item>
-        <item name="android:elevation">4dp</item>
+        <item name="android:elevation">8dp</item>
     </style>
 
     <style name="item02">

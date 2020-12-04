@@ -356,5 +356,38 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getWorkerInfoByIdWorker(id_worker: Int) : ArrayList<WorkerInfo> {
+        var result = ArrayList<WorkerInfo>()
+        var thread = Thread(Runnable {
+            result = (mRetrofitAPI.getWorkerInfoByIdWorker(id_worker).execute().body() as ArrayList<WorkerInfo>?)!!
+        })
+        thread.start()
+        thread.join()
+        return result
+    }
+
+    fun getBranchByIdBranch(id_branch : Int) : Branch {
+        var result = Branch()
+        var thread = Thread(Runnable {
+            result = mRetrofitAPI.getBranchByIdBranch(id_branch).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+        return result
+    }
+
+    fun getBranches(position : Int) {
+        dataObject.selectBranch = dataObject.listBranch[position]
+        dataObject.selectWorkerInfo = dataObject.listWorkerInfo[position]
+        var options = getWorkersByIdBranch(dataObject.selectBranch.id)
+        options.forEach {
+            if (it.id_workerInfo == dataObject.selectWorkerInfo.id) {
+                dataObject.selectWorker = it
+            }
+        }
+        dataObject.selectWorker.infowork = getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id)
+        dataObject.selectWorker.datesWork = dataObject.selectWorker.infowork.keys.toMutableList()
+    }
+
 
 }

@@ -14,4 +14,5 @@ public interface BranchService {
 	public Boolean deleteBranch(int id_branch);
 	public Boolean modifyBranch(@Param("newBranch") BranchVO newBranch);
 	public int getIdBranch(String title, int id_boss);
+	public BranchVO getBranchByIdBranch(int id_branch);
 }

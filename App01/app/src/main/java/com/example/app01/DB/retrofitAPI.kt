@@ -44,6 +44,12 @@ interface retrofitAPI {
     @GET("/spring/work/{id_worker}/{id_branch}")
     fun searchWorkerInfoByIdWorker(@Path("id_worker") id_worker : Int, @Path("id_branch") id_branch : Int) : Call<WorkerInfo>
 
+    @GET("/spring/work/info/{id_worker}")
+    fun getWorkerInfoByIdWorker(@Path("id_worker") id_worker: Int) : Call<List<WorkerInfo>>
+
+    @GET("/spring/branch/{id_branch}")
+    fun getBranchByIdBranch(@Path("id_branch") id_branch: Int) : Call<Branch>
+
     @POST("/spring/work/{id_branch}")
     fun createWorkerInfo(@Body newWorkerInfo : WorkerInfo, @Path("id_branch") id_branch : Int) : Call<Boolean>
 
@@ -79,5 +85,9 @@ interface retrofitAPI {
 
     @GET("/spring/work/detail/{id_workerInfo}")
     fun getWorkerDetailByIdWorkerInfo(@Path("id_workerInfo") id_workerinfo: Int) : Call<WorkerDetail>
+
+
+
+
 
 }

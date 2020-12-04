@@ -3,7 +3,7 @@
 <mapper namespace="com.my.spring.mapper.WorkMapper">
 	
 	<select id="searchWorkerInfoByIdWorker" resultType="com.my.spring.domain.WorkerInfoVO" parameterType="int">
-	  SELECT A.ID, A.ID_WORKER, A.TIMESTART, A.TIMEEND, A.PAYMENT 
+	  SELECT A.ID, A.ID_WORKER, A.ID_BRANCH A.TIMESTART, A.TIMEEND, A.PAYMENT 
 	  FROM WORKERINFO A
 	  WHERE A.id_worker = #{id_worker}
 	  AND A.ID_BRANCH = #{id_branch} 
@@ -44,6 +44,11 @@
 		FROM WORK
 		WHERE ID_WORKERINFO = #{id_workerinfo}
 		ORDER BY DATEWORK DESC
+	</select>
+	
+	<select id="getWorkerInfosByIdWorker" parameterType="Int" resultType="com.my.spring.domain.WorkerInfoVO">
+		SELECT * FROM WORKERINFO
+		WHERE ID_WORKER = #{id_worker}
 	</select>
 	
 	<insert id="createWorkByIdWorkerInfo" parameterType="com.my.spring.domain.WorkVO">

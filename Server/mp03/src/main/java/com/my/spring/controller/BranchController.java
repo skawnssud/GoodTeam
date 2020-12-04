@@ -61,6 +61,12 @@ public class BranchController {
 		return service.deleteBranch(id_branch);
 	}
 	
+	@RequestMapping(value="/{id_branch}", method = RequestMethod.GET)
+	public BranchVO getBranchByIdBranch(@PathVariable int id_branch) {
+		System.out.println("::getBranchByIdBranch:: "+id_branch);
+		return service.getBranchByIdBranch(id_branch);
+	}
+	
 	@RequestMapping(value = "", method = RequestMethod.PUT)
 	public Boolean modifyBranch(@RequestBody BranchVO newBranch) {
 		return service.modifyBranch(newBranch);

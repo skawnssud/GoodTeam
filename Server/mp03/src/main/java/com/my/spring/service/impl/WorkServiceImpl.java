@@ -79,6 +79,12 @@ public class WorkServiceImpl implements WorkService {
 		// TODO Auto-generated method stub
 		return mapper.getWorkerDetailByIdWorkerInfo(id_workerInfo);
 	}
+
+	@Override
+	public List<WorkerInfoVO> getWorkerInfosByIdWorker(int id_worker) {
+		// TODO Auto-generated method stub
+		return mapper.getWorkerInfosByIdWorker(id_worker);
+	}
 	
 	
 

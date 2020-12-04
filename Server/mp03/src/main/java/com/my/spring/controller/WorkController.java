@@ -104,6 +104,11 @@ public class WorkController {
 		return service.getWorkersByIdBranch(id_branch);
 	}
 	
+	@RequestMapping(value = "/info/{id_worker}")
+	public List<WorkerInfoVO> getWorkerInfoByIdWorker(@PathVariable ("id_worker") int id_worker) {
+		return service.getWorkerInfosByIdWorker(id_worker);
+	}
+	
 	@RequestMapping(value = "/detail", method = RequestMethod.POST)
 	public Boolean createWorkerDetail(@RequestBody WorkerDetailVO item) {
 		System.out.println("::createWorkerDetail::");

@@ -21,4 +21,5 @@ public interface WorkMapper {
 	public Boolean createWorkerDetail(@Param("item") WorkerDetailVO item);
 	public Boolean modifyWorkerDetail(@Param("item") WorkerDetailVO item);
 	public WorkerDetailVO getWorkerDetailByIdWorkerInfo(@Param("id_workerInfo") int id_workerInfo);
+	public List<WorkerInfoVO> getWorkerInfosByIdWorker(@Param("id_worker") int id_worker);
 }

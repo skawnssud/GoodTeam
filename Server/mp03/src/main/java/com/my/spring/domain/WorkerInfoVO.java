@@ -1,7 +1,7 @@
 package com.my.spring.domain;
 
 public class WorkerInfoVO {
-	int id, id_worker, payment;
+	int id, id_worker, payment, id_branch;
 	String timeStart, timeEnd;
 
 	public int getId() {
@@ -41,6 +41,14 @@ public class WorkerInfoVO {
 
 	public void setTimeEnd(String timeEnd) {
 		this.timeEnd = timeEnd;
+	}
+
+	public int getId_branch() {
+		return id_branch;
+	}
+
+	public void setId_branch(int id_branch) {
+		this.id_branch = id_branch;
 	}
 
 }

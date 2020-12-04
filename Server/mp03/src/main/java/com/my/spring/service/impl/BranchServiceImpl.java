@@ -50,4 +50,10 @@ public class BranchServiceImpl implements BranchService {
 		return mapper.getIdBranch(title, id_boss);
 	}
 
+	@Override
+	public BranchVO getBranchByIdBranch(int id_branch) {
+		// TODO Auto-generated method stub
+		return mapper.getBranchByIdBranch(id_branch);
+	}
+
 }
