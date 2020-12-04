@@ -13,5 +13,6 @@ public interface BranchMapper {
 	public List<BranchVO> searchByIdBoss(int id_boss);
 	public Boolean deleteBranch(int id_branch);
 	public Boolean modifyBranch(@Param("newBranch") BranchVO newBranch);
-	public int getIdBranch(@Param("target") BranchVO target);
+	public int getIdBranch(@Param("title") String title, @Param("id_boss") int id_boss);
+	public BranchVO getBranchByIdBranch(@Param("id_branch") int id_branch);
 }

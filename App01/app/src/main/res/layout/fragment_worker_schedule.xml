@@ -3,92 +3,391 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="currentBranch"
+            type="String" />
+        <variable
+            name="wage"
+            type="String" />
+        <variable
+            name="attendence"
+            type="String" />
+        <variable
+            name="absence"
+            type="String" />
+        <variable
+            name="timeNormal"
+            type="String" />
+        <variable
+            name="timeFull"
+            type="String" />
+        <variable
+            name="timeNight"
+            type="String" />
+        <variable
+            name="wageNormal"
+            type="String" />
+        <variable
+            name="wageFull"
+            type="String" />
+        <variable
+            name="wageNight"
+            type="String" />
+        <variable
+            name="timeTotal"
+            type="String" />
+        <variable
+            name="wageTotal"
+            type="String" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        <!-- Top bar -->
+        <LinearLayout
+            android:id="@+id/bannerTop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
-            app:umanoDragView="@id/layoutFilter"
-            app:umanoPanelHeight="15dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/item01">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutMain"
+            <ImageView
+                android:id="@+id/imageLogo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="left"
+                android:src="@drawable/logo_half_blue_01" />
+
+            <LinearLayout
+                android:id="@+id/selectionBranch"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/listAnnouncement"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <CalendarView
-                    android:id="@+id/calSchedule"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/listAnnouncement" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutFilter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/buttonRise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/button_onoff_indicator_on"
-                    android:layout_margin="5dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/textAdd"
+                    android:id="@+id/staticBanner"
+                    style="@style/textBlack18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add new job"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:textSize="30dp"
-                    app:layout_constraintLeft_toRightOf="@id/buttonAdd"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/listJobs" />
+                    android:text="SCHEDULE"
+                    />
 
-                <Button
-                    android:id="@+id/buttonAdd"
+                <TextView
+                    android:id="@+id/textBranch"
+                    style="@style/textBlack14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/textAdd"
-                    app:layout_constraintTop_toBottomOf="@id/listJobs" />
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@{currentBranch}" />
+            </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/listJobs"
-                    android:layout_width="360dp"
+            <ImageView
+                android:id="@+id/imageAlarm"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="right"
+                android:src="@drawable/icon_alarm_blue" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/back_03">
+
+            <!-- Center contents -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/CvSchedule"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/buttonRise">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal"
+                    app:mcv_selectionMode="none"
+                    app:mcv_tileHeight="35dp">
 
-                </androidx.recyclerview.widget.RecyclerView>
+                </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- time table -->
+                <LinearLayout
+                    android:id="@+id/layoutCalendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layoutCheck">
+
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                        android:id="@+id/CvAttendence"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="2.5"
+                        android:orientation="horizontal"
+                        app:mcv_selectionMode="none"
+                        app:mcv_tileHeight="20dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/staticCommute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Attendence"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/textCommute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{attendence}"
+                            android:textColor="#488bff" />
+
+                        <TextView
+                            android:id="@+id/staticAbsence"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Absence"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/textAbsence"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{absence}"
+                            android:textColor="#fd5865" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutWage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/layoutCalendar">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/staticNormal"
+                                    style="@style/textBlack12"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="Basic payment" />
+
+                                <TextView
+                                    android:id="@+id/textTimeNormal"
+                                    style="@style/textBlack12"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@{timeNormal}" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textView10"
+                                style="@style/textBlack14"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="@{wageNormal}" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/staticFull"
+                                    style="@style/textBlack12"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="Full time payment" />
+
+                                <TextView
+                                    android:id="@+id/textTimeFull"
+                                    style="@style/textBlack12"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@{timeFull}" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textWageFull"
+                                style="@style/textBlack14"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="@{wageFull}" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/staticNight2"
+                                    style="@style/textBlack12"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="Night time payment" />
+
+                                <TextView
+                                    android:id="@+id/textTimeNight"
+                                    style="@style/textBlack12"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@{timeNight}" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textWageNight"
+                                style="@style/textBlack14"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="@{wageNight}" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
 
 
-        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+                        <TextView
+                            android:id="@+id/staticTotal"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            style="@style/textBlack14"
+                            android:text="Total payment"
+                            android:layout_gravity="center"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textTimeTotal"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            style="@style/textBlack14"
+                            android:text="@{timeTotal}"
+                            android:layout_gravity="center"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textWageTotal"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            style="@style/textBlack14"
+                            android:text="@{wageTotal}"
+                            android:layout_gravity="center"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Bottome bar -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,60 +423,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutCalculation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/textCalculation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Calculation"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageCalculation" />
-
-                <ImageView
-                    android:id="@+id/imageCalculation"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_launcher_foreground"
-                    app:layout_constraintBottom_toTopOf="@id/textCalculation"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutJobHunting"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/textJobHunting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Job Hunting"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageJobHunting" />
-
-                <ImageView
-                    android:id="@+id/imageJobHunting"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_launcher_foreground"
-                    app:layout_constraintBottom_toTopOf="@id/textJobHunting"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutMyPage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -206,4 +451,6 @@
         </LinearLayout>
 
     </LinearLayout>
+
+
 </layout>

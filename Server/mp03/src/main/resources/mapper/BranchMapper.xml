@@ -14,6 +14,10 @@
 		SELECT * FROM BRANCH WHERE ID_BOSS = #{id_boss} ORDER BY ID DESC
 	</select>
 	
+	<select id="getBranchByIdBranch" parameterType="Int" resultType="com.my.spring.domain.BranchVO">
+		SELECT * FROM BRANCH WHERE ID = #{id_branch} ORDER BY ID DESC
+		</select>
+	
 	<insert id="createBranch" parameterType="com.my.spring.domain.BranchVO">
 		INSERT INTO BRANCH (ID, TITLE, ID_BOSS) VALUES (
 		branch_seq.nextval, #{newBranch.title}, #{newBranch.id_boss})
@@ -21,8 +25,8 @@
 	
 	<select id="getIdBranch" parameterType="com.my.spring.domain.BranchVO" resultType="Int">
 		SELECT ID FROM BRANCH 
-		WHERE TITLE = #{target.title}
-		AND ID_BOSS = #{target.id_boss}
+		WHERE TITLE = #{title}
+		AND ID_BOSS = #{id_boss}
 	</select>
 	
 	<delete id="deleteBranch" parameterType="com.my.spring.domain.BranchVO">

@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/workerScheduleFragment"
-        android:name="com.example.app01.workerScheduleFragment"
+        android:name="com.example.app01.worker.workerScheduleFragment"
         android:label="fragment_worker_schedule"
         tools:layout="@layout/fragment_worker_schedule">
         <action
@@ -30,17 +30,13 @@
             app:popUpTo="@id/workerScheduleFragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_workerScheduleFragment_to_workerJobhuntingFragment"
-            app:destination="@id/workerJobhuntingFragment"
-            app:popUpTo="@id/workerScheduleFragment" />
-        <action
             android:id="@+id/action_workerScheduleFragment_to_workerMypageFragment"
             app:destination="@id/workerMypageFragment"
             app:popUpTo="@id/workerScheduleFragment" />
     </fragment>
     <fragment
         android:id="@+id/workerCalculationFragment"
-        android:name="com.example.app01.workerCalculationFragment"
+        android:name="com.example.app01.worker.workerCalculationFragment"
         android:label="fragment_worker_calculation"
         tools:layout="@layout/fragment_worker_calculation" >
         <action
@@ -49,43 +45,15 @@
             app:popUpTo="@id/workerScheduleFragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_workerCalculationFragment_to_workerJobhuntingFragment"
-            app:destination="@id/workerJobhuntingFragment"
-            app:popUpTo="@id/workerScheduleFragment"
-            app:popUpToInclusive="false" />
-        <action
             android:id="@+id/action_workerCalculationFragment_to_workerMypageFragment"
             app:destination="@id/workerMypageFragment"
             app:popUpTo="@id/workerScheduleFragment" />
     </fragment>
     <fragment
-        android:id="@+id/workerJobhuntingFragment"
-        android:name="com.example.app01.workerJobhuntingFragment"
-        android:label="fragment_worker_jobhunting"
-        tools:layout="@layout/fragment_worker_jobhunting" >
-        <action
-            android:id="@+id/action_workerJobhuntingFragment_to_workerCalculationFragment"
-            app:destination="@id/workerCalculationFragment"
-            app:popUpTo="@id/workerScheduleFragment"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_workerJobhuntingFragment_to_workerScheduleFragment"
-            app:destination="@id/workerScheduleFragment"
-            app:popUpTo="@id/workerScheduleFragment" />
-        <action
-            android:id="@+id/action_workerJobhuntingFragment_to_workerMypageFragment"
-            app:destination="@id/workerMypageFragment"
-            app:popUpTo="@id/workerScheduleFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/workerMypageFragment"
-        android:name="com.example.app01.workerMypageFragment"
+        android:name="com.example.app01.worker.workerMypageFragment"
         android:label="fragment_worker_mypage"
         tools:layout="@layout/fragment_worker_mypage" >
-        <action
-            android:id="@+id/action_workerMypageFragment_to_workerJobhuntingFragment"
-            app:destination="@id/workerJobhuntingFragment"
-            app:popUpTo="@id/workerScheduleFragment" />
         <action
             android:id="@+id/action_workerMypageFragment_to_workerCalculationFragment"
             app:destination="@id/workerCalculationFragment"
@@ -140,15 +108,17 @@
             android:id="@+id/action_historyFragment_to_scheduleFragment"
             app:destination="@id/scheduleFragment"
             app:popUpTo="@id/historyFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_historyFragment_to_managementFragment"
             app:destination="@id/managementFragment"
-            app:popUpTo="@id/historyFragment" />
+            app:popUpTo="@id/historyFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_historyFragment_to_infoFragment"
             app:destination="@id/infoFragment"
-            app:popUpTo="@id/historyFragment" />
+            app:popUpTo="@id/historyFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/infoFragment"

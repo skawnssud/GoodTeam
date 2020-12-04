@@ -3,6 +3,7 @@ package com.example.app01.DB
 import com.example.app01.dto.User
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.worker.Work
+import com.example.app01.dto.workerdetail.WorkerDetail
 import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.workerview.WorkerView
 import retrofit2.Call
@@ -25,8 +26,8 @@ interface retrofitAPI {
     @GET("/spring/branch/id_boss/{id_boss}")
     fun searchBranchByIdBoss(@Path("id_boss") id_boss : Int) : Call<List<Branch>>
 
-    @GET("/spring/branch/id_branch")
-    fun getIdBranch(@Body target : Branch) : Call<Int>
+    @GET("/spring/branch/get/{title}/{id_boss}")
+    fun getIdBranch(@Path("title") title : String, @Path("id_boss") id_boss: Int) : Call<Int>
 
     @POST("/spring/branch")
     fun createBranch(@Body newBranch : Branch) : Call<Boolean>
@@ -42,6 +43,12 @@ interface retrofitAPI {
 
     @GET("/spring/work/{id_worker}/{id_branch}")
     fun searchWorkerInfoByIdWorker(@Path("id_worker") id_worker : Int, @Path("id_branch") id_branch : Int) : Call<WorkerInfo>
+
+    @GET("/spring/work/info/{id_worker}")
+    fun getWorkerInfoByIdWorker(@Path("id_worker") id_worker: Int) : Call<List<WorkerInfo>>
+
+    @GET("/spring/branch/{id_branch}")
+    fun getBranchByIdBranch(@Path("id_branch") id_branch: Int) : Call<Branch>
 
     @POST("/spring/work/{id_branch}")
     fun createWorkerInfo(@Body newWorkerInfo : WorkerInfo, @Path("id_branch") id_branch : Int) : Call<Boolean>
@@ -69,6 +76,19 @@ interface retrofitAPI {
 
     @GET("/spring/work/work/id_branch/{id_branch}")
     fun getWorkersByIdBranch(@Path("id_branch") id_branch: Int) : Call<List<WorkerInfo>>
+
+    @POST("/spring/work/detail")
+    fun createWorkerDetail(@Body item : WorkerDetail) : Call<Boolean>
+
+    @PUT("/spring/work/detail")
+    fun modifyWorkerDetail(@Body item : WorkerDetail) : Call<Boolean>
+
+    @GET("/spring/work/detail/{id_workerInfo}")
+    fun getWorkerDetailByIdWorkerInfo(@Path("id_workerInfo") id_workerinfo: Int) : Call<WorkerDetail>
+
+
+
+
 
 
 }

@@ -125,11 +125,21 @@ class managementFragment : Fragment() {
                     dialog.dismiss()
                 }
                 bindingDialogBranch.buttonDelete.setOnClickListener {
-                    (activity as MainActivity).deleteBranch(
-                        dataObject.listBranch[position])
-                    dataObject.listBranch.remove(
-                        dataObject.listBranch[position])
-                    mBranchAdapter.notifyItemChanged(position)
+                    if (dataObject.listBranch.size == 1) {
+                        (activity as MainActivity).alertToast("You cannot delete all branches.")
+                    } else {
+                        (activity as MainActivity).deleteBranch(dataObject.listBranch[position])
+                        if (position != 0) {
+                            selectBranch(0)
+                            dataObject.listBranch.remove(dataObject.listBranch[position])
+                        } else {
+                            selectBranch(1)
+                            dataObject.listBranch.remove(dataObject.listBranch[position])
+                        }
+                        mBranchAdapter.notifyItemRemoved(position)
+                        mBranchAdapter.notifyItemRangeChanged(position, dataObject.listBranch.size)
+                        mBranchAdapter.notifyItemChanged(position)
+                    }
                     dialog.dismiss()
                 }
                 return true
@@ -144,6 +154,7 @@ class managementFragment : Fragment() {
             val dialog = AlertDialog.Builder(requireContext()).create()
             bindingDialogBranch = DataBindingUtil.inflate(inflater,
                 R.layout.dialog_branch_creation, container, false)
+            bindingDialogBranch.buttonDelete.visibility = View.GONE
             dialog.setView(bindingDialogBranch.root)
             dialog.show()
             bindingDialogBranch.inputTitle = "Title of new Branch"
@@ -159,7 +170,7 @@ class managementFragment : Fragment() {
             }
         }
 
-        // Add new Worker to timetable
+        // Add new Worker to current branch
         binding.addWorker.setOnClickListener {
             val dialog = AlertDialog.Builder(requireContext()).create()
             bindingDialogWorker = DataBindingUtil.inflate(inflater,
@@ -175,13 +186,26 @@ class managementFragment : Fragment() {
                     (activity as MainActivity).searchUserByAccount(bindingDialogWorker.account.toString())
                 // If account correct
                 if (newWorker.account != "allowed") {
-                    var newWorkerInfo = WorkerInfo()
-                    newWorkerInfo.id_worker = newWorker.id
-                    (activity as MainActivity).createWorker(newWorkerInfo, dataObject.selectBranch.id)
-                    (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
-                    mWorkerViewAdapter.setItems(dataObject.listWorkerView)
-                    binding.RvWorkers.adapter = mWorkerViewAdapter
-                    dialog.dismiss()
+                    // if role is apparently worker
+                    var isWorker = 1 == newWorker.role
+                    var notDupl = true
+                    dataObject.listWorkerView.forEach {
+                        // If duplicated
+                        if (it.id == newWorker.id) {
+                            notDupl = false
+                        }
+                    }
+                    if (notDupl && isWorker) {
+                        var newWorkerInfo = WorkerInfo()
+                        newWorkerInfo.id_worker = newWorker.id
+                        (activity as MainActivity).createWorker(newWorkerInfo, dataObject.selectBranch.id)
+                        (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
+                        mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                        binding.RvWorkers.adapter = mWorkerViewAdapter
+                        dialog.dismiss()
+                    } else {
+                        (activity as MainActivity).alertToast("Invalid account. Please check again.")
+                    }
                 } else {
                     (activity as MainActivity).alertToast("Invalid account. Please check again.")
                 }
@@ -191,4 +215,8 @@ class managementFragment : Fragment() {
         return binding.root
     }
 
+    fun selectBranch(position : Int) {
+        dataObject.selectBranch = dataObject.listBranch[position]
+        binding.currentBranch = dataObject.selectBranch.title
+    }
 }

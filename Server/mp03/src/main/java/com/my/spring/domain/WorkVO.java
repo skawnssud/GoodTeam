@@ -1,7 +1,7 @@
 package com.my.spring.domain;
 
 public class WorkVO {
-	int id, id_workerInfo, payment;
+	int id, id_workerInfo, payment, attendence;
 	String timeStart, timeEnd, hoursOfWork, dateWork;
 	public int getId() {
 		return id;
@@ -44,5 +44,11 @@ public class WorkVO {
 	}
 	public void setDateWork(String dateWork) {
 		this.dateWork = dateWork;
+	}
+	public int getAttendence() {
+		return attendence;
+	}
+	public void setAttendence(int attendence) {
+		this.attendence = attendence;
 	}
 }

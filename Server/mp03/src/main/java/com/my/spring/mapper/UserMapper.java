@@ -15,5 +15,4 @@ public interface UserMapper {
 	public List<WorkerViewVO> getWorkerViewByIdBranch(int id_branch);
 	public Boolean createRelation(@Param("newRelation") RelationVO newRelation);
 	public String getAccountById(int id_worker);
-	public void deleteWorksByIdWorkerInfo(@Param("id_workerinfo") int workerinfo);
 }

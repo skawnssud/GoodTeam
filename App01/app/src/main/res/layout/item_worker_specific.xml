@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="com.example.app01.dto.workerview.WorkerView"/>
+
+        <variable
+            name="value"
+            type="com.example.app01.dto.workerview.WorkerView" />
+        <variable
+            name="wage"
+            type="String" />
+        <variable
+            name="attendence"
+            type="String" />
+        <variable
+            name="absence"
+            type="String" />
+        <variable
+            name="timeNormal"
+            type="String" />
+        <variable
+            name="timeFull"
+            type="String" />
+        <variable
+            name="timeNight"
+            type="String" />
+        <variable
+            name="wageNormal"
+            type="String" />
+        <variable
+            name="wageFull"
+            type="String" />
+        <variable
+            name="wageNight"
+            type="String" />
+        <variable
+            name="timeTotal"
+            type="String" />
+        <variable
+            name="wageTotal"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        style="@style/item01">
+
+        <TextView
+            android:id="@+id/textWage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@{wage}"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="@id/staticAge"
+            app:layout_constraintLeft_toRightOf="@id/staticWage" />
+
+        <TextView
+            android:id="@+id/staticWage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="180dp"
+            android:text="Hourly wage"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="@id/staticAge"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/staticAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Age"
+            android:textColor="#000000"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textName" />
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@{value.name}"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@{Integer.toString(value.age)}"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="@id/staticAge"
+            app:layout_constraintLeft_toRightOf="@id/staticAge" />
+
+        <LinearLayout
+            android:id="@+id/layoutCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/staticAge">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutFulltime"
+                style="@style/item01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/staticFulltime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Fulltime"
+                    android:textColor="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/liveFulltime"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="120dp"
+                    app:layout_constraintBottom_toBottomOf="@id/staticFulltime"
+                    app:layout_constraintLeft_toLeftOf="@id/staticFulltime"
+                    app:layout_constraintTop_toTopOf="@id/staticFulltime"
+                    app:srcCompat="@drawable/dot_red" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutNight"
+                style="@style/item01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/staticNight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Night time"
+                    android:textColor="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/liveNight"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="120dp"
+                    app:layout_constraintBottom_toBottomOf="@id/staticNight"
+                    app:layout_constraintLeft_toLeftOf="@id/staticNight"
+                    app:layout_constraintTop_toTopOf="@id/staticNight"
+                    app:srcCompat="@drawable/dot_red" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutCheck">
+
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:id="@+id/Cv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="2.5"
+                android:orientation="horizontal"
+                app:mcv_selectionMode="none"
+                app:mcv_tileHeight="20dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/staticCommute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Attendence"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/textCommute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@{attendence}"
+                    android:textColor="#488bff" />
+
+                <TextView
+                    android:id="@+id/staticAbsence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Absence"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/textAbsence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@{absence}"
+                    android:textColor="#fd5865" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutWage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/layoutCalendar">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/staticNormal"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Basic payment" />
+
+                        <TextView
+                            android:id="@+id/textTimeNormal"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{timeNormal}" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        style="@style/textBlack14"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{wageNormal}" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/staticFull"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Full time payment" />
+
+                        <TextView
+                            android:id="@+id/textTimeFull"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{timeFull}" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textWageFull"
+                        style="@style/textBlack14"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{wageFull}" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/staticNight2"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Night time payment" />
+
+                        <TextView
+                            android:id="@+id/textTimeNight"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{timeNight}" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textWageNight"
+                        style="@style/textBlack14"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{wageNight}" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:id="@+id/staticTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="@style/textBlack14"
+                    android:text="Total payment"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/textTimeTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="@style/textBlack14"
+                    android:text="@{timeTotal}"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/textWageTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="@style/textBlack14"
+                    android:text="@{wageTotal}"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

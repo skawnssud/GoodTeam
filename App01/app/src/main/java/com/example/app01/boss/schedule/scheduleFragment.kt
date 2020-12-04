@@ -67,7 +67,7 @@ class scheduleFragment : Fragment() {
                     var select = parent?.getItemAtPosition(position) as Branch
                     binding.currentBranch = select.title
                     dataObject.selectBranch = select
-                    (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
+                    (activity as MainActivity).getWorkersAndDetails()
                     mWorkerViewAdapter =
                         workerViewAdapter(
                             dataObject.listWorkerView,
@@ -88,9 +88,40 @@ class scheduleFragment : Fragment() {
                                 }
 
                                 override fun onLongClick(view: View, position: Int): Boolean {
+                                    if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
+                                        setWorkerByPosition(position)
+                                        val dialog = AlertDialog.Builder(requireContext()).create()
+                                        bindingDialogWorker = DataBindingUtil.inflate(
+                                            inflater,
+                                            R.layout.dialog_worker_creation, container, false
+                                        )
+                                        dialog.setView(bindingDialogWorker.root)
+                                        dialog.show()
+                                        bindingDialogWorker.inputName = "Hourly wage"
+                                        bindingDialogWorker.account =
+                                            dataObject.listWorkerView[position].wage.toString()
+                                        bindingDialogWorker.buttonCancel.setOnClickListener {
+                                            dialog.cancel()
+                                        }
+                                        bindingDialogWorker.buttonConfirm.setOnClickListener {
+                                            dataObject.selectWorkerInfo.payment =
+                                                bindingDialogWorker.account!!.toString().toInt()
+                                            dataObject.listWorkerView[position].wage =
+                                                bindingDialogWorker.account!!.toString().toInt()
+                                            (activity as MainActivity).modifyWorkerInfo(dataObject.selectWorkerInfo)
+                                            mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                                            defaultSetting(position)
+                                            binding.RvWorkers.adapter = mWorkerViewAdapter
+                                            dialog.dismiss()
+                                        }
+                                    } else {
+                                        (activity as MainActivity).alertToast("It is yourself.")
+                                    }
+
                                     return true
                                 }
                             })
+                    mWorkerViewAdapter.setOption(1)
                     binding.RvWorkers.adapter = mWorkerViewAdapter
                     defaultSetting(0)
                     dialog.dismiss()
@@ -187,7 +218,7 @@ class scheduleFragment : Fragment() {
                             it.calculate()
                             (activity as MainActivity).modifyWork(it)
                         }
-                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerinfo)
+                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerInfo)
                         dataObject.selectWorker.datesWork = dataObject.selectWorker.infowork.keys.toMutableList()
                     } else {
                         Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
@@ -223,7 +254,7 @@ class scheduleFragment : Fragment() {
                             it.calculate()
                             (activity as MainActivity).modifyWork(it)
                         }
-                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerinfo)
+                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerInfo)
                         dataObject.selectWorker.datesWork = dataObject.selectWorker.infowork.keys.toMutableList()
                     } else {
                         Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
@@ -278,7 +309,8 @@ class scheduleFragment : Fragment() {
                 // Delete all works -> Create works
                 (activity as MainActivity).deleteWorkByIdWorkInfo(dataObject.selectWorkerInfo.id)
                 (activity as MainActivity).createWork(dataObject.selectWorkerInfo, dates)
-                dataObject.selectWorker.infowork.clear()
+                dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id)
+                dataObject.selectWorker.datesWork = dataObject.selectWorker.infowork.keys.toMutableList()
             } else {
 
             }
@@ -286,75 +318,77 @@ class scheduleFragment : Fragment() {
 
         // Dialog for each date available
         binding.Cv.setOnDateLongClickListener { widget, date ->
-            if (dataObject.selectWorker.datesWork.contains(date)) {
-                val dialog = AlertDialog.Builder(requireContext()).create()
-                val bindingDialog : DialogDateModificationBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_date_modification, container, false)
-                dialog.setView(bindingDialog.root)
-                dialog.show()
+            if (!modifyOn) {
+                if (dataObject.selectWorker.datesWork.contains(date)) {
+                    val dialog = AlertDialog.Builder(requireContext()).create()
+                    val bindingDialog : DialogDateModificationBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_date_modification, container, false)
+                    dialog.setView(bindingDialog.root)
+                    dialog.show()
 
-                // Setting Default
-                bindingDialog.date = date.month.toString() + "월 " + date.day.toString() + "일 " + date.year.toString()
-                bindingDialog.timeStart = dataObject.selectWorker.infowork[date]!!.timeStart
-                bindingDialog.timeEnd = dataObject.selectWorker.infowork[date]!!.timeEnd
-                bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
-                bindingDialog.workhour = dataObject.selectWorker.infowork[date]!!.hoursOfWork
+                    // Setting Default
+                    bindingDialog.date = date.month.toString() + "월 " + date.day.toString() + "일 " + date.year.toString()
+                    bindingDialog.timeStart = dataObject.selectWorker.infowork[date]!!.timeStart
+                    bindingDialog.timeEnd = dataObject.selectWorker.infowork[date]!!.timeEnd
+                    bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
+                    bindingDialog.workhour = dataObject.selectWorker.infowork[date]!!.hoursOfWork
 
-                // Time picker
-                bindingDialog.textTimeStart.setOnClickListener {
-                    var timeListener = object : TimePickerDialog.OnTimeSetListener {
-                        override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-                            // Check if it exceed timeEnd
-                            if (compareTime(p1.toString() + ":" + p2.toString(), dataObject.selectWorker.infowork[date]!!.timeEnd)) {
-                                if (p2 < 10) {
-                                    bindingDialog.timeStart = p1.toString() + ":0" + p2.toString()
+                    // Time picker
+                    bindingDialog.textTimeStart.setOnClickListener {
+                        var timeListener = object : TimePickerDialog.OnTimeSetListener {
+                            override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
+                                // Check if it exceed timeEnd
+                                if (compareTime(p1.toString() + ":" + p2.toString(), dataObject.selectWorker.infowork[date]!!.timeEnd)) {
+                                    if (p2 < 10) {
+                                        bindingDialog.timeStart = p1.toString() + ":0" + p2.toString()
+                                    } else {
+                                        bindingDialog.timeStart = p1.toString() + ":" + p2.toString()
+                                    }
+                                    dataObject.selectWorker.infowork[date]!!.timeStart = bindingDialog.timeStart.toString()
+                                    (activity as MainActivity).modifyWork(dataObject.selectWorker.infowork[date]!!)
+                                    bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
+                                    bindingDialog.workhour = dataObject.selectWorker.infowork[date]!!.hoursOfWork
                                 } else {
-                                    bindingDialog.timeStart = p1.toString() + ":" + p2.toString()
+                                    Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
                                 }
-                                dataObject.selectWorker.infowork[date]!!.timeStart = bindingDialog.timeStart.toString()
-                                (activity as MainActivity).modifyWork(dataObject.selectWorker.infowork[date]!!)
-                                bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
-                                bindingDialog.workhour = dataObject.selectWorker.infowork[date]!!.hoursOfWork
-                            } else {
-                                Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
                             }
                         }
-                    }
-                    var builder = TimePickerDialog(
-                        requireContext(),
-                        timeListener,
-                        (activity as MainActivity).getCurrentHour(),
-                        (activity as MainActivity).getCurrentMinute(),
-                        true
-                    )
-                    builder.show()
+                        var builder = TimePickerDialog(
+                            requireContext(),
+                            timeListener,
+                            (activity as MainActivity).getCurrentHour(),
+                            (activity as MainActivity).getCurrentMinute(),
+                            true
+                        )
+                        builder.show()
 
-                }
-                bindingDialog.textTimeEnd.setOnClickListener {
-                    var timeListener = object : TimePickerDialog.OnTimeSetListener {
-                        override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-                            if (compareTime(dataObject.selectWorker.infowork[date]!!.timeStart, p1.toString() + ":" + p2.toString())) {
-                                if (p2 < 10) {
-                                    bindingDialog.timeEnd = p1.toString() + ":0" + p2.toString()
+                    }
+                    bindingDialog.textTimeEnd.setOnClickListener {
+                        var timeListener = object : TimePickerDialog.OnTimeSetListener {
+                            override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
+                                if (compareTime(dataObject.selectWorker.infowork[date]!!.timeStart, p1.toString() + ":" + p2.toString())) {
+                                    if (p2 < 10) {
+                                        bindingDialog.timeEnd = p1.toString() + ":0" + p2.toString()
+                                    } else {
+                                        bindingDialog.timeEnd = p1.toString() + ":" + p2.toString()
+                                    }
+                                    dataObject.selectWorker.infowork[date]!!.timeEnd = bindingDialog.timeEnd.toString()
+                                    (activity as MainActivity).modifyWork(dataObject.selectWorker.infowork[date]!!)
+                                    bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
+                                    bindingDialog.workhour = dataObject.selectWorker.infowork[date]!!.hoursOfWork
                                 } else {
-                                    bindingDialog.timeEnd = p1.toString() + ":" + p2.toString()
+                                    Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
                                 }
-                                dataObject.selectWorker.infowork[date]!!.timeEnd = bindingDialog.timeEnd.toString()
-                                (activity as MainActivity).modifyWork(dataObject.selectWorker.infowork[date]!!)
-                                bindingDialog.payment = dataObject.selectWorker.infowork[date]!!.calculate().toString() + "원"
-                                bindingDialog.workhour = dataObject.selectWorker.infowork[date]!!.hoursOfWork
-                            } else {
-                                Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
                             }
                         }
+                        var builder = TimePickerDialog(
+                            requireContext(),
+                            timeListener,
+                            (activity as MainActivity).getCurrentHour(),
+                            (activity as MainActivity).getCurrentMinute(),
+                            true
+                        )
+                        builder.show()
                     }
-                    var builder = TimePickerDialog(
-                        requireContext(),
-                        timeListener,
-                        (activity as MainActivity).getCurrentHour(),
-                        (activity as MainActivity).getCurrentMinute(),
-                        true
-                    )
-                    builder.show()
                 }
             }
         }
@@ -364,9 +398,8 @@ class scheduleFragment : Fragment() {
 
     fun defaultSetting(position : Int) {
         // Default Setting
-        setWorkerByPosition(position)
-        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id)
-        dataObject.selectWorker.datesWork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id).keys.toMutableList()
+        dataObject.selectWorker = dataObject.listWorker[position]
+        dataObject.selectWorkerInfo.setWorkerInfo(dataObject.selectWorker)
         binding.currentBranch = dataObject.selectBranch.title
         binding.currentWorker = dataObject.selectWorker.name
         binding.timeStart = dataObject.selectWorker.timeStart

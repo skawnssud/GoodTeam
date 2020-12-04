@@ -50,7 +50,7 @@
             android:id="@+id/imageLive"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            app:srcCompat="@drawable/dot_red"
+            app:srcCompat="@drawable/logo_half_blue_01"
             android:layout_margin="10dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"

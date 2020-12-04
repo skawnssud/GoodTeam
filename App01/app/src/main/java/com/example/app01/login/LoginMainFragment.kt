@@ -81,10 +81,13 @@ class LoginMainFragment : Fragment() {
         // Send user to appropriate fragment: 0 -> Boss | 1 -> Worker
         if (dataObject.selectUser.role == 0) {
             (activity as MainActivity).getBranchesByIdBoss(dataObject.selectUser.id)
-            (activity as MainActivity).getWorkerViewesByIdBranch(dataObject.selectBranch.id)
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_loginMainFragment_to_historyFragment)
         } else {
+            dataObject.listWorkerInfo = (activity as MainActivity).getWorkerInfoByIdWorker(dataObject.selectUser.id)
+            dataObject.listWorkerInfo.forEach {
+                dataObject.listBranch.add((activity as MainActivity).getBranchByIdBranch(it.id_branch))
+            }
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_loginMainFragment_to_workerScheduleFragment)
         }

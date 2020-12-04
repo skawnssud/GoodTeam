@@ -11,6 +11,7 @@ import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.User
 import com.example.app01.dto.worker.Work
 import com.example.app01.dto.worker.Worker
+import com.example.app01.dto.workerdetail.WorkerDetail
 import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.workerview.WorkerView
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -24,14 +25,26 @@ import kotlin.collections.HashMap
 class MainActivity : AppCompatActivity() {
     private lateinit var mRetrofit: Retrofit
     private lateinit var mRetrofitAPI: retrofitAPI
+    private lateinit var binding : ActivityMainBinding
+    var mBackWait:Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initServer()
-        val binding  = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding  = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navController = this.findNavController(R.id.myNavHostFragment)
 
     }
+
+    override fun onBackPressed() {
+        alertToast("Press back button one more if you want to terminate app.")
+        if(System.currentTimeMillis() - mBackWait >=2000 ) {
+            mBackWait = System.currentTimeMillis()
+        } else {
+            finish()
+        }
+    }
+
     fun getCurrentYear(): Int = Calendar.getInstance().get(Calendar.YEAR)
     fun getCurrentMonth(): Int = Calendar.getInstance().get(Calendar.MONTH) + 1
     fun getCurrentDay(): Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
@@ -83,12 +96,14 @@ class MainActivity : AppCompatActivity() {
                 createBranch.join()
                 var id_b = 0
                 var thread = Thread(Runnable {
-                    id_b = mRetrofitAPI.getIdBranch(newBranch).execute().body()!!
+                    id_b = mRetrofitAPI.getIdBranch(newBranch.title, newBranch.id_boss).execute().body()!!
                 })
                 thread.start()
                 thread.join()
                 newBranch.id = id_b
-                createWorker(WorkerInfo(), id_b)
+                var newWorkerInfo = WorkerInfo()
+                newWorkerInfo.id_worker = dataObject.selectUser.id
+                createWorker(newWorkerInfo, id_b)
                 dataObject.listBranch.add(newBranch)
                 return true
             }
@@ -143,17 +158,31 @@ class MainActivity : AppCompatActivity() {
 
     fun createWorker(newWorkerInfo: WorkerInfo, id_branch: Int) : Boolean {
         var success = false
+        var id = id_branch
+        if (id == 0) {
+            var th = Thread(Runnable {
+                id = mRetrofitAPI.getIdBranch(dataObject.selectBranch.title, dataObject.selectUser.id).execute().body()!!
+            })
+            th.start()
+            th.join()
+            dataObject.selectBranch.id = id
+        }
         var thread = Thread(Runnable {
-            success = mRetrofitAPI.createWorkerInfo(newWorkerInfo, id_branch).execute().body()!!
+            success = mRetrofitAPI.createWorkerInfo(newWorkerInfo, id).execute().body()!!
         })
         thread.start()
         thread.join()
+        var detail = WorkerDetail()
+        detail.id_workerInfo = getWorkerInfo(newWorkerInfo.id_worker, id).id
+        createWorkerDetail(detail)
         var newWorkerView = WorkerView()
         newWorkerView.id = newWorkerInfo.id_worker
         newWorkerView.wage = newWorkerInfo.payment
         newWorkerView.name = dataObject.selectUser.name
         newWorkerView.age = dataObject.selectUser.age
-        dataObject.listWorkerView.add(newWorkerView)
+        if (dataObject.listWorkerView.size != 1) {
+            dataObject.listWorkerView.add(newWorkerView)
+        }
         return success
     }
 
@@ -215,7 +244,11 @@ class MainActivity : AppCompatActivity() {
         for (date in dates) {
             var work = Work()
             work.setFromWorkerInfo(workerInfo)
-            work.dateWork = date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString()
+            var mon = ""
+            var da = ""
+            if (date.month < 10) mon = "0" + date.month else mon = date.month.toString()
+            if (date.day < 10) da = "0" + date.day else da = date.day.toString()
+            work.dateWork = date.year.toString() + "-" + mon + "-" + da
             work.calculate()
             var thread = Thread(Runnable {
                 result = mRetrofitAPI.createWorkByIdWorkerInfo(work).execute().body()!!
@@ -237,7 +270,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getWorksByIdWorkerInfo(id_workerInfo: Int) : HashMap<CalendarDay, Work> {
-        var result = HashMap<CalendarDay, Work>()
+        var result = LinkedHashMap<CalendarDay, Work>()
         var temp = listOf<Work>()
         var thread = Thread (Runnable {
             temp = mRetrofitAPI.getWorkByIdWorkerInfo(id_workerInfo).execute().body()!!
@@ -282,10 +315,78 @@ class MainActivity : AppCompatActivity() {
             }
         }
         for (worker in list2) {
-            worker.infowork = getWorksByIdWorkerInfo(worker.id_workerinfo)
+            worker.infowork = getWorksByIdWorkerInfo(worker.id_workerInfo)
             worker.datesWork = worker.infowork.keys.toMutableList()
         }
         return list2
+    }
+
+    fun createWorkerDetail(item : WorkerDetail) {
+        var thread = Thread(Runnable {
+            mRetrofitAPI.createWorkerDetail(item).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+    }
+    fun modifyWorkerDetail(item : WorkerDetail) {
+        var thread = Thread(Runnable {
+            mRetrofitAPI.modifyWorkerDetail(item).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+    }
+    fun getWorkerDetailByIdWorkerInfo(id_workerInfo: Int) : WorkerDetail {
+        var detail = WorkerDetail()
+        var thread = Thread(Runnable {
+            detail = mRetrofitAPI.getWorkerDetailByIdWorkerInfo(id_workerInfo).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+        return detail
+    }
+
+    // After Setting selectBranch
+    fun getWorkersAndDetails() {
+        getWorkerViewesByIdBranch(dataObject.selectBranch.id)
+        dataObject.listWorker = getWorkersByIdBranch(dataObject.selectBranch.id)
+        for (i : Int in 0..dataObject.listWorker.size-1) {
+            dataObject.listWorkerDetail.add(getWorkerDetailByIdWorkerInfo(dataObject.listWorker[i].id_workerInfo))
+            dataObject.listWorker[i].infowork = getWorksByIdWorkerInfo(dataObject.listWorker[i].id_workerInfo)
+            dataObject.listWorker[i].datesWork = dataObject.listWorker[i].infowork.keys.toMutableList()
+        }
+    }
+
+    fun getWorkerInfoByIdWorker(id_worker: Int) : ArrayList<WorkerInfo> {
+        var result = ArrayList<WorkerInfo>()
+        var thread = Thread(Runnable {
+            result = (mRetrofitAPI.getWorkerInfoByIdWorker(id_worker).execute().body() as ArrayList<WorkerInfo>?)!!
+        })
+        thread.start()
+        thread.join()
+        return result
+    }
+
+    fun getBranchByIdBranch(id_branch : Int) : Branch {
+        var result = Branch()
+        var thread = Thread(Runnable {
+            result = mRetrofitAPI.getBranchByIdBranch(id_branch).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+        return result
+    }
+
+    fun getBranches(position : Int) {
+        dataObject.selectBranch = dataObject.listBranch[position]
+        dataObject.selectWorkerInfo = dataObject.listWorkerInfo[position]
+        var options = getWorkersByIdBranch(dataObject.selectBranch.id)
+        options.forEach {
+            if (it.id_workerInfo == dataObject.selectWorkerInfo.id) {
+                dataObject.selectWorker = it
+            }
+        }
+        dataObject.selectWorker.infowork = getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id)
+        dataObject.selectWorker.datesWork = dataObject.selectWorker.infowork.keys.toMutableList()
     }
 
 
