@@ -1,4 +1,4 @@
-package com.example.app01.boss.management
+package com.example.app01.boss
 
 import android.app.AlertDialog
 import android.os.Bundle
