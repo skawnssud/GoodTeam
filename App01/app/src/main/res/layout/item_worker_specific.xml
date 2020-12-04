@@ -17,6 +17,30 @@
         <variable
             name="absence"
             type="String" />
+        <variable
+            name="timeNormal"
+            type="String" />
+        <variable
+            name="timeFull"
+            type="String" />
+        <variable
+            name="timeNight"
+            type="String" />
+        <variable
+            name="wageNormal"
+            type="String" />
+        <variable
+            name="wageFull"
+            type="String" />
+        <variable
+            name="wageNight"
+            type="String" />
+        <variable
+            name="timeTotal"
+            type="String" />
+        <variable
+            name="wageTotal"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,55 +50,54 @@
         style="@style/item01">
 
         <TextView
-            android:id="@+id/textName"
+            android:id="@+id/textWage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{value.name}"
-            android:layout_margin="5dp"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
-
-        <TextView
-            android:id="@+id/staticAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Age"
-            android:textColor="#000000"
-            android:layout_margin="10dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textName"/>
-
-        <TextView
-            android:id="@+id/textAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{Integer.toString(value.age)}"
-            android:textColor="@color/colorPrimaryDark"
             android:layout_marginLeft="10dp"
-            app:layout_constraintLeft_toRightOf="@id/staticAge"
-            app:layout_constraintBottom_toBottomOf="@id/staticAge"/>
-
+            android:text="@{wage}"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="@id/staticAge"
+            app:layout_constraintLeft_toRightOf="@id/staticWage" />
 
         <TextView
             android:id="@+id/staticWage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="180dp"
             android:text="Hourly wage"
             android:textColor="#000000"
-            android:layout_marginLeft="180dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/staticAge"/>
+            app:layout_constraintBottom_toBottomOf="@id/staticAge"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
-            android:id="@+id/textWage"
+            android:id="@+id/staticAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{wage}"
+            android:layout_margin="10dp"
+            android:text="Age"
+            android:textColor="#000000"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textName" />
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@{value.name}"
             android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            app:layout_constraintLeft_toRightOf="@id/staticWage"
-            app:layout_constraintBottom_toBottomOf="@id/staticAge"/>
+            android:text="@{Integer.toString(value.age)}"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="@id/staticAge"
+            app:layout_constraintLeft_toRightOf="@id/staticAge" />
 
         <LinearLayout
             android:id="@+id/layoutCheck"
@@ -162,24 +185,24 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_weight="2.5"
                 android:orientation="horizontal"
                 app:mcv_selectionMode="none"
-                app:mcv_tileHeight="20dp"
-                android:layout_weight="2.5"/>
+                app:mcv_tileHeight="20dp" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:layout_margin="10dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/staticCommute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="Attendence"
                     android:textColor="#000000" />
@@ -188,18 +211,18 @@
                     android:id="@+id/textCommute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:textColor="#488bff"
-                    android:text="@{attendence}" />
+                    android:text="@{attendence}"
+                    android:textColor="#488bff" />
 
                 <TextView
                     android:id="@+id/staticAbsence"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="Absence"
                     android:textColor="#000000" />
@@ -208,13 +231,199 @@
                     android:id="@+id/textAbsence"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:textColor="#fd5865"
-                    android:text="@{absence}" />
+                    android:text="@{absence}"
+                    android:textColor="#fd5865" />
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutWage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/layoutCalendar">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/staticNormal"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Basic payment" />
+
+                        <TextView
+                            android:id="@+id/textTimeNormal"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{timeNormal}" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        style="@style/textBlack14"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{wageNormal}" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/staticFull"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Full time payment" />
+
+                        <TextView
+                            android:id="@+id/textTimeFull"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{timeFull}" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textWageFull"
+                        style="@style/textBlack14"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{wageFull}" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/staticNight2"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Night time payment" />
+
+                        <TextView
+                            android:id="@+id/textTimeNight"
+                            style="@style/textBlack12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{timeNight}" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textWageNight"
+                        style="@style/textBlack14"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@{wageNight}" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:id="@+id/staticTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="@style/textBlack14"
+                    android:text="Total payment"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/textTimeTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="@style/textBlack14"
+                    android:text="@{timeTotal}"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/textWageTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    style="@style/textBlack14"
+                    android:text="@{wageTotal}"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+            </LinearLayout>
         </LinearLayout>
 
 

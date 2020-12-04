@@ -35,6 +35,6 @@ class WorkerDetailAdapter(
         holder.itemView.setOnLongClickListener {
             itemClickListener!!.onLongClick(it, position)
         }
-        holder.bind(listWorkerView[position], listWorkerDetail[position], listWorker[position], context)
+        holder.bind(listWorkerView[position], listWorkerDetail[position], listWorker[position], position, context)
     }
 }
