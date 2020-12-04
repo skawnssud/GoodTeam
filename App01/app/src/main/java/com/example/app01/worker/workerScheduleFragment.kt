@@ -124,14 +124,14 @@ class workerScheduleFragment : Fragment() {
     fun defaultSetting(item: WorkerInfo, worker: Worker) {
         var timeTotal = getTimetotalByWeight(worker)
         var resultTotal = calculate(timeTotal, item.payment)
-        binding.timeNormal = timeTotal[0].toString()
-        binding.timeFull = timeTotal[2].toString()
-        binding.timeNight = timeTotal[1].toString()
-        binding.timeTotal = (timeTotal[0] + timeTotal[2] + timeTotal[1]).toString()
-        binding.wageNormal = resultTotal[0].toString()
-        binding.wageFull = resultTotal[2].toString()
-        binding.wageNight = resultTotal[1].toString()
-        binding.wageTotal = (resultTotal[0] + resultTotal[2] + resultTotal[1]).toString()
+        binding.timeNormal = timeTotal[0].toString() + "h " + timeTotal[1].toString() + "m"
+        binding.timeNight = timeTotal[2].toString() + "h " + timeTotal[3].toString() + "m"
+        binding.timeFull = timeTotal[4].toString() + "h " + timeTotal[5].toString() + "m"
+        binding.timeTotal = (timeTotal[0] + timeTotal[2] + timeTotal[4]).toString() + "h " + (timeTotal[1] + timeTotal[3] + timeTotal[5]).toString() + "m"
+        binding.wageNormal = resultTotal[0].toString() + "원"
+        binding.wageNight = resultTotal[1].toString() + "원"
+        binding.wageFull = resultTotal[2].toString() + "원"
+        binding.wageTotal = (resultTotal[0] + resultTotal[2] + resultTotal[1]).toString() + "원"
         binding.wage = item.payment.toString()
         binding.attendence = worker.datesWork.size.toString()
         binding.absence = "0"

@@ -21,14 +21,14 @@ class WorkerDetailViewHolder(elementView : View)  : RecyclerView.ViewHolder(elem
     fun bind(item: WorkerView, detail : WorkerDetail, worker : Worker, position : Int, context: Context) {
         var timeTotal = getTimetotalByWeight(worker)
         var resultTotal = calculate(timeTotal, item.wage)
-        binding.timeNormal = timeTotal[0].toString()
-        binding.timeFull = timeTotal[1].toString()
-        binding.timeNight = timeTotal[2].toString()
-        binding.timeTotal = (timeTotal[0] + timeTotal[1] + timeTotal[2]).toString()
-        binding.wageNormal = resultTotal[0].toString()
-        binding.wageFull = resultTotal[1].toString()
-        binding.wageNight = resultTotal[2].toString()
-        binding.wageTotal = (resultTotal[0] + resultTotal[1] + resultTotal[2]).toString()
+        binding.timeNormal = timeTotal[0].toString() + "h " + timeTotal[1].toString() + "m"
+        binding.timeNight = timeTotal[2].toString() + "h " + timeTotal[3].toString() + "m"
+        binding.timeFull = timeTotal[4].toString() + "h " + timeTotal[5].toString() + "m"
+        binding.timeTotal = (timeTotal[0] + timeTotal[2] + timeTotal[4]).toString() + "h " + (timeTotal[1] + timeTotal[3] + timeTotal[5]).toString() + "m"
+        binding.wageNormal = resultTotal[0].toString() + "원"
+        binding.wageNight = resultTotal[1].toString() + "원"
+        binding.wageFull = resultTotal[2].toString() + "원"
+        binding.wageTotal = (resultTotal[0] + resultTotal[2] + resultTotal[1]).toString() + "원"
         binding.value = item
         binding.wage = item.wage.toString()
         binding.Cv.setTopbarVisible(false)
@@ -128,13 +128,13 @@ class WorkerDetailViewHolder(elementView : View)  : RecyclerView.ViewHolder(elem
         return result
     }
 
-    fun calculate(it : ArrayList<Int>, wage : Int) : ArrayList<Int> {
+    fun calculate(it: ArrayList<Int>, wage: Int): ArrayList<Int> {
         var wageNormal = 0
         var wageNight = 0
         var wageFulltime = 0
-            wageNormal += (it[0] * 60 + it[1]) * wage / 60
-            wageNight += (it[2] * 60 + it[3]) * wage / 60
-            wageFulltime += (it[4] * 60 + it[5]) * wage / 60
+        wageNormal += (it[0] * 60 + it[1]) * wage / 60
+        wageNight += (it[2] * 60 + it[3]) * wage / 60
+        wageFulltime += (it[4] * 60 + it[5]) * wage / 60
         return arrayListOf(wageNormal, wageNight, wageFulltime)
     }
 }
