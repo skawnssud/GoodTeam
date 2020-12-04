@@ -34,22 +34,9 @@ class WorkerDetailViewHolder(elementView : View, parent: ViewGroup)  : RecyclerV
     private var parent : ViewGroup = parent
 
     fun bind(activity: MainActivity, item: WorkerView, detail : WorkerDetail, worker : Worker, position : Int, context: Context) {
-        var timeTotal = getTimetotalByWeight(worker)
-        var resultTotal = calculate(timeTotal, item.wage)
-        binding.timeNormal = timeTotal[0].toString() + "h " + timeTotal[1].toString() + "m"
-        binding.timeNight = timeTotal[2].toString() + "h " + timeTotal[3].toString() + "m"
-        binding.timeFull = timeTotal[4].toString() + "h " + timeTotal[5].toString() + "m"
-        binding.timeTotal = (timeTotal[0] + timeTotal[2] + timeTotal[4]).toString() + "h " + (timeTotal[1] + timeTotal[3] + timeTotal[5]).toString() + "m"
-        binding.wageNormal = resultTotal[0].toString() + "원"
-        binding.wageNight = resultTotal[1].toString() + "원"
-        binding.wageFull = resultTotal[2].toString() + "원"
-        binding.wageTotal = (resultTotal[0] + resultTotal[2] + resultTotal[1]).toString() + "원"
-        binding.value = item
-        binding.wage = item.wage.toString()
+        setVariables(worker, item)
         binding.Cv.setTopbarVisible(false)
         binding.Cv.isPagingEnabled = false
-        binding.attendence = worker.datesWork.size.toString()
-        binding.absence = "0"
         paintCalander(activity, worker.infowork)
         if (detail.fulltime == 1) isFulltime = true
         if (detail.night == 1) isNight = true
@@ -97,16 +84,33 @@ class WorkerDetailViewHolder(elementView : View, parent: ViewGroup)  : RecyclerV
                     worker.infowork[date]!!.attendence = 1
                     activity.modifyWork(worker.infowork[date]!!)
                     paintDateAbsence(activity, date)
+                    setVariables(worker, item)
                     dialog.dismiss()
                 }
                 bindingDialog.buttonCommute.setOnClickListener {
                     worker.infowork[date]!!.attendence = 0
                     activity.modifyWork(worker.infowork[date]!!)
                     paintDateAttend(activity, date)
+                    setVariables(worker, item)
                     dialog.dismiss()
                 }
             }
         }
+    }
+
+    fun setVariables(worker: Worker, item: WorkerView){
+        var timeTotal = getTimetotalByWeight(worker)
+        var resultTotal = calculate(timeTotal, item.wage)
+        binding.timeNormal = timeTotal[0].toString() + "h " + timeTotal[1].toString() + "m"
+        binding.timeNight = timeTotal[2].toString() + "h " + timeTotal[3].toString() + "m"
+        binding.timeFull = timeTotal[4].toString() + "h " + timeTotal[5].toString() + "m"
+        binding.timeTotal = (timeTotal[0] + timeTotal[2] + timeTotal[4]).toString() + "h " + (timeTotal[1] + timeTotal[3] + timeTotal[5]).toString() + "m"
+        binding.wageNormal = resultTotal[0].toString() + "원"
+        binding.wageNight = resultTotal[1].toString() + "원"
+        binding.wageFull = resultTotal[2].toString() + "원"
+        binding.wageTotal = (resultTotal[0] + resultTotal[2] + resultTotal[1]).toString() + "원"
+        binding.value = item
+        binding.wage = item.wage.toString()
     }
 
     fun paintDateAttend(activity: MainActivity, date : CalendarDay) {
@@ -139,22 +143,29 @@ class WorkerDetailViewHolder(elementView : View, parent: ViewGroup)  : RecyclerV
 
     fun getTimetotalByWeight(worker : Worker) : ArrayList<Int> {
         var cal = Calendar.getInstance()
+        var attend = 0
+        var absence = 0
         var listTimeTotal = ArrayList<ArrayList<Int>>()
         var hourTotalNormal = 0
         var minTotalNormal= 0
         var hourTotalNight = 0
         var minTotalNight = 0
         for (i in 0..worker.infowork.size - 1) {
-            var calendarDay = worker.datesWork[i]
-            var work = worker.infowork[calendarDay]
-            cal.set(calendarDay.year, calendarDay.month, calendarDay.day)
-            if (cal.get(Calendar.DAY_OF_WEEK) != 7 && i != worker.infowork.size - 1) {
+            if (worker.infowork[worker.datesWork[i]]!!.attendence == 0) {
+                attend += 1
+                var calendarDay = worker.datesWork[i]
+                var work = worker.infowork[calendarDay]
+                cal.set(calendarDay.year, calendarDay.month, calendarDay.day)
                 var k = work!!.getTime()
                 hourTotalNormal += k[0]
                 minTotalNormal += k[1]
                 hourTotalNight += k[2]
                 minTotalNight += k[3]
             } else {
+                absence += 1
+            }
+            // 4 == End day of week : Sunday
+            if (cal.get(Calendar.DAY_OF_WEEK) == 4 || i == worker.infowork.size - 1) {
                 if (minTotalNormal > 60) {
                     hourTotalNormal += minTotalNormal / 60
                     minTotalNormal %= 60
@@ -184,6 +195,8 @@ class WorkerDetailViewHolder(elementView : View, parent: ViewGroup)  : RecyclerV
                 result[5] += 0
             }
         }
+        binding.attendence = attend.toString()
+        binding.absence = absence.toString()
         return result
     }
 

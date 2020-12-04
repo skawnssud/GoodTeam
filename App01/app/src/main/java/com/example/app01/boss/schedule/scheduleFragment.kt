@@ -401,7 +401,7 @@ class scheduleFragment : Fragment() {
         dataObject.selectWorker = dataObject.listWorker[position]
         dataObject.selectWorkerInfo.setWorkerInfo(dataObject.selectWorker)
         binding.currentBranch = dataObject.selectBranch.title
-        binding.currentWorker = dataObject.selectWorker.name
+        binding.currentWorker = dataObject.listWorkerView[position].name
         binding.timeStart = dataObject.selectWorker.timeStart
         binding.timeEnd = dataObject.selectWorker.timeEnd
         paintCalander(dataObject.selectWorker.datesWork)
