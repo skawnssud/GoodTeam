@@ -44,7 +44,7 @@ class historyFragment : Fragment(), OnBackPressedListener {
         dataObject.listWorker = (activity as MainActivity).getWorkersByIdBranch(dataObject.selectBranch.id)
 
         // Recycler view for each worker's summary
-        mWorkerDetailAdapter = WorkerDetailAdapter(dataObject.listWorkerView, dataObject.listWorkerDetail, dataObject.listWorker, requireContext(), object : WorkerDetailAdapter.ItemClickListener {
+        mWorkerDetailAdapter = WorkerDetailAdapter((activity as MainActivity), dataObject.listWorkerView, dataObject.listWorkerDetail, dataObject.listWorker, requireContext(), object : WorkerDetailAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
             }
             override fun onLongClick(view: View, position: Int): Boolean {
@@ -73,7 +73,7 @@ class historyFragment : Fragment(), OnBackPressedListener {
                     (activity as MainActivity).getWorkersAndDetails()
                     binding.table0to11.removeAllViewsInLayout()
                     binding.table12to23.removeAllViewsInLayout()
-                    mWorkerDetailAdapter = WorkerDetailAdapter(dataObject.listWorkerView, dataObject.listWorkerDetail, dataObject.listWorker, requireContext(), object : WorkerDetailAdapter.ItemClickListener {
+                    mWorkerDetailAdapter = WorkerDetailAdapter((activity as MainActivity), dataObject.listWorkerView, dataObject.listWorkerDetail, dataObject.listWorker, requireContext(), object : WorkerDetailAdapter.ItemClickListener {
                         override fun onClick(view: View, position: Int) {
                         }
                         override fun onLongClick(view: View, position: Int): Boolean {

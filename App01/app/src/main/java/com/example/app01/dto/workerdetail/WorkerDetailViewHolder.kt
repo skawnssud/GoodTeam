@@ -1,24 +1,39 @@
 package com.example.app01.dto.workerdetail
 
+import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.app01.selector.SelectRedDecorator
+import com.example.app01.MainActivity
 import com.example.app01.R
 import com.example.app01.dataObject
+import com.example.app01.databinding.DialogBranchSelectionBinding
+import com.example.app01.databinding.DialogCheckCommuteBinding
 import com.example.app01.databinding.ItemWorkerSpecificBinding
+import com.example.app01.dto.branch.Branch
+import com.example.app01.dto.branch.branchAdapter
+import com.example.app01.dto.worker.Work
 import com.example.app01.dto.worker.Worker
 import com.example.app01.dto.workerview.WorkerView
+import com.example.app01.selector.SelectGreenDecorator
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
-class WorkerDetailViewHolder(elementView : View)  : RecyclerView.ViewHolder(elementView) {
+
+class WorkerDetailViewHolder(elementView : View, parent: ViewGroup)  : RecyclerView.ViewHolder(elementView) {
     private var binding : ItemWorkerSpecificBinding = DataBindingUtil.bind(elementView)!!
     private var isFulltime = false
     private var isNight = false
+    private var parent : ViewGroup = parent
 
-    fun bind(item: WorkerView, detail : WorkerDetail, worker : Worker, position : Int, context: Context) {
+    fun bind(activity: MainActivity, item: WorkerView, detail : WorkerDetail, worker : Worker, position : Int, context: Context) {
         var timeTotal = getTimetotalByWeight(worker)
         var resultTotal = calculate(timeTotal, item.wage)
         binding.timeNormal = timeTotal[0].toString() + "h " + timeTotal[1].toString() + "m"
@@ -35,7 +50,7 @@ class WorkerDetailViewHolder(elementView : View)  : RecyclerView.ViewHolder(elem
         binding.Cv.isPagingEnabled = false
         binding.attendence = worker.datesWork.size.toString()
         binding.absence = "0"
-        paintCalander(worker.datesWork)
+        paintCalander(activity, worker.infowork)
         if (detail.fulltime == 1) isFulltime = true
         if (detail.night == 1) isNight = true
         if (isFulltime) binding.liveFulltime.setImageResource(R.drawable.dot_green)
@@ -45,11 +60,13 @@ class WorkerDetailViewHolder(elementView : View)  : RecyclerView.ViewHolder(elem
                 binding.liveFulltime.setImageResource(R.drawable.dot_red)
                 detail.fulltime = 0
                 dataObject.listWorkerDetail[position].fulltime = 0
+                activity.modifyWorkerDetail(dataObject.listWorkerDetail[position])
                 isFulltime = false
             } else {
                 binding.liveFulltime.setImageResource(R.drawable.dot_green)
                 detail.fulltime = 1
                 dataObject.listWorkerDetail[position].fulltime = 1
+                activity.modifyWorkerDetail(dataObject.listWorkerDetail[position])
                 isFulltime = true
             }
 
@@ -59,22 +76,64 @@ class WorkerDetailViewHolder(elementView : View)  : RecyclerView.ViewHolder(elem
                 binding.liveNight.setImageResource(R.drawable.dot_red)
                 detail.night = 0
                 dataObject.listWorkerDetail[position].night = 0
+                activity.modifyWorkerDetail(dataObject.listWorkerDetail[position])
                 isNight = false
             } else {
                 binding.liveNight.setImageResource(R.drawable.dot_green)
                 detail.night = 1
                 dataObject.listWorkerDetail[position].night = 1
+                activity.modifyWorkerDetail(dataObject.listWorkerDetail[position])
                 isNight = true
             }
 
         }
+        binding.Cv.setOnDateLongClickListener { widget, date ->
+            if (worker.datesWork.contains(date)) {
+                val dialog = AlertDialog.Builder(context).create()
+                val bindingDialog : DialogCheckCommuteBinding = DataBindingUtil.inflate(activity.layoutInflater, R.layout.dialog_check_commute, parent, false)
+                dialog.setView(bindingDialog.root)
+                dialog.show()
+                bindingDialog.buttonAbsence.setOnClickListener {
+                    worker.infowork[date]!!.attendence = 1
+                    activity.modifyWork(worker.infowork[date]!!)
+                    paintDateAbsence(activity, date)
+                    dialog.dismiss()
+                }
+                bindingDialog.buttonCommute.setOnClickListener {
+                    worker.infowork[date]!!.attendence = 0
+                    activity.modifyWork(worker.infowork[date]!!)
+                    paintDateAttend(activity, date)
+                    dialog.dismiss()
+                }
+            }
+        }
     }
 
+    fun paintDateAttend(activity: MainActivity, date : CalendarDay) {
+        binding.Cv.addDecorators(
+            SelectGreenDecorator(
+                activity,
+                date
+            )
+        )
+    }
+    fun paintDateAbsence(activity: MainActivity, date : CalendarDay) {
+        binding.Cv.addDecorators(
+            SelectRedDecorator(
+                activity,
+                date
+            )
+        )
+    }
     // Marking current selection dates on Calender
-    fun paintCalander(dates: List<CalendarDay>) {
+    fun paintCalander(activity: MainActivity, works: HashMap<CalendarDay, Work>) {
         binding.Cv.clearSelection()
-        if (dates.size != 0) {
-            binding.Cv.selectRange(dates[0], dates[dates.size - 1])
+        works.forEach { calendarDay, work ->
+            if (work.attendence == 0) {
+                paintDateAttend(activity, calendarDay)
+            } else {
+                paintDateAbsence(activity, calendarDay)
+            }
         }
     }
 

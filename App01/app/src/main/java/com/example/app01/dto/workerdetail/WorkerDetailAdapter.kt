@@ -5,23 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.app01.MainActivity
 import com.example.app01.R
 import com.example.app01.dto.worker.Worker
 import com.example.app01.dto.workerview.WorkerView
 
 class WorkerDetailAdapter(
-    var listWorkerView: ArrayList<WorkerView>, var listWorkerDetail: ArrayList<WorkerDetail>, var listWorker: ArrayList<Worker>, val context: Context, var itemClickListener: ItemClickListener
+    var activity: MainActivity,
+    var listWorkerView: ArrayList<WorkerView>,
+    var listWorkerDetail: ArrayList<WorkerDetail>,
+    var listWorker: ArrayList<Worker>,
+    val context: Context,
+    var itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<WorkerDetailViewHolder>() {
 
     interface ItemClickListener {
-        fun onClick(view : View, position : Int)
-        fun onLongClick(view : View, position : Int) : Boolean
+        fun onClick(view: View, position: Int)
+        fun onLongClick(view: View, position: Int): Boolean
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerDetailViewHolder {
-        var view = LayoutInflater.from(context).inflate(R.layout.item_worker_specific, parent, false)
+        var view =
+            LayoutInflater.from(context).inflate(R.layout.item_worker_specific, parent, false)
 
-        return WorkerDetailViewHolder(view)
+        return WorkerDetailViewHolder(view, parent)
     }
 
     override fun getItemCount(): Int {
@@ -29,12 +36,20 @@ class WorkerDetailAdapter(
     }
 
     override fun onBindViewHolder(holder: WorkerDetailViewHolder, position: Int) {
+
         holder.itemView.setOnClickListener {
             itemClickListener!!.onClick(it, position)
         }
         holder.itemView.setOnLongClickListener {
             itemClickListener!!.onLongClick(it, position)
         }
-        holder.bind(listWorkerView[position], listWorkerDetail[position], listWorker[position], position, context)
+        holder.bind(
+            activity,
+            listWorkerView[position],
+            listWorkerDetail[position],
+            listWorker[position],
+            position,
+            context
+        )
     }
 }

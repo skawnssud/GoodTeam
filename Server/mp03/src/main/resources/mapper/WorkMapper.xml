@@ -3,7 +3,7 @@
 <mapper namespace="com.my.spring.mapper.WorkMapper">
 	
 	<select id="searchWorkerInfoByIdWorker" resultType="com.my.spring.domain.WorkerInfoVO" parameterType="int">
-	  SELECT A.ID, A.ID_WORKER, A.ID_BRANCH A.TIMESTART, A.TIMEEND, A.PAYMENT 
+	  SELECT A.ID, A.ID_WORKER, A.ID_BRANCH, A.TIMESTART, A.TIMEEND, A.PAYMENT 
 	  FROM WORKERINFO A
 	  WHERE A.id_worker = #{id_worker}
 	  AND A.ID_BRANCH = #{id_branch} 
@@ -11,7 +11,7 @@
 	</select>
 	
 	<select id="getWorkersByIdBranch" resultType="com.my.spring.domain.WorkerInfoVO" parameterType="int">
-		SELECT A.ID, A.ID_WORKER, A.TIMESTART, A.TIMEEND, A.PAYMENT 
+		SELECT A.ID, A.ID_WORKER, A.TIMESTART, A.TIMEEND, A.PAYMENT
 	  	FROM WORKERINFO A
 	  	WHERE A.ID_BRANCH = #{id_branch} 
 	  	ORDER BY ID DESC
@@ -52,9 +52,9 @@
 	</select>
 	
 	<insert id="createWorkByIdWorkerInfo" parameterType="com.my.spring.domain.WorkVO">
-		INSERT INTO WORK (ID, ID_WORKERINFO, PAYMENT, TIMESTART, TIMEEND, HOURSOFWORK, DATEWORK) VALUES (
+		INSERT INTO WORK (ID, ID_WORKERINFO, PAYMENT, TIMESTART, TIMEEND, HOURSOFWORK, DATEWORK, ATTENDENCE) VALUES (
 		WORK_SEQ.NEXTVAL, #{work.id_workerInfo}, #{work.payment}, #{work.timeStart},
-		#{work.timeEnd}, #{work.hoursOfWork}, #{work.dateWork})
+		#{work.timeEnd}, #{work.hoursOfWork}, #{work.dateWork}, #{work.attendence})
 	</insert>
 	
 	<update id="modifyWork" parameterType="com.my.spring.domain.WorkVO">
@@ -64,7 +64,8 @@
 		TIMESTART = #{work.timeStart},
 		TIMEEND = #{work.timeEnd},
 		HOURSOFWORK = #{work.hoursOfWork},
-		DATEWORK = #{work.dateWork}
+		DATEWORK = #{work.dateWork},
+		ATTENDENCE = #{work.attendence}
 		WHERE
 		ID = #{work.id}
 	</update>
@@ -79,7 +80,7 @@
 		WORKERDETAIL_SEQ.NEXTVAL, #{item.id_workerInfo}, #{item.fulltime}, #{item.night})
 	</insert>
 	
-	<update id="updateWorkerDetail" parameterType = "com.my.spring.domain.WorkerDetailVO">
+	<update id="modifyWorkerDetail" parameterType = "com.my.spring.domain.WorkerDetailVO">
 		UPDATE WORKERDETAIL
 		SET
 		FULLTIME = #{item.fulltime},

@@ -84,11 +84,13 @@ public class WorkController {
 	@RequestMapping(value = "/work", method = RequestMethod.PUT)
 	public Boolean modifyWork(@RequestBody WorkVO work) {
 		System.out.println("::modifyWork::");
+		System.out.println("id\t|\t" + work.getId());
 		System.out.println("payment\t|\t" + work.getPayment());
 		System.out.println("id_workerInfo\t|\t" + work.getId_workerInfo());
 		System.out.println("TimeStart\t|\t" + work.getTimeStart());
 		System.out.println("TimeEnd\t|\t" + work.getTimeEnd());
 		System.out.println("DateWork\t|\t" + work.getDateWork());
+		System.out.println("Attendence\t|\t" + work.getAttendence());
 		System.out.println();
 		
 		return service.modifyWork(work);
@@ -120,6 +122,9 @@ public class WorkController {
 	
 	@RequestMapping(value = "/detail", method = RequestMethod.PUT)
 	public Boolean modifyWorkerDetail(@RequestBody WorkerDetailVO item) {
+		System.out.println(item.getId_workerInfo());
+		System.out.println(item.getFulltime());
+		System.out.println(item.getNight());
 		return service.modifyWorkerDetail(item);
 	}
 	
