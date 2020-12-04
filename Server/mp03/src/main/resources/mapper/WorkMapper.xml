@@ -69,4 +69,24 @@
 		WHERE ID_WORKERINFO = #{id_workerinfo}
 	</delete>
 	
+	<insert id="createWorkerDetail" parameterType = "com.my.spring.domain.WorkerDetailVO">
+		INSERT INTO WORKERDETAIL (ID, ID_WORKERINFO, FULLTIME, NIGHT) VALUES (
+		WORKERDETAIL_SEQ.NEXTVAL, #{item.id_workerInfo}, #{item.fulltime}, #{item.night})
+	</insert>
+	
+	<update id="updateWorkerDetail" parameterType = "com.my.spring.domain.WorkerDetailVO">
+		UPDATE WORKERDETAIL
+		SET
+		FULLTIME = #{item.fulltime},
+		NIGHT = #{item.night}
+		WHERE
+		ID = #{item.id}
+	</update>
+	
+	<select id="getWorkerDetailByIdWorkerInfo" parameterType="Int" resultType="com.my.spring.domain.WorkerDetailVO">
+		select * 
+		from workerdetail
+		where id_workerinfo = #{id_workerInfo}
+		
+	</select>
 </mapper>

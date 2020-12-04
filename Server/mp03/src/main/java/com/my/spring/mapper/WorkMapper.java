@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.my.spring.domain.WorkVO;
+import com.my.spring.domain.WorkerDetailVO;
 import com.my.spring.domain.WorkerInfoVO;
 
 public interface WorkMapper {
@@ -17,4 +18,7 @@ public interface WorkMapper {
 	public Boolean modifyWork(@Param("work") WorkVO work);
 	public Boolean deleteWorksByIdWorkerInfo(@Param("id_workerinfo") int id_workerinfo);
 	public List<WorkerInfoVO> getWorkersByIdBranch(@Param("id_branch") int id_branch);
+	public Boolean createWorkerDetail(@Param("item") WorkerDetailVO item);
+	public Boolean modifyWorkerDetail(@Param("item") WorkerDetailVO item);
+	public WorkerDetailVO getWorkerDetailByIdWorkerInfo(@Param("id_workerInfo") int id_workerInfo);
 }

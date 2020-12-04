@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.my.spring.domain.WorkVO;
+import com.my.spring.domain.WorkerDetailVO;
 import com.my.spring.domain.WorkerInfoVO;
 import com.my.spring.mapper.WorkMapper;
 import com.my.spring.service.WorkService;
@@ -59,6 +60,24 @@ public class WorkServiceImpl implements WorkService {
 	@Override
 	public List<WorkerInfoVO> getWorkersByIdBranch(int id_branch) {
 		return mapper.getWorkersByIdBranch(id_branch);
+	}
+
+	@Override
+	public Boolean createWorkerDetail(WorkerDetailVO item) {
+		// TODO Auto-generated method stub
+		return mapper.createWorkerDetail(item);
+	}
+
+	@Override
+	public Boolean modifyWorkerDetail(WorkerDetailVO item) {
+		// TODO Auto-generated method stub
+		return mapper.modifyWorkerDetail(item);
+	}
+
+	@Override
+	public WorkerDetailVO getWorkerDetailByIdWorkerInfo(int id_workerInfo) {
+		// TODO Auto-generated method stub
+		return mapper.getWorkerDetailByIdWorkerInfo(id_workerInfo);
 	}
 	
 	

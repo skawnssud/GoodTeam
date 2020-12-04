@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.my.spring.domain.WorkVO;
+import com.my.spring.domain.WorkerDetailVO;
 import com.my.spring.domain.WorkerInfoVO;
 import com.my.spring.service.WorkService;
 
@@ -101,6 +102,25 @@ public class WorkController {
 	@RequestMapping(value = "/work/id_branch/{id_branch}", method = RequestMethod.GET)
 	public List<WorkerInfoVO> getWorkersByIdBranch(@PathVariable int id_branch) {
 		return service.getWorkersByIdBranch(id_branch);
+	}
+	
+	@RequestMapping(value = "/detail", method = RequestMethod.POST)
+	public Boolean createWorkerDetail(@RequestBody WorkerDetailVO item) {
+		System.out.println("::createWorkerDetail::");
+		System.out.println("id_workerInfo\t|\t"+item.getId_workerInfo());
+		System.out.println("fulltime\t|\t"+item.getFulltime());
+		System.out.println("night\t|\t"+item.getNight());
+		return service.createWorkerDetail(item);
+	}
+	
+	@RequestMapping(value = "/detail", method = RequestMethod.PUT)
+	public Boolean modifyWorkerDetail(@RequestBody WorkerDetailVO item) {
+		return service.modifyWorkerDetail(item);
+	}
+	
+	@RequestMapping(value = "/detail/{id_workerInfo}", method = RequestMethod.GET)
+	public WorkerDetailVO getWorkerDetailByIdWorkerInfo(@PathVariable int id_workerInfo) {
+		return service.getWorkerDetailByIdWorkerInfo(id_workerInfo);
 	}
 
 }

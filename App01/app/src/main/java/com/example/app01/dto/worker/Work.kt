@@ -1,7 +1,5 @@
 package com.example.app01.dto.worker
 
-import kotlin.math.min
-
 class Work {
     var id = 0
     var id_workerInfo: Int = 0

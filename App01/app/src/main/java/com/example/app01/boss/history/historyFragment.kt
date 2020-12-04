@@ -21,12 +21,14 @@ import com.example.app01.databinding.DialogBranchSelectionBinding
 import com.example.app01.databinding.FragmentHistoryBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchAdapter
+import com.example.app01.dto.workerdetail.WorkerDetailAdapter
 import com.example.app01.dto.workerview.workerViewAdapter
 import com.prolificinteractive.materialcalendarview.CalendarDay
 
 class historyFragment : Fragment(), OnBackPressedListener {
     private lateinit var binding : FragmentHistoryBinding
     private lateinit var mBranchAdapter : branchAdapter
+    private lateinit var mWorkerDetailAdapter : WorkerDetailAdapter
     var mBackWait:Long = 0
 
     override fun onCreateView(
@@ -37,8 +39,19 @@ class historyFragment : Fragment(), OnBackPressedListener {
             R.layout.fragment_history, container, false)
 
         // Default Setting
+        (activity as MainActivity).getWorkersAndDetails()
         binding.currentBranch = dataObject.selectBranch.title
         dataObject.listWorker = (activity as MainActivity).getWorkersByIdBranch(dataObject.selectBranch.id)
+
+        // Recycler view for each worker's summary
+        mWorkerDetailAdapter = WorkerDetailAdapter(dataObject.listWorkerView, dataObject.listWorkerDetail, dataObject.listWorker, requireContext(), object : WorkerDetailAdapter.ItemClickListener {
+            override fun onClick(view: View, position: Int) {
+            }
+            override fun onLongClick(view: View, position: Int): Boolean {
+                return true
+            }
+        })
+        binding.RvWorkerDetails.adapter = mWorkerDetailAdapter
 
         // Branch Selection
         binding.selectionBranch.setOnClickListener {
@@ -57,10 +70,17 @@ class historyFragment : Fragment(), OnBackPressedListener {
                     var select = parent?.getItemAtPosition(position) as Branch
                     binding.currentBranch = select.title
                     dataObject.selectBranch = select
-                    (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
-                    dataObject.listWorker = (activity as MainActivity).getWorkersByIdBranch(select.id)
+                    (activity as MainActivity).getWorkersAndDetails()
                     binding.table0to11.removeAllViewsInLayout()
                     binding.table12to23.removeAllViewsInLayout()
+                    mWorkerDetailAdapter = WorkerDetailAdapter(dataObject.listWorkerView, dataObject.listWorkerDetail, dataObject.listWorker, requireContext(), object : WorkerDetailAdapter.ItemClickListener {
+                        override fun onClick(view: View, position: Int) {
+                        }
+                        override fun onLongClick(view: View, position: Int): Boolean {
+                            return true
+                        }
+                    })
+                    binding.RvWorkerDetails.adapter = mWorkerDetailAdapter
                     dialog.cancel()
                 }
             }

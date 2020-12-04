@@ -3,6 +3,7 @@ package com.example.app01.DB
 import com.example.app01.dto.User
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.worker.Work
+import com.example.app01.dto.workerdetail.WorkerDetail
 import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.workerview.WorkerView
 import retrofit2.Call
@@ -70,5 +71,13 @@ interface retrofitAPI {
     @GET("/spring/work/work/id_branch/{id_branch}")
     fun getWorkersByIdBranch(@Path("id_branch") id_branch: Int) : Call<List<WorkerInfo>>
 
+    @POST("/spring/work/detail")
+    fun createWorkerDetail(@Body item : WorkerDetail) : Call<Boolean>
+
+    @PUT("/spring/work/detail")
+    fun modifyWorkerDetail(@Body item : WorkerDetail) : Call<Boolean>
+
+    @GET("/spring/work/detail/{id_workerInfo}")
+    fun getWorkerDetailByIdWorkerInfo(@Path("id_workerInfo") id_workerinfo: Int) : Call<WorkerDetail>
 
 }

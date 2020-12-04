@@ -67,7 +67,7 @@ class scheduleFragment : Fragment() {
                     var select = parent?.getItemAtPosition(position) as Branch
                     binding.currentBranch = select.title
                     dataObject.selectBranch = select
-                    (activity as MainActivity).getWorkerViewesByIdBranch(select.id)
+                    (activity as MainActivity).getWorkersAndDetails()
                     mWorkerViewAdapter =
                         workerViewAdapter(
                             dataObject.listWorkerView,
@@ -187,7 +187,7 @@ class scheduleFragment : Fragment() {
                             it.calculate()
                             (activity as MainActivity).modifyWork(it)
                         }
-                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerinfo)
+                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerInfo)
                         dataObject.selectWorker.datesWork = dataObject.selectWorker.infowork.keys.toMutableList()
                     } else {
                         Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
@@ -223,7 +223,7 @@ class scheduleFragment : Fragment() {
                             it.calculate()
                             (activity as MainActivity).modifyWork(it)
                         }
-                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerinfo)
+                        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorker.id_workerInfo)
                         dataObject.selectWorker.datesWork = dataObject.selectWorker.infowork.keys.toMutableList()
                     } else {
                         Toast.makeText(requireContext(), "Not possible. Starting time should be smaller than Ending time.", Toast.LENGTH_SHORT).show()
@@ -367,9 +367,8 @@ class scheduleFragment : Fragment() {
 
     fun defaultSetting(position : Int) {
         // Default Setting
-        setWorkerByPosition(position)
-        dataObject.selectWorker.infowork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id)
-        dataObject.selectWorker.datesWork = (activity as MainActivity).getWorksByIdWorkerInfo(dataObject.selectWorkerInfo.id).keys.toMutableList()
+        dataObject.selectWorker = dataObject.listWorker[position]
+        dataObject.selectWorkerInfo.setWorkerInfo(dataObject.selectWorker)
         binding.currentBranch = dataObject.selectBranch.title
         binding.currentWorker = dataObject.selectWorker.name
         binding.timeStart = dataObject.selectWorker.timeStart

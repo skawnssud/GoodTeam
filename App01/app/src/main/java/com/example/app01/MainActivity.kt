@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.app01.DB.retrofitAPI
-import com.example.app01.custominterface.OnBackPressedListener
 import com.example.app01.databinding.ActivityMainBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.User
 import com.example.app01.dto.worker.Work
 import com.example.app01.dto.worker.Worker
+import com.example.app01.dto.workerdetail.WorkerDetail
 import com.example.app01.dto.worker.WorkerInfo
 import com.example.app01.dto.workerview.WorkerView
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -172,6 +172,9 @@ class MainActivity : AppCompatActivity() {
         })
         thread.start()
         thread.join()
+        var detail = WorkerDetail()
+        detail.id_workerInfo = getWorkerInfo(newWorkerInfo.id_worker, id).id
+        createWorkerDetail(detail)
         var newWorkerView = WorkerView()
         newWorkerView.id = newWorkerInfo.id_worker
         newWorkerView.wage = newWorkerInfo.payment
@@ -241,7 +244,11 @@ class MainActivity : AppCompatActivity() {
         for (date in dates) {
             var work = Work()
             work.setFromWorkerInfo(workerInfo)
-            work.dateWork = date.year.toString() + "-" + date.month.toString() + "-" + date.day.toString()
+            var mon = ""
+            var da = ""
+            if (date.month < 10) mon = "0" + date.month else mon = date.month.toString()
+            if (date.day < 10) da = "0" + date.day else da = date.day.toString()
+            work.dateWork = date.year.toString() + "-" + mon + "-" + da
             work.calculate()
             var thread = Thread(Runnable {
                 result = mRetrofitAPI.createWorkByIdWorkerInfo(work).execute().body()!!
@@ -263,7 +270,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getWorksByIdWorkerInfo(id_workerInfo: Int) : HashMap<CalendarDay, Work> {
-        var result = HashMap<CalendarDay, Work>()
+        var result = LinkedHashMap<CalendarDay, Work>()
         var temp = listOf<Work>()
         var thread = Thread (Runnable {
             temp = mRetrofitAPI.getWorkByIdWorkerInfo(id_workerInfo).execute().body()!!
@@ -308,10 +315,45 @@ class MainActivity : AppCompatActivity() {
             }
         }
         for (worker in list2) {
-            worker.infowork = getWorksByIdWorkerInfo(worker.id_workerinfo)
+            worker.infowork = getWorksByIdWorkerInfo(worker.id_workerInfo)
             worker.datesWork = worker.infowork.keys.toMutableList()
         }
         return list2
+    }
+
+    fun createWorkerDetail(item : WorkerDetail) {
+        var thread = Thread(Runnable {
+            mRetrofitAPI.createWorkerDetail(item).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+    }
+    fun modifyWorkerDetail(item : WorkerDetail) {
+        var thread = Thread(Runnable {
+            mRetrofitAPI.modifyWorkerDetail(item).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+    }
+    fun getWorkerDetailByIdWorkerInfo(id_workerInfo: Int) : WorkerDetail {
+        var detail = WorkerDetail()
+        var thread = Thread(Runnable {
+            detail = mRetrofitAPI.getWorkerDetailByIdWorkerInfo(id_workerInfo).execute().body()!!
+        })
+        thread.start()
+        thread.join()
+        return detail
+    }
+
+    // After Setting selectBranch
+    fun getWorkersAndDetails() {
+        getWorkerViewesByIdBranch(dataObject.selectBranch.id)
+        dataObject.listWorker = getWorkersByIdBranch(dataObject.selectBranch.id)
+        for (i : Int in 0..dataObject.listWorker.size-1) {
+            dataObject.listWorkerDetail.add(getWorkerDetailByIdWorkerInfo(dataObject.listWorker[i].id_workerInfo))
+            dataObject.listWorker[i].infowork = getWorksByIdWorkerInfo(dataObject.listWorker[i].id_workerInfo)
+            dataObject.listWorker[i].datesWork = dataObject.listWorker[i].infowork.keys.toMutableList()
+        }
     }
 
 
