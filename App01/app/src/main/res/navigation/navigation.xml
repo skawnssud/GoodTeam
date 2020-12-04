@@ -25,27 +25,7 @@
         android:label="fragment_worker_schedule"
         tools:layout="@layout/fragment_worker_schedule">
         <action
-            android:id="@+id/action_workerScheduleFragment_to_workerCalculationFragment"
-            app:destination="@id/workerCalculationFragment"
-            app:popUpTo="@id/workerScheduleFragment"
-            app:popUpToInclusive="false" />
-        <action
             android:id="@+id/action_workerScheduleFragment_to_workerMypageFragment"
-            app:destination="@id/workerMypageFragment"
-            app:popUpTo="@id/workerScheduleFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/workerCalculationFragment"
-        android:name="com.example.app01.worker.workerCalculationFragment"
-        android:label="fragment_worker_calculation"
-        tools:layout="@layout/fragment_worker_calculation" >
-        <action
-            android:id="@+id/action_workerCalculationFragment_to_workerScheduleFragment"
-            app:destination="@id/workerScheduleFragment"
-            app:popUpTo="@id/workerScheduleFragment"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_workerCalculationFragment_to_workerMypageFragment"
             app:destination="@id/workerMypageFragment"
             app:popUpTo="@id/workerScheduleFragment" />
     </fragment>
@@ -55,17 +35,13 @@
         android:label="fragment_worker_mypage"
         tools:layout="@layout/fragment_worker_mypage" >
         <action
-            android:id="@+id/action_workerMypageFragment_to_workerCalculationFragment"
-            app:destination="@id/workerCalculationFragment"
-            app:popUpTo="@id/workerScheduleFragment" />
-        <action
             android:id="@+id/action_workerMypageFragment_to_workerScheduleFragment"
             app:destination="@id/workerScheduleFragment"
             app:popUpTo="@id/workerScheduleFragment" />
     </fragment>
     <fragment
         android:id="@+id/managementFragment"
-        android:name="com.example.app01.boss.management.managementFragment"
+        android:name="com.example.app01.boss.managementFragment"
         android:label="fragment_management"
         tools:layout="@layout/fragment_management" >
         <action
@@ -83,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="com.example.app01.boss.schedule.scheduleFragment"
+        android:name="com.example.app01.boss.scheduleFragment"
         android:label="fragment_schedule"
         tools:layout="@layout/fragment_schedule" >
         <action
@@ -101,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.app01.boss.history.historyFragment"
+        android:name="com.example.app01.boss.historyFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" >
         <action

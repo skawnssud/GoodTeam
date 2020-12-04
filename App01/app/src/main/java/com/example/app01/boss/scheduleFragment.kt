@@ -1,4 +1,4 @@
-package com.example.app01.boss.schedule
+package com.example.app01.boss
 
 import android.app.AlertDialog
 import android.app.TimePickerDialog
@@ -401,7 +401,7 @@ class scheduleFragment : Fragment() {
         dataObject.selectWorker = dataObject.listWorker[position]
         dataObject.selectWorkerInfo.setWorkerInfo(dataObject.selectWorker)
         binding.currentBranch = dataObject.selectBranch.title
-        binding.currentWorker = dataObject.listWorkerView[position].name
+        binding.currentWorker = dataObject.selectWorker.name
         binding.timeStart = dataObject.selectWorker.timeStart
         binding.timeEnd = dataObject.selectWorker.timeEnd
         paintCalander(dataObject.selectWorker.datesWork)

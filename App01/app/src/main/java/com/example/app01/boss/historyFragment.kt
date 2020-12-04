@@ -1,4 +1,4 @@
-package com.example.app01.boss.history
+package com.example.app01.boss
 
 import android.app.AlertDialog
 import android.graphics.Color
@@ -22,7 +22,6 @@ import com.example.app01.databinding.FragmentHistoryBinding
 import com.example.app01.dto.branch.Branch
 import com.example.app01.dto.branch.branchAdapter
 import com.example.app01.dto.workerdetail.WorkerDetailAdapter
-import com.example.app01.dto.workerview.workerViewAdapter
 import com.prolificinteractive.materialcalendarview.CalendarDay
 
 class historyFragment : Fragment(), OnBackPressedListener {

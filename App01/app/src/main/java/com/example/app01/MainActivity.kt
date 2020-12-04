@@ -352,7 +352,6 @@ class MainActivity : AppCompatActivity() {
         for (i : Int in 0..dataObject.listWorker.size-1) {
             dataObject.listWorkerDetail.add(getWorkerDetailByIdWorkerInfo(dataObject.listWorker[i].id_workerInfo))
             dataObject.listWorker[i].infowork = getWorksByIdWorkerInfo(dataObject.listWorker[i].id_workerInfo)
-            dataObject.listWorker[i].datesWork = dataObject.listWorker[i].infowork.keys.toMutableList()
         }
     }
 
