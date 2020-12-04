@@ -88,34 +88,30 @@ class scheduleFragment : Fragment() {
                                 }
 
                                 override fun onLongClick(view: View, position: Int): Boolean {
-                                    if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
-                                        setWorkerByPosition(position)
-                                        val dialog = AlertDialog.Builder(requireContext()).create()
-                                        bindingDialogWorker = DataBindingUtil.inflate(
-                                            inflater,
-                                            R.layout.dialog_worker_creation, container, false
-                                        )
-                                        dialog.setView(bindingDialogWorker.root)
-                                        dialog.show()
-                                        bindingDialogWorker.inputName = "Hourly wage"
-                                        bindingDialogWorker.account =
-                                            dataObject.listWorkerView[position].wage.toString()
-                                        bindingDialogWorker.buttonCancel.setOnClickListener {
-                                            dialog.cancel()
-                                        }
-                                        bindingDialogWorker.buttonConfirm.setOnClickListener {
-                                            dataObject.selectWorkerInfo.payment =
-                                                bindingDialogWorker.account!!.toString().toInt()
-                                            dataObject.listWorkerView[position].wage =
-                                                bindingDialogWorker.account!!.toString().toInt()
-                                            (activity as MainActivity).modifyWorkerInfo(dataObject.selectWorkerInfo)
-                                            mWorkerViewAdapter.setItems(dataObject.listWorkerView)
-                                            defaultSetting(position)
-                                            binding.RvWorkers.adapter = mWorkerViewAdapter
-                                            dialog.dismiss()
-                                        }
-                                    } else {
-                                        (activity as MainActivity).alertToast("It is yourself.")
+                                    setWorkerByPosition(position)
+                                    val dialog = AlertDialog.Builder(requireContext()).create()
+                                    bindingDialogWorker = DataBindingUtil.inflate(
+                                        inflater,
+                                        R.layout.dialog_worker_creation, container, false
+                                    )
+                                    dialog.setView(bindingDialogWorker.root)
+                                    dialog.show()
+                                    bindingDialogWorker.inputName = "Hourly wage"
+                                    bindingDialogWorker.account =
+                                        dataObject.listWorkerView[position].wage.toString()
+                                    bindingDialogWorker.buttonCancel.setOnClickListener {
+                                        dialog.cancel()
+                                    }
+                                    bindingDialogWorker.buttonConfirm.setOnClickListener {
+                                        dataObject.selectWorkerInfo.payment =
+                                            bindingDialogWorker.account!!.toString().toInt()
+                                        dataObject.listWorkerView[position].wage =
+                                            bindingDialogWorker.account!!.toString().toInt()
+                                        (activity as MainActivity).modifyWorkerInfo(dataObject.selectWorkerInfo)
+                                        mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                                        defaultSetting(position)
+                                        binding.RvWorkers.adapter = mWorkerViewAdapter
+                                        dialog.dismiss()
                                     }
 
                                     return true
@@ -160,34 +156,30 @@ class scheduleFragment : Fragment() {
                 }
 
                 override fun onLongClick(view: View, position: Int): Boolean {
-                    if (dataObject.listWorkerView[position].id != dataObject.selectUser.id) {
-                        setWorkerByPosition(position)
-                        val dialog = AlertDialog.Builder(requireContext()).create()
-                        bindingDialogWorker = DataBindingUtil.inflate(
-                            inflater,
-                            R.layout.dialog_worker_creation, container, false
-                        )
-                        dialog.setView(bindingDialogWorker.root)
-                        dialog.show()
-                        bindingDialogWorker.inputName = "Hourly wage"
-                        bindingDialogWorker.account =
-                            dataObject.listWorkerView[position].wage.toString()
-                        bindingDialogWorker.buttonCancel.setOnClickListener {
-                            dialog.cancel()
-                        }
-                        bindingDialogWorker.buttonConfirm.setOnClickListener {
-                            dataObject.selectWorkerInfo.payment =
-                                bindingDialogWorker.account!!.toString().toInt()
-                            dataObject.listWorkerView[position].wage =
-                                bindingDialogWorker.account!!.toString().toInt()
-                            (activity as MainActivity).modifyWorkerInfo(dataObject.selectWorkerInfo)
-                            mWorkerViewAdapter.setItems(dataObject.listWorkerView)
-                            defaultSetting(position)
-                            binding.RvWorkers.adapter = mWorkerViewAdapter
-                            dialog.dismiss()
-                        }
-                    } else {
-                        (activity as MainActivity).alertToast("It is yourself.")
+                    setWorkerByPosition(position)
+                    val dialog = AlertDialog.Builder(requireContext()).create()
+                    bindingDialogWorker = DataBindingUtil.inflate(
+                        inflater,
+                        R.layout.dialog_worker_creation, container, false
+                    )
+                    dialog.setView(bindingDialogWorker.root)
+                    dialog.show()
+                    bindingDialogWorker.inputName = "Hourly wage"
+                    bindingDialogWorker.account =
+                        dataObject.listWorkerView[position].wage.toString()
+                    bindingDialogWorker.buttonCancel.setOnClickListener {
+                        dialog.cancel()
+                    }
+                    bindingDialogWorker.buttonConfirm.setOnClickListener {
+                        dataObject.selectWorkerInfo.payment =
+                            bindingDialogWorker.account!!.toString().toInt()
+                        dataObject.listWorkerView[position].wage =
+                            bindingDialogWorker.account!!.toString().toInt()
+                        (activity as MainActivity).modifyWorkerInfo(dataObject.selectWorkerInfo)
+                        mWorkerViewAdapter.setItems(dataObject.listWorkerView)
+                        defaultSetting(position)
+                        binding.RvWorkers.adapter = mWorkerViewAdapter
+                        dialog.dismiss()
                     }
 
                     return true
