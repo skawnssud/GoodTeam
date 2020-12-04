@@ -43,10 +43,6 @@ class workerScheduleFragment : Fragment() {
             inflater,
             R.layout.fragment_worker_schedule, container, false
         )
-        binding.layoutCalculation.setOnClickListener {
-            it.findNavController()
-                .navigate(R.id.action_workerScheduleFragment_to_workerCalculationFragment)
-        }
         binding.layoutMyPage.setOnClickListener {
             it.findNavController()
                 .navigate(R.id.action_workerScheduleFragment_to_workerMypageFragment)

@@ -5,7 +5,16 @@
 
     <data>
         <variable
-            name="currentBranch"
+            name="account"
+            type="String" />
+        <variable
+            name="name"
+            type="String" />
+        <variable
+            name="age"
+            type="String" />
+        <variable
+            name="role"
             type="String" />
     </data>
 
@@ -59,54 +68,127 @@
                 android:src="@drawable/icon_alarm_blue" />
         </LinearLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/back_03">
+            android:background="@drawable/back_white"
+            android:orientation="vertical">
 
-            <!-- Center contents -->
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/logo_half_blue_01"
+                android:layout_gravity="center"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_margin="20dp"
+                android:gravity="center">
 
-                <!-- time table -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/back_03">
+                <TextView
+                    android:id="@+id/staticAccount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ACCOUNT"
+                    style="@style/textBlack18"/>
 
-                    <TableLayout
-                        android:id="@+id/table_0to11"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/back_03"
-                        android:stretchColumns="*"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </TableLayout>
-
-                    <TableLayout
-                        android:id="@+id/table_12to23"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/back_03"
-                        android:stretchColumns="*"
-                        app:layout_constraintTop_toBottomOf="@id/table_0to11">
-
-                    </TableLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
+                <TextView
+                    android:id="@+id/textAccount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{account}"
+                    style="@style/textBlack18"/>
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_margin="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/staticName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="NAME"
+                    style="@style/textBlack18"/>
+
+                <TextView
+                    android:id="@+id/textName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{name}"
+                    style="@style/textBlack18"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_margin="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/staticAge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="AGE"
+                    style="@style/textBlack18" />
+
+                <TextView
+                    android:id="@+id/textAge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{age}"
+                    style="@style/textBlack18" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_margin="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/staticRole"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ROLE"
+                    style="@style/textBlack18" />
+
+                <TextView
+                    android:id="@+id/textRole"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{role}"
+                    style="@style/textBlack18" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
 
         <!-- Bottome bar -->
 
@@ -138,33 +220,6 @@
                     android:layout_height="40dp"
                     android:background="@drawable/ic_launcher_foreground"
                     app:layout_constraintBottom_toTopOf="@id/textSchedule"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutCalculation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/textCalculation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Calculation"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageCalculation" />
-
-                <ImageView
-                    android:id="@+id/imageCalculation"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_launcher_foreground"
-                    app:layout_constraintBottom_toTopOf="@id/textCalculation"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
